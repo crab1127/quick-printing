@@ -1,0 +1,97 @@
+/**app.wxss**/
+page {
+	height: 100%;
+	font-family: -apple-system-font,Microsoft YaHei,Helvetica Neue,Helvetica,sans-serif;
+	font-size: 30rpx;
+}
+text, view, slide-item{
+	box-sizing: border-box;
+}
+.container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 200rpx 0;
+	box-sizing: border-box;
+} 
+
+.gray {
+	color: #999
+}
+.red{
+	color:#c00
+}
+.green{
+	color: #0a3
+}
+.p20{
+	padding: 20rpx;
+}
+.mb20{
+	margin-bottom: 20rpx;
+}
+.button-wrap{
+	padding: 30rpx;
+	background: #eee;
+}
+.align-center{
+	text-align:center
+}
+.cell{
+ 	display: flex;
+ 	justify-content: space-between;
+ 	align-content: center;
+	background: #fff;
+	padding: 20rpx;
+	border-bottom: 1px solid #eee;
+}	
+.cell-title{
+	color:#333;
+	font-size: 32rpx;
+}
+.cell-status{
+	font-size: 30rpx;
+}
+
+
+.master-info{
+	border-top: 1rpx solid #efefef;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	align-items: center;
+	padding: 30rpx;
+	background-color: #fff;
+}
+.master-info image{
+	width: 120rpx;
+	height: 120rpx;
+}
+.master-brief{
+	height: 120rpx;
+	padding-left: 40rpx;
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.master-user{
+	font-size: 30rpx;
+	letter-spacing: 1px;
+}
+.master-intro {
+	color: #0a6;
+	width: 300rpx;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.master-time{
+	color: #999;
+}
+.master-follow{
+	align-self: flex-start;
+}

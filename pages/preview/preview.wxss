@@ -1,0 +1,21 @@
+.preview-wrap{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.preview-content{
+    flex: 1;
+    position: relative;
+    background: #eee;
+}
+.preview-content button{
+    position: absolute;
+    top: 20rpx;
+    left: 20rpx;
+}
+.pages{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:30rpx;
+}

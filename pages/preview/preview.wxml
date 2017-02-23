@@ -1,0 +1,16 @@
+<view class="preview-wrap">
+  <view class="preview-content">
+    <swiper current="{{current}}" circular="true" bindchange="onSlideChange">
+      <block wx:for="{{imgUrls}}">
+        <swiper-item>
+          <image src="{{item}}" class="slide-image" />
+        </swiper-item>
+      </block>
+    </swiper>
+    <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+  </view>
+  <view class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>
+  <view class="button-wrap">
+    <button type="primary" bindtap="onPrint"> 获取打印码 </button>
+  </view>
+</view>

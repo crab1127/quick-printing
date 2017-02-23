@@ -1,0 +1,10 @@
+<view class="edit-wrap">
+  <view class="edit-content">
+    <image src="{{item}}" class="slide-image" />
+  </view>
+  <view class="edit-tools">
+    <text>顺时针90°</text>
+    <text>逆时针90°</text>
+    <button type="primary" size="mini" bindtap="onPrint"> 保存 </button>
+  </view>
+</view>

@@ -1,0 +1,61 @@
+/**mine.wxss**/
+page{
+    background: #eee;
+}
+.userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+}
+
+.userinfo-avatar {
+    width: 128rpx;
+    height: 128rpx;
+    margin: 30rpx;
+    border-radius: 50%;
+}
+
+.userinfo-nickname {
+    margin: 20rpx;
+    color: #300e0e;
+}
+
+.userinfo-dig {
+    margin: 15rpx auto;
+    padding: 20rpx 25rpx;
+    border-radius: 10rpx;
+    background-color: #f85f48;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.userinfo-desc {
+    color: #bbb;
+    font-size: 14rpx;
+    margin-bottom: 20rpx;
+}
+
+.tab-nav{
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-top:1rpx solid #ddd;
+    margin-bottom: 20rpx;
+}
+.tab-nav .tab-nav-item{
+    flex: 1;
+    display: flex;
+    padding:20rpx 0;
+}
+.tab-nav .tab-nav-item text{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #ddd;
+}
+.tab-nav .tab-nav-item:first-child text{
+    border:0;
+}
+

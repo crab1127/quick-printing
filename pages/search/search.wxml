@@ -1,0 +1,6 @@
+<map longitude="113.324520" latitude="23.099994" markers="{{markers}}" covers="{{covers}}" style="width: {{ width }}px; height: {{ height }}px;">
+</map>
+<view class="tools">
+  <text>列表</text>
+  <text>地图</text>
+</view>

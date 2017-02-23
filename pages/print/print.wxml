@@ -1,0 +1,14 @@
+<view class="print-wrap">
+  <view class="print-code">
+    <text class="print-code-num">{{ code }}</text>
+    <text class="print-code-text">请在显示屏上输入该码</text>
+  </view>
+  <view class="print-tips">
+    <view>
+      请确保纸背朝上
+    </view>
+    <view>
+      请确保纸推到位
+    </view>
+  </view>
+</view>

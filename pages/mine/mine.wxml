@@ -1,0 +1,36 @@
+<!--mine.wxml-->
+
+<template name="master-column">
+	<view class="master-info" bindtap="onOrder" data-master="czy">
+		<image src="/img/avatar/qust-avater.png"></image>
+		<view class="master-brief">
+			<view class="master-title">6寸标准照</view>
+			<view class="master-intro">印吗码：122423423</view>
+			<view class="master-time">2016-12-1</view>
+		</view>
+		<view class="master-follow">待打印</view>
+	</view>
+</template>
+
+<view>
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+  <view class="tab-nav">
+    <view class="tab-nav-item">
+      <text>全部</text>
+    </view>
+    <view class="tab-nav-item">
+      <text>待打印</text>
+    </view>
+    <view class="tab-nav-item">
+      <text>以打印</text>
+    </view>
+  </view>
+  <view class="column-wrapper">
+    <block wx:for="{{newMasters}}">
+      <template is="master-column" data="{{...item}}" />
+    </block>
+  </view>
+</view>

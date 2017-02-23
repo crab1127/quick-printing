@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/weCropper/weCropper",
+    "pages/edit/edit",
+    "pages/search/search",
+    "pages/mine/mine",
+    "pages/print/print",
+    "pages/preview/preview",
+    "pages/orderDetail/orderDetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "任我印",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "selectedColor": "#0c5",
+    "list": [{
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "img/home.png",
+        "selectedIconPath": "img/home1.png"
+      },
+      {
+        "pagePath": "pages/search/search",
+        "text": "附近网点",
+        "iconPath": "img/map.png",
+        "selectedIconPath": "img/map1.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "img/user.png",
+        "selectedIconPath": "img/user1.png"
+      }
+    ]
+  }
+}

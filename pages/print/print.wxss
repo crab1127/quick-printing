@@ -1,0 +1,35 @@
+.print-wrap{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.print-code{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    background: #0c9;
+}
+.print-code-text{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color:#eee;
+    font-size: 28rpx;
+    bottom: 30%;
+}
+.print-code-num{
+    font-size: 60rpx;
+}
+.print-tips{
+    flex:1;
+    display: flex;
+}
+.print-tips > view{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 50rpx;
+}

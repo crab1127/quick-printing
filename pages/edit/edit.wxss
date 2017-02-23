@@ -1,0 +1,19 @@
+.edit-wrap{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.edit-content{
+    flex: 1;
+    position: relative;
+    background: #eee;
+}
+.edit-tools{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:30rpx;
+}
+.edit-tools button{
+    margin: 0;
+}
