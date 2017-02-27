@@ -1,21 +1,19 @@
 <!--index.wxml-->
-<view>
-  <view class="cell mb20">
-    <view class="cell-title">订单号:1022323</view>
-    <view class="cell-staus gray">2017-02-21</view>
+<view class="cell mb20">
+  <view class="cell-title">订单号:1022323</view>
+  <view class="cell-staus gray">2017-02-21</view>
+</view>
+<view class="detail-main">
+  <view class="cell">
+    <view class="cell-title">小一寸（1张）</view>
+    <view class="cell-staus red">待打印</view>
   </view>
-  <view>
-    <view class="cell">
-      <view class="cell-title">小一寸（1张）</view>
-      <view class="cell-staus red">待打印</view>
-    </view>
-    <view>打印的内容</view>
-    <view class="cell">
-      <view class="cell-title">打印码</view>
-      <view class="cell-staus green">233943</view>
-    </view>
+  <view style="flex:1">打印的内容</view>
+  <view class="cell">
+    <view class="cell-title">打印码</view>
+    <view class="cell-staus green">233943</view>
   </view>
-  <view class="p20">
-    <button type="warn" bindtap="onDel"> 删除文件 </button>
-  </view>
+</view>
+<view class="p20">
+  <button type="warn" bindtap="onDel"> 删除文件 </button>
 </view>

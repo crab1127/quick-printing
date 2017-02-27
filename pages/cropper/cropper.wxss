@@ -6,7 +6,7 @@
 .edit-content{
     flex: 1;
     position: relative;
-    background: #eee;
+    background-color: rgba(0,0,0,.8);
 }
 .edit-tools{
     display: flex;
@@ -16,4 +16,8 @@
 }
 .edit-tools button{
     margin: 0;
+}
+
+.croper{
+    background: #fff;
 }

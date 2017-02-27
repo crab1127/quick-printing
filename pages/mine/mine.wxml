@@ -18,18 +18,12 @@
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
   <view class="tab-nav">
-    <view class="tab-nav-item">
-      <text>全部</text>
-    </view>
-    <view class="tab-nav-item">
-      <text>待打印</text>
-    </view>
-    <view class="tab-nav-item">
-      <text>以打印</text>
+    <view wx:for="{{ tabNav }}" bindtap="onTabNav" data-index="{{ index }}" class="tab-nav-item {{index === activeTab ? 'active': ''}}">
+      <text>{{ item }}</text>
     </view>
   </view>
   <view class="column-wrapper">
-    <block wx:for="{{newMasters}}">
+    <block wx:for="10">
       <template is="master-column" data="{{...item}}" />
     </block>
   </view>

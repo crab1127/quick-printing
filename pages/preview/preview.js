@@ -4,6 +4,7 @@ Page({
   data: {
     userInfo: {},
     current: 0,
+    type: 1,
     imgUrls: []
   },
   onLoad(option) {
@@ -12,30 +13,40 @@ Page({
         url: '../index/index'
       })
     }
-    const imageUrls = option.imageUrls.split(',')
+
+    const imgUrls = option.imageUrls.split(',')
+
+    // const imgUrls = [{
+    //   url: "wxfile://tmp_765166448o6zAJs22dwC_vej-pk7EQJoTUTPw1488003598511.png",
+    //   originUrl: "wxfile://tmp_765166448o6zAJs22dwC_vej-pk7EQJoTUTPw1488003598511.png"
+    // }]
+    const ac = imgUrls.map(item => {
+      return {
+        'url': item,
+        'originUrl': item
+      }
+    })
     this.setData({
-      imgUrls: imageUrls
+      imgUrls: ac
+    })
+    app.event.on('img', (data) => {
+      const { imgUrls } = this.data
+      imgUrls[data.index] = data.data
+      this.setData({
+        imgUrls: imgUrls
+      })
     })
   },
   onEdit() {
-
+    const img = {
+      index: this.data.current,
+      data: this.data.imgUrls[this.data.current]
+    }
+    wx.navigateTo({
+      url: '../cropper/cropper?img=' + JSON.stringify(img)
+    })
   },
   onPrint() {
-    // this.imgUrls.froEach(imgUrl => {
-    //   wx.uploadFile({
-    //     url: 'http://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
-    //     filePath: imgUrl,
-    //     header: {
-    //       'content-type': 'multipart/form-data'
-    //     },
-    //     name: 'file',
-    //     success: function(res) {
-    //       var data = res.data
-
-    //     }
-    //   })
-    // })
-
     wx.navigateTo({
       url: '../print/print'
     })

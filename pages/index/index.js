@@ -6,21 +6,27 @@ Page({
     height: 0,
     userInfo: {},
     slides: [{
+      id: 1,
       name: '打印4R照片',
       img: '../../img/slide-2.png'
     }, {
+      id: 2,
       name: '打印文档',
       img: '../../img/slide-3.png'
     }, {
+      id: 3,
       name: '打印明信片',
       img: '../../img/slide-4.png'
     }, {
+      id: 4,
       name: '打印A4照片',
       img: '../../img/slide-5.png'
     }, {
+      id: 5,
       name: '打印证件照',
       img: '../../img/slide-6.png'
     }, {
+      id: 6,
       name: '打印台历',
       img: '../../img/slide-7.png'
     }]
@@ -53,7 +59,7 @@ Page({
   },
   onPreview() {
     wx.chooseImage({
-      count: 1, // 默认9
+      count: 9, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {

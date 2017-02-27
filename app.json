@@ -1,12 +1,11 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/weCropper/weCropper",
-    "pages/edit/edit",
     "pages/search/search",
-    "pages/mine/mine",
-    "pages/print/print",
+    "pages/index/index",
     "pages/preview/preview",
+    "pages/mine/mine",
+    "pages/cropper/cropper",
+    "pages/print/print",
     "pages/orderDetail/orderDetail"
   ],
   "window": {

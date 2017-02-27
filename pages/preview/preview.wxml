@@ -1,9 +1,9 @@
 <view class="preview-wrap">
   <view class="preview-content">
-    <swiper current="{{current}}" circular="true" bindchange="onSlideChange">
+    <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="flex:1;width:100%;">
       <block wx:for="{{imgUrls}}">
-        <swiper-item>
-          <image src="{{item}}" class="slide-image" />
+        <swiper-item class="slide-item">
+          <image src="{{item.url}}" />
         </swiper-item>
       </block>
     </swiper>

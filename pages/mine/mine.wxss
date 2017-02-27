@@ -48,6 +48,9 @@ page{
     display: flex;
     padding:20rpx 0;
 }
+.tab-nav .tab-nav-item.active{
+    color:#0c9;
+}
 .tab-nav .tab-nav-item text{
     display: flex;
     flex: 1;
