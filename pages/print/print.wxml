@@ -4,10 +4,12 @@
     <text class="print-code-text">请在显示屏上输入该码</text>
   </view>
   <view class="print-tips">
-    <view>
+    <view class="flex-col">
+      <image src="/img/print-tips1.png" class="tips-img"></image>
       请确保纸背朝上
     </view>
-    <view>
+    <view class="flex-col">
+      <image src="/img/print-tips2.png" class="tips-img"></image>
       请确保纸推到位
     </view>
   </view>

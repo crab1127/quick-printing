@@ -1,0 +1,18 @@
+.networks-container{
+	
+}
+.network-item {
+	padding: 10rpx;
+}
+.network-item .cell-main{
+	display: flex;
+	flex-direction: column;
+}
+.network-title{
+	font-size: 34rpx;
+}
+.network-nav{
+	width: 80rpx;
+	height: 80rpx;
+}
+

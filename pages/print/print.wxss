@@ -27,9 +27,13 @@
     flex:1;
     display: flex;
 }
-.print-tips > view{
+.print-tips > .flex-col{
     flex: 1;
-    display: flex;
-    justify-content: center;
     padding: 50rpx;
+}
+.tips-img {
+    width: 276rpx; 
+    height:120rpx;
+    margin-top: -80rpx;
+    margin-bottom: 40rpx;
 }

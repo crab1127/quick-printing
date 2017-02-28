@@ -2,9 +2,11 @@
 var app = getApp()
 Page({
   data: {
-    code: 322343235
+    code: null
   },
   onLoad(option) {
-
+    this.setData({
+      code: option.print_code
+    })
   },
 })

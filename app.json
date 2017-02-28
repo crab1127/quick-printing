@@ -1,11 +1,12 @@
 {
   "pages": [
-    "pages/search/search",
     "pages/index/index",
     "pages/preview/preview",
-    "pages/mine/mine",
-    "pages/cropper/cropper",
+    "pages/networkMap/networkMap",
     "pages/print/print",
+    "pages/mine/mine",
+    "pages/networkList/networkList",
+    "pages/cropper/cropper",
     "pages/orderDetail/orderDetail"
   ],
   "window": {
@@ -25,7 +26,7 @@
         "selectedIconPath": "img/home1.png"
       },
       {
-        "pagePath": "pages/search/search",
+        "pagePath": "pages/networkMap/networkMap",
         "text": "附近网点",
         "iconPath": "img/map.png",
         "selectedIconPath": "img/map1.png"

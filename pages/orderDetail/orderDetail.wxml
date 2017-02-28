@@ -1,19 +1,28 @@
 <!--index.wxml-->
 <view class="cell mb20">
-  <view class="cell-title">订单号:1022323</view>
-  <view class="cell-staus gray">2017-02-21</view>
+  <view class="cell-title">订单号:{{ base.id }}</view>
+  <view class="cell-staus gray" style="font-size:24rpx;">{{ base.create_time }}</view>
 </view>
 <view class="detail-main">
   <view class="cell">
-    <view class="cell-title">小一寸（1张）</view>
-    <view class="cell-staus red">待打印</view>
+    <view class="cell-title">{{ base.print_type_name }}（1张）</view>
+    <view class="cell-staus red" wx:if="{{ base.print_order_status_id == '101'}}">待打印</view>
+    <view class="cell-staus green" wx:if="{{ base.print_order_status_id == '102'}}">已打印</view>
   </view>
-  <view style="flex:1">打印的内容</view>
+  <view class="detail-content">
+    <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:100%;width:100%;">
+      <block wx:for="{{detail}}">
+        <swiper-item class="slide-item">
+          <image src="{{item.output_original_url}}" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
   <view class="cell">
     <view class="cell-title">打印码</view>
-    <view class="cell-staus green">233943</view>
+    <view class="cell-staus green">{{ base.print_code }}</view>
   </view>
 </view>
-<view class="p20">
-  <button type="warn" bindtap="onDel"> 删除文件 </button>
+<view class="button-wrap">
+  <button type="warn" bindtap="onDel"> 删除订单 </button>
 </view>

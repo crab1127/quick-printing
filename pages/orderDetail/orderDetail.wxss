@@ -8,3 +8,13 @@ page{
 		display: flex;
 	flex-direction: column;
 }
+.detail-content {
+	flex:1;
+	background: #fff;
+	border-bottom: 1rpx solid #eee;
+}
+.slide-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

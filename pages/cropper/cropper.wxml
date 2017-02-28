@@ -1,11 +1,11 @@
 <view class="edit-wrap">
   <view class="edit-content">
-    <canvas class="cropper" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" style="width:{{width}}rpx;height:{{height}}rpx;" canvas-id="cropper">
+    <canvas class="cropper" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" style="width:{{width}}px;height:{{height}}px;" canvas-id="cropper">
     </canvas>
   </view>
   <view class="edit-tools">
-    <text>顺时针90°</text>
-    <text>逆时针90°</text>
+    <!--<view bindtap="onRotate" data-rotate="90">顺时针90°</view>
+    <view bindtop="onRotate" data-rotate="-90">逆时针90°</view>-->
     <button type="primary" size="mini" bindtap="getCropperImage"> 保存 </button>
   </view>
 </view>

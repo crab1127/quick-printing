@@ -13,7 +13,7 @@
     </swiper-item>
     <swiper-item wx:for="{{slides}}" class="slide-item">
       <text class="slide-item-title">{{ item.name }}</text>
-      <view class="slide-item-content" bindtap="onPreview">
+      <view class="slide-item-content" data-id="{{ item.id }}" bindtap="onPreview">
         <image src="{{ item.img }}" class="slide-image" />
         <text class="gray">点击打印</text>
       </view>

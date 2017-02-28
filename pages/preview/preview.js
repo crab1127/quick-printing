@@ -1,34 +1,37 @@
 // mine.js
+import { addOrder } from '../../utils/api'
+import { json2Form } from '../../utils/util'
+import { PRINT_TYPE } from '../../utils/config'
+
 var app = getApp()
+let currentType
 Page({
   data: {
-    userInfo: {},
+    width: 0,
+    height: 0,
     current: 0,
-    type: 1,
-    imgUrls: []
+    templateType: null,
+    type: null,
+    imgUrls: [],
+    idSize: 'mini'
   },
   onLoad(option) {
-    if (!option.imageUrls) {
+    if (!option.imageUrls || !option.id) {
       wx.navigateTo({
         url: '../index/index'
       })
     }
 
-    const imgUrls = option.imageUrls.split(',')
+    // option.id = 5
+    // option.imageUrls = "wxfile://tmp_937687355o6zAJs22dwC_vej-pk7EQJoTUTPw1488251766880.jpg"
 
-    // const imgUrls = [{
-    //   url: "wxfile://tmp_765166448o6zAJs22dwC_vej-pk7EQJoTUTPw1488003598511.png",
-    //   originUrl: "wxfile://tmp_765166448o6zAJs22dwC_vej-pk7EQJoTUTPw1488003598511.png"
-    // }]
-    const ac = imgUrls.map(item => {
-      return {
-        'url': item,
-        'originUrl': item
-      }
-    })
-    this.setData({
-      imgUrls: ac
-    })
+    this.typeInit(option.id)
+    this.imgInit(option.imageUrls)
+
+    // 4r，a4 的
+    this.setImgSize()
+
+    // 监听编辑图片页面发送的事件
     app.event.on('img', (data) => {
       const { imgUrls } = this.data
       imgUrls[data.index] = data.data
@@ -43,17 +46,113 @@ Page({
       data: this.data.imgUrls[this.data.current]
     }
     wx.navigateTo({
-      url: '../cropper/cropper?img=' + JSON.stringify(img)
+      url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}`
     })
   },
   onPrint() {
-    wx.navigateTo({
-      url: '../print/print'
+    wx.showToast({
+      title: '获取打印码',
+      icon: 'loading',
+      duration: 10000
     })
+    let typeId = currentType.type_id
+    if (currentType.id === 5) {
+      typeId = this.data.idSize === 'mini' ? '804' : '803'
+    }
+    addOrder(typeId, this.data.imgUrls[0].url)
+      .then(res => {
+        console.log(res)
+        wx.navigateTo({
+          url: '../print/print?' + json2Form(res)
+        })
+
+        // 向订单中心发送新的订单
+        app.event.emit('newOrder', {
+          create_time: +new Date(),
+          id: res.print_order_id,
+          print_code: res.print_code,
+          print_order_status_id: 101,
+          print_order_status_name: "未打印",
+          print_type_id: currentType.type_id,
+          print_type_name: currentType.name
+        })
+      })
+      .catch(err => {
+        console.log('addoreder-err', err)
+        wx.showToast({
+          title: '获取打印码失败',
+          duration: 2000
+        })
+      })
   },
+  // 4r 的
   onSlideChange(e) {
     this.setData({
       current: e.detail.current
+    })
+  },
+  // 证件照的
+  onIdChange(e) {
+    const type = e.currentTarget.dataset.type
+    this.setData({
+      idSize: type,
+      templateType: type + '-id-template'
+    })
+  },
+  typeInit(id) {
+    let templateType
+    if (typeof id !== 'number') {
+      id = parseInt(id)
+    }
+    switch (id) {
+      case 1:
+      case 4:
+        templateType = 'a4-template'
+        break
+      case 5:
+        templateType = 'mini-id-template'
+        break
+    }
+
+    currentType = PRINT_TYPE.find(item => id == item.id)
+    this.setData({
+      type: currentType,
+      templateType: templateType
+    })
+  },
+  imgInit(imgUrl) {
+    const imgUrls = imgUrl.split(',')
+    const ac = imgUrls.map(item => {
+      return {
+        'url': item,
+        'originUrl': item
+      }
+    })
+    this.setData({
+      imgUrls: ac
+    })
+  },
+  // 证件照
+
+  // 4R A4 明星片
+  setImgSize() {
+    const systemInfo = wx.getSystemInfoSync()
+    console.log(systemInfo);
+
+    const width = systemInfo.windowWidth
+    const height = systemInfo.windowHeight - 66
+    let imgWidth
+    let imgHeith
+    if (width / height > currentType.width / currentType.height) {
+      imgHeith = height
+      imgWidth = height * currentType.width / currentType.height
+    } else {
+      imgWidth = width
+      imgHeith = width * currentType.height / currentType.width
+    }
+    this.setData({
+      width: imgWidth,
+      height: imgHeith
     })
   }
 })

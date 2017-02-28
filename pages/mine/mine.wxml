@@ -1,18 +1,18 @@
 <!--mine.wxml-->
 
 <template name="master-column">
-	<view class="master-info" bindtap="onOrder" data-master="czy">
-		<image src="/img/avatar/qust-avater.png"></image>
+	<view class="master-info" bindtap="onOrder" data-id="{{ id }}">
+		<!--<image src="/img/avatar/qust-avater.png"></image>-->
 		<view class="master-brief">
-			<view class="master-title">6寸标准照</view>
-			<view class="master-intro">印吗码：122423423</view>
-			<view class="master-time">2016-12-1</view>
+			<view class="master-title">{{ print_type_name }}</view>
+			<view class="master-intro" wx:if="{{ print_order_status_id == '101' }}">打印码：{{ print_code }}</view>
+			<view class="master-time">{{ create_time }}</view>
 		</view>
-		<view class="master-follow">待打印</view>
+		<view class="master-follow" wx:if="{{ print_order_status_id == '101' }}">待打印</view>
 	</view>
 </template>
 
-<view>
+<view class="mine-container">
   <view class="userinfo">
     <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
@@ -22,9 +22,13 @@
       <text>{{ item }}</text>
     </view>
   </view>
-  <view class="column-wrapper">
-    <block wx:for="10">
-      <template is="master-column" data="{{...item}}" />
+  <scroll-view scroll-y="true" class="column-wrapper" bindscroll="lower">
+    <block wx:for="{{ activeOrderList }}">
+      <template is="master-column" data="{{ ...item }}" />
     </block>
-  </view>
+    <view wx:if="{{ activeOrderList.length===0 }}">没有数据 </view>
+    <view wx:if="{{hidden}}" class="loading">
+      加载中...
+    </view>
+  </scroll-view>
 </view>

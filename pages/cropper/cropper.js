@@ -1,21 +1,28 @@
+import { PRINT_TYPE } from '../../utils/config'
+
 const app = getApp()
+let currentType
 Page({
   data: {
     id: 'cropper',
-    width: 600,
-    height: 600,
+    width: 0,
+    height: 0,
     minScale: 1,
     maxScale: 2.5,
     img: null
   },
   onLoad(option) {
-    if (option.img) {
-      const img = JSON.parse(option.img)
-      this.setData({
-        img: img
-      })
-      this.initCanvas(img.data.originUrl)
+    if (!option.img || !option.id) {
+      wx.navigateBack()
     }
+
+    currentType = PRINT_TYPE.find(item => option.id == item.id)
+    this.setCanvasSize()
+    const img = JSON.parse(option.img)
+    this.setData({
+      img: img
+    })
+    this.initCanvas(img.data.originUrl)
   },
   getDevice() {
     let self = this;
@@ -180,8 +187,6 @@ Page({
   getCropperImage() {
     let { id, img } = this.data
 
-
-
     wx.canvasToTempFilePath({
       canvasId: id,
       success(res) {
@@ -194,5 +199,28 @@ Page({
       }
     })
   },
+  onRotate(e) {
+    const rotate = e.currentTarget.dataset.rotate
+    this.ctx.rotate(rotate * Math.PI / 180)
+    this.ctx.draw()
+  },
+  setCanvasSize() {
+    const systemInfo = wx.getSystemInfoSync()
 
+    const width = systemInfo.windowWidth - 40
+    const height = systemInfo.windowHeight - 66 - 40
+    let imgWidth
+    let imgHeith
+    if (width / height > currentType.width / currentType.height) {
+      imgHeith = height
+      imgWidth = height * currentType.width / currentType.height
+    } else {
+      imgWidth = width
+      imgHeith = width * currentType.height / currentType.width
+    }
+    this.setData({
+      width: imgWidth,
+      height: imgHeith
+    })
+  }
 })

@@ -2,6 +2,9 @@
 page{
     background: #eee;
 }
+.mine-container{
+    height: 100%;
+}
 .userinfo {
     display: flex;
     flex-direction: column;
@@ -62,3 +65,11 @@ page{
     border:0;
 }
 
+.column-wrapper{
+    // flex:1;
+    height: 100%;
+}
+.loading{
+    padding: 10rpx;
+    text-align: center;
+}

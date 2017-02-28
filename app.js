@@ -1,5 +1,6 @@
 //app.js
 const event = require('./utils/event.js')
+import { login } from './utils/api'
 App({
   event: new event(),
   onShow: function() {
@@ -9,31 +10,35 @@ App({
     console.log('App Hide')
   },
   onLaunch: function() {
-    try {
-      wx.clearStorageSync()
-    } catch (e) {}
+    this.login()
+
   },
   getUserInfo: function(cb) {
     var that = this
     if (this.globalData.userInfo) {
       typeof cb == "function" && cb(this.globalData.userInfo)
     } else {
-      //调用登录接口
-      wx.login({
-        success: function(res1) {
-          console.log('login', res1)
-          wx.getUserInfo({
-            success: function(res) {
-              console.log(res)
-              that.globalData.userInfo = res.userInfo
-              typeof cb == "function" && cb(that.globalData.userInfo)
-            }
-          })
+      wx.getUserInfo({
+        success: function(res) {
+          console.log(res)
+          that.globalData.userInfo = res.userInfo
+          typeof cb == "function" && cb(that.globalData.userInfo)
         }
       })
     }
   },
+  login(cb) {
+    wx.login({
+      success: function(res) {
+        login(res.code)
+          .then(res => {
+            console.log(23425252, res)
+          })
+      }
+    })
+  },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    appInfo: null
   }
 })
