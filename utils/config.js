@@ -1,4 +1,4 @@
-export const API_ROOT = 'http://sandbox.wechat.redseawetoo.com/api'
+export const API_ROOT = 'https://sandbox.wechat.redseawetoo.com/api'
 
 export const APP_ID = 'wx09e3a5d21e215dd5'
 export const APP_ACOUNT = 'gh_43f2f461d7ac'
@@ -12,10 +12,19 @@ export const PRINT_TYPE = [{
     id: 1,
     type_id: 801,
     count: 1,
-    width: 768,
-    height: 1024,
+    width: 102,
+    height: 152,
     name: '4R照片',
     img: '/img/slide-2.png'
+  },
+  {
+    id: 2,
+    type_id: 888,
+    count: 1,
+    width: 610,
+    height: 916,
+    name: '微信二维码',
+    img: '/img/slide-8.png'
   },
   // {
   //   id: 2,
@@ -32,8 +41,8 @@ export const PRINT_TYPE = [{
     id: 4,
     type_id: 801,
     count: 1,
-    width: 794,
-    height: 1090,
+    width: 210,
+    height: 297,
     name: 'A4照片',
     img: '/img/slide-5.png'
   }, {
@@ -54,3 +63,23 @@ export const PRINT_TYPE = [{
   //   img: '/img/slide-7.png'
   // }
 ]
+
+// API 接口
+export const API_METHOD = {
+  // 添加打印订单
+  add_print_order: 'add_print_order',
+  // 获取打印订单记录
+  get_print_order_list: 'get_print_order_list',
+  // 获取打印订单明细记录
+  get_print_order_detail: 'get_print_order_detail',
+  // 获取打印码
+  get_print_code: 'get_print_code',
+  // 获取营业网点列表
+  get_sales_network_list: 'get_sales_network_list',
+  // 删除打印订单
+  delete_print_order: 'delete_print_order',
+  // 再次下打印订单
+  copy_print_order: 'copy_print_order',
+  // 根据Code获取OpenId
+  get_open_id_by_code: 'get_open_id_by_code'
+}

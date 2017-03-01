@@ -5,10 +5,10 @@
 		<!--<image src="/img/avatar/qust-avater.png"></image>-->
 		<view class="master-brief">
 			<view class="master-title">{{ print_type_name }}</view>
-			<view class="master-intro" wx:if="{{ print_order_status_id == '101' }}">打印码：{{ print_code }}</view>
+			<view class="master-intro" wx:if="{{ print_order_status_id == '101' && print_code }}">打印码：{{ print_code }}</view>
 			<view class="master-time">{{ create_time }}</view>
 		</view>
-		<view class="master-follow" wx:if="{{ print_order_status_id == '101' }}">待打印</view>
+		<view class="master-follow red" wx:if="{{ print_order_status_id == '101' }}">{{ print_order_status_name }}</view>
 	</view>
 </template>
 

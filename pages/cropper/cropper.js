@@ -2,20 +2,21 @@ import { PRINT_TYPE } from '../../utils/config'
 
 const app = getApp()
 let currentType
+let typeId
 Page({
   data: {
     id: 'cropper',
     width: 0,
     height: 0,
     minScale: 1,
-    maxScale: 2.5,
+    maxScale: 5,
     img: null
   },
   onLoad(option) {
     if (!option.img || !option.id) {
       wx.navigateBack()
     }
-
+    typeId = option.typeId
     currentType = PRINT_TYPE.find(item => option.id == item.id)
     this.setCanvasSize()
     const img = JSON.parse(option.img)
@@ -41,8 +42,8 @@ Page({
         self.croperTarget = src
         self.baseWidth = width * device.windowWidth / 750
         self.baseHeight = width * device.windowWidth / (innerAspectRadio * 750)
-        self.rectX = -self.baseWidth / 2
-        self.rectY = (height * device.windowWidth / 750 - self.baseHeight) / 2 - self.baseHeight / 2
+        self.rectX = 0
+        self.rectY = (height * device.windowWidth / 750 - self.baseHeight) / 2
         self.scaleWidth = self.baseWidth
         self.scaleHeight = self.baseHeight
         self.oldScale = 1
@@ -165,24 +166,24 @@ Page({
     self.rectX = self.imgLeft || self.rectX
     self.rectY = self.imgTop || self.rectY
 
-    if (self.oldSlope) {
-      console.log('oldSlope:' + self.oldSlope)
-      var includedAngle = Math.atan(
-          Math.abs(
-            (self.newSlope - self.oldSlope) / (1 - self.newSlope * self.oldSlope)
-          )
-        ) //夹角公式
-      if (includedAngle > 40 * Math.PI / 180) { //大于一定角度才认为发生旋转
-        var direction = self.newSlope > self.oldSlope ? 1 : -1
-        console.log('oldSlope:' + self.oldSlope)
-        self.rotate = ((self.rotate + direction * 90) % 360 + 360) % 360
+    // if (self.oldSlope) {
+    //   console.log('oldSlope:' + self.oldSlope)
+    //   var includedAngle = Math.atan(
+    //       Math.abs(
+    //         (self.newSlope - self.oldSlope) / (1 - self.newSlope * self.oldSlope)
+    //       )
+    //     ) //夹角公式
+    //   if (includedAngle > 40 * Math.PI / 180) { //大于一定角度才认为发生旋转
+    //     var direction = self.newSlope > self.oldSlope ? 1 : -1
+    //     console.log('oldSlope:' + self.oldSlope)
+    //     self.rotate = ((self.rotate + direction * 90) % 360 + 360) % 360
 
-        self.ctx.translate(self.baseWidth / 2, self.baseHeight / 2)
-        self.ctx.rotate(self.rotate * Math.PI / 180)
-        self.ctx.drawImage(self.croperTarget, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
-        self.ctx.draw()
-      }
-    }
+    //     self.ctx.translate(self.baseWidth / 2, self.baseHeight / 2)
+    //     self.ctx.rotate(self.rotate * Math.PI / 180)
+    //     self.ctx.drawImage(self.croperTarget, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
+    //     self.ctx.draw()
+    //   }
+    // }
   },
   getCropperImage() {
     let { id, img } = this.data
@@ -217,6 +218,16 @@ Page({
     } else {
       imgWidth = width
       imgHeith = width * currentType.height / currentType.width
+    }
+    console.log(currentType)
+    if (currentType.id === 5) {
+      if (typeId == '804') {
+        imgWidth = currentType.minWidth / 2
+        imgHeith = currentType.minHeight / 2
+      } else {
+        imgWidth = currentType.width / 2
+        imgHeith = currentType.height / 2
+      }
     }
     this.setData({
       width: imgWidth,

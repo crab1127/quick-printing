@@ -17,21 +17,11 @@ Page({
       }
     })
   },
-  onScan() {
-    wx.scanCode({
-      success: (res) => {
-        console.log('scan', res)
-      },
-      fail: (err) => {
-        console.log('扫码失败', err)
-      }
-    })
-  },
   onPreview(e) {
     const id = e.currentTarget.dataset.id
     const currentType = PRINT_TYPE.find(item => id === item.id)
       // 4R，A4，证件, 明星片
-    if ([1, 3, 4, 5].indexOf(id) !== -1) {
+    if ([1, 2, 3, 4, 5].indexOf(id) !== -1) {
       wx.chooseImage({
         count: currentType.count, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -44,19 +34,20 @@ Page({
           })
         }
       })
-    } else
-    if (id === 6) {
-      wx.showModal({
-        title: '提示',
-        content: '打印台历'
-      })
-    } else
-    if (id === 2) {
-      wx.showModal({
-        title: '提示',
-        content: '暂时还没开放文档打印功能'
-      })
     }
+    // else
+    // if (id === 6) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '打印台历'
+    //   })
+    // } else
+    // if (id === 2) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '暂时还没开放文档打印功能'
+    //   })
+    // }
 
   }
 })

@@ -19,7 +19,10 @@ Page({
   },
   requestFlag: false,
   onLoad() {
+
     app.getUserInfo((userInfo) => {
+      console.log(12, userInfo)
+
       //更新数据
       this.setData({
         userInfo: userInfo
@@ -60,9 +63,12 @@ Page({
     })
   },
   loadOrder() {
+    wx.showNavigationBarLoading()
     const { page, orderList } = this.data
     getOrder(page)
       .then(res => {
+        wx.hideNavigationBarLoading()
+
         const newOrderList = orderList.concat(res.print_order_list)
 
         if (newOrderList.length < res.page_count) {
@@ -118,7 +124,7 @@ Page({
     const orderList = this.data.orderList
     const currentOrder = orderList.find(item => id == item.id)
     wx.navigateTo({
-      url: '../orderDetail/orderDetail?' + json2Form(currentOrder)
+      url: '../orderDetail/orderDetail?ac=' + encodeURIComponent(JSON.stringify(currentOrder))
     })
   }
 })

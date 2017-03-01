@@ -45,8 +45,12 @@ Page({
       index: this.data.current,
       data: this.data.imgUrls[this.data.current]
     }
+    let typeId
+    if (currentType.id === 5) {
+      typeId = this.data.idSize === 'mini' ? '804' : '803'
+    }
     wx.navigateTo({
-      url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}`
+      url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}&typeId=${typeId}`
     })
   },
   onPrint() {
@@ -59,31 +63,52 @@ Page({
     if (currentType.id === 5) {
       typeId = this.data.idSize === 'mini' ? '804' : '803'
     }
-    addOrder(typeId, this.data.imgUrls[0].url)
-      .then(res => {
-        console.log(res)
-        wx.navigateTo({
-          url: '../print/print?' + json2Form(res)
-        })
 
-        // 向订单中心发送新的订单
-        app.event.emit('newOrder', {
-          create_time: +new Date(),
-          id: res.print_order_id,
-          print_code: res.print_code,
-          print_order_status_id: 101,
-          print_order_status_name: "未打印",
-          print_type_id: currentType.type_id,
-          print_type_name: currentType.name
+
+    app.getUserInfo((userInfo) => {
+
+      let wxScanParams = {}
+      if (currentType.id === 2) {
+        wxScanParams = {
+          icon_url: userInfo.avatarUrl,
+          icon_name: userInfo.nickName
+        }
+      }
+      //更新数据
+      addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
+        .then(res => {
+          console.log(res)
+          wx.navigateTo({
+            url: '../print/print?' + json2Form(res)
+          })
+
+          // 向订单中心发送新的订单
+          app.event.emit('newOrder', {
+            create_time: +new Date(),
+            id: res.print_order_id,
+            print_code: res.print_code,
+            print_order_status_id: 101,
+            print_order_status_name: "未打印",
+            print_type_id: currentType.type_id,
+            print_type_name: currentType.name
+          })
         })
-      })
-      .catch(err => {
-        console.log('addoreder-err', err)
-        wx.showToast({
-          title: '获取打印码失败',
-          duration: 2000
+        .catch(err => {
+          console.log('addoreder-err', err)
+          if (currentType.id === 2 && err.result_message) {
+            wx.showModal({
+              title: '获取失败',
+              content: err.result_message
+            })
+          } else {
+            wx.showToast({
+              title: '获取打印码失败',
+              icon: 'loading',
+              duration: 2000
+            })
+          }
         })
-      })
+    })
   },
   // 4r 的
   onSlideChange(e) {
@@ -107,6 +132,7 @@ Page({
     switch (id) {
       case 1:
       case 4:
+      case 2:
         templateType = 'a4-template'
         break
       case 5:
@@ -115,6 +141,9 @@ Page({
     }
 
     currentType = PRINT_TYPE.find(item => id == item.id)
+    wx.setNavigationBarTitle({
+      title: '打印' + currentType.name
+    })
     this.setData({
       type: currentType,
       templateType: templateType

@@ -36,8 +36,10 @@ Page({
     })
   },
   onLoad() {
+    wx.showNavigationBarLoading()
     wx.getSystemInfo({
       success: (res) => {
+
         this.setData({
           width: res.windowWidth,
           height: res.windowHeight,
@@ -47,10 +49,18 @@ Page({
     })
     salesNetwork()
       .then(res => {
+        wx.hideNavigationBarLoading()
         const networks = res.filter(item => item.longitude && item.latitude)
         console.log(networks)
         this.setData({
           markers: networks
+        })
+      })
+      .catch(err => {
+        wx.hideNavigationBarLoading()
+        wx.showToast({
+          title: '获取网点信息失败',
+          duration: 2000
         })
       })
   }

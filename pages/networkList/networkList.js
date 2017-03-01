@@ -22,11 +22,20 @@ Page({
     })
   },
   onLoad() {
+    wx.showNavigationBarLoading()
     salesNetwork()
       .then(res => {
+        wx.hideNavigationBarLoading()
         console.log(12345, res)
         this.setData({
           networks: res
+        })
+      })
+      .catch(err => {
+        wx.hideNavigationBarLoading()
+        wx.showToast({
+          title: '获取网点信息失败',
+          duration: 2000
         })
       })
   }

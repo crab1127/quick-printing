@@ -1,16 +1,5 @@
 <view>
   <swiper indicator-dots="true" style="width: {{ width }}px; height: {{ height }}px;">
-    <swiper-item class="slide-item">
-      <text class="slide-item-title">未链接设备</text>
-      <view class="slide-item-content" bindtap="onScan">
-        <view class="slide-item-1">
-          <image src="../../img/scan.png" class="icon-scan"></image>
-          <text class="gray">扫码链接设备</text>
-          <image src="../../img/slide-1.png" class="icon-scan-bg" />
-        </view>
-        <text class="gray">可以上传后，在扫码链接打印哦</text>
-      </view>
-    </swiper-item>
     <swiper-item wx:for="{{slides}}" class="slide-item">
       <text class="slide-item-title">{{ item.name }}</text>
       <view class="slide-item-content" data-id="{{ item.id }}" bindtap="onPreview">

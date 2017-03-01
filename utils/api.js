@@ -3,7 +3,8 @@ import {
   APP_ID,
   APP_KEY,
   APP_SECRET,
-  APP_ACOUNT
+  APP_ACOUNT,
+  API_METHOD
 } from './config'
 import {
   get,
@@ -13,29 +14,9 @@ import {
 } from './request'
 import Promise from './promise.min.js'
 
+
+
 let OPEN_ID = wx.getStorageSync('open_id')
-
-
-// API 接口
-const API_METHOD = {
-  // 添加打印订单
-  add_print_order: 'add_print_order',
-  // 获取打印订单记录
-  get_print_order_list: 'get_print_order_list',
-  // 获取打印订单明细记录
-  get_print_order_detail: 'get_print_order_detail',
-  // 获取打印码
-  get_print_code: 'get_print_code',
-  // 获取营业网点列表
-  get_sales_network_list: 'get_sales_network_list',
-  // 删除打印订单
-  delete_print_order: 'delete_print_order',
-  // 再次下打印订单
-  copy_print_order: 'copy_print_order',
-  // 根据Code获取OpenId
-  get_open_id_by_code: 'get_open_id_by_code'
-}
-
 const baseParams = {
   app_key: APP_KEY,
   app_secret: APP_SECRET,
@@ -156,7 +137,7 @@ export const addOrder1 = (type) => {
   })
 }
 
-export const addOrder = (type, filePath) => {
+export const addOrder = (type, filePath, wxScan = {}) => {
   let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.add_print_order,
@@ -164,7 +145,7 @@ export const addOrder = (type, filePath) => {
     print_type_id: type,
     print_count: 1,
     file_key: 'file'
-  }, baseParams)
+  }, baseParams, wxScan)
   return new Promise((resolve, reject) => {
     wx.uploadFile({
       url: API_ROOT, //仅为示例，非真实的接口地址

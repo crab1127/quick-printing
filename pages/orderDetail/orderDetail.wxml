@@ -13,7 +13,7 @@
     <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:100%;width:100%;">
       <block wx:for="{{detail}}">
         <swiper-item class="slide-item">
-          <image src="{{item.output_original_url}}" />
+          <image src="{{item.output_original_url}}" style="width: {{width}}px; height:{{height}}px" />
         </swiper-item>
       </block>
     </swiper>
