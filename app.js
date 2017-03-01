@@ -28,11 +28,23 @@ App({
     }
   },
   login(cb) {
+    wx.showToast({
+      title: '获取用户信息',
+      icon: 'loading',
+      duration: 10000
+    })
     wx.login({
       success: function(res) {
         login(res.code)
           .then(res => {
-            console.log(23425252, res)
+            wx.hideToast()
+          })
+          .catch(err => {
+            wx.showToast({
+              title: '获取用户信息失败',
+              icon: 'loading',
+              duration: 2000
+            })
           })
       }
     })

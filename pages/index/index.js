@@ -20,7 +20,7 @@ Page({
   onScan() {
     wx.scanCode({
       success: (res) => {
-        console.log(res)
+        console.log('scan', res)
       },
       fail: (err) => {
         console.log('扫码失败', err)

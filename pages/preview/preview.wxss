@@ -14,8 +14,8 @@
 }
 .preview-content button{
     position: absolute;
-    top: 20rpx;
-    left: 20rpx;
+    top: 10px;
+    right: 10px;
 }
 .slide-item{
     display: flex;

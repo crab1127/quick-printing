@@ -1,6 +1,5 @@
 import {
   API_ROOT,
-  OPEN_ID,
   APP_ID,
   APP_KEY,
   APP_SECRET,
@@ -13,6 +12,9 @@ import {
   del
 } from './request'
 import Promise from './promise.min.js'
+
+let OPEN_ID = wx.getStorageSync('open_id')
+
 
 // API 接口
 const API_METHOD = {
@@ -85,6 +87,7 @@ export const salesNetwork = () => {
 
 // 获取打印订单记录
 export const getOrder = (page) => {
+    let OPEN_ID = wx.getStorageSync('open_id')
     const params = Object.assign({
       method: API_METHOD.get_print_order_list,
       open_id: OPEN_ID
@@ -100,6 +103,7 @@ export const getOrder = (page) => {
   }
   // 获取打印订单明细记录
 export const getOrderDetail = (id) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.get_print_order_detail,
     open_id: OPEN_ID,
@@ -118,6 +122,7 @@ export const getOrderDetail = (id) => {
 
 // 删除印大
 export const delOrder = (id) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.delete_print_order,
     open_id: OPEN_ID,
@@ -133,6 +138,7 @@ export const delOrder = (id) => {
 
 // 添加打印订单
 export const addOrder1 = (type) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.add_print_order,
     open_id: OPEN_ID,
@@ -151,6 +157,7 @@ export const addOrder1 = (type) => {
 }
 
 export const addOrder = (type, filePath) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.add_print_order,
     open_id: OPEN_ID,

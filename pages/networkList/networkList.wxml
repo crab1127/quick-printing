@@ -1,11 +1,11 @@
 <view class="networks-container">
-  <view class="cell network-item" wx:for="{{ networks }}">
+  <view class="cell network-item" wx:for="{{ networks }}" data-id="{{ item.id }}" bindtap="onOpenLocation">
     <view class="cell-main">
       <text class="network-title">{{ item.name }}</text>
       <text>{{ item.address }}</text>
     </view>
     <block wx:if="{{ item.longitude && item.latitude }}">
-      <image class="network-nav" src="/img/location.png" data-id="{{ item.id }}" bindtap="onOpenLocation"></image>
+      <image class="network-nav" src="/img/location.png"></image>
     </block>
   </view>
 </view>

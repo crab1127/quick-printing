@@ -6,12 +6,12 @@ Page({
     markers: null,
     controls: [{
       id: 1,
-      iconPath: '../../img/home.png',
+      iconPath: '/img/list.png',
       position: {
         left: 300,
         top: 10,
-        width: 50,
-        height: 50
+        width: 40,
+        height: 25
       },
       clickable: true
     }]
@@ -40,7 +40,8 @@ Page({
       success: (res) => {
         this.setData({
           width: res.windowWidth,
-          height: res.windowHeight
+          height: res.windowHeight,
+          'controls[0].position.left': res.windowWidth - 50
         })
       }
     })

@@ -6,7 +6,7 @@
     padding:40rpx;
 }
 .slide-item-title{
-    height: 180rpx;
+    height: 150rpx;
     display: flex;
     align-items: center;
     justify-content: center;

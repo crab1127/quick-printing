@@ -13,6 +13,7 @@ Page({
     const { id } = e.currentTarget.dataset
     const { networks } = this.data
     const activeNetwork = networks.find(item => id == item.id)
+    if (!activeNetwork.longitude || !activeNetwork.latitude) return;
     wx.openLocation({
       longitude: Number(activeNetwork.longitude),
       latitude: Number(activeNetwork.latitude),
