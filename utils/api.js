@@ -37,6 +37,7 @@ export const login = (code) => {
         wx.setStorageSync('session_key', res.session_key)
         resolve(res)
       })
+      .catch(err => reject(err))
   })
 }
 
@@ -51,14 +52,14 @@ export const salesNetwork = () => {
       .then(res => {
         const networks = res.sales_network_list.map(item => {
           return {
-            iconPath: '../../img/location.png',
+            iconPath: '../../img/webwxgetmsgimg.jpg',
             id: item.id,
             name: item.sales_network_name,
             address: item.detailed_address,
             longitude: item.longitude,
             latitude: item.latitude,
-            width: 50,
-            height: 50
+            width: 34,
+            height: 34
           }
         })
         resolve(networks)
@@ -146,6 +147,9 @@ export const addOrder = (type, filePath, wxScan = {}) => {
     print_count: 1,
     file_key: 'file'
   }, baseParams, wxScan)
+
+  console.log(1, params)
+  console.log(1, filePath)
   return new Promise((resolve, reject) => {
     wx.uploadFile({
       url: API_ROOT, //仅为示例，非真实的接口地址

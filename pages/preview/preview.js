@@ -40,19 +40,19 @@ Page({
       })
     })
   },
-  onEdit() {
-    const img = {
-      index: this.data.current,
-      data: this.data.imgUrls[this.data.current]
-    }
-    let typeId
-    if (currentType.id === 5) {
-      typeId = this.data.idSize === 'mini' ? '804' : '803'
-    }
-    wx.navigateTo({
-      url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}&typeId=${typeId}`
-    })
-  },
+  // onEdit() {
+  //   const img = {
+  //     index: this.data.current,
+  //     data: this.data.imgUrls[this.data.current]
+  //   }
+  //   let typeId
+  //   if (currentType.id === 5) {
+  //     typeId = this.data.idSize === 'mini' ? '804' : '803'
+  //   }
+  //   wx.navigateTo({
+  //     url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}&typeId=${typeId}`
+  //   })
+  // },
   onPrint() {
     wx.showToast({
       title: '获取打印码',
@@ -71,10 +71,13 @@ Page({
       if (currentType.id === 2) {
         wxScanParams = {
           icon_url: userInfo.avatarUrl,
-          icon_name: userInfo.nickName
+          icon_name: encodeURIComponent(userInfo.nickName)
         }
       }
       //更新数据
+      console.log(1, typeId)
+      console.log(1, this.data.imgUrls[0].url)
+      console.log(1, wxScanParams)
       addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
         .then(res => {
           console.log(res)
@@ -94,6 +97,7 @@ Page({
           })
         })
         .catch(err => {
+          
           console.log('addoreder-err', err)
           if (currentType.id === 2 && err.result_message) {
             wx.showModal({

@@ -5,11 +5,11 @@
   </view>
   <view class="print-tips">
     <view class="flex-col">
-      <image src="/img/print-tips1.png" class="tips-img"></image>
+      <image src="/img/print1.gif" class="tips-img"></image>
       请确保纸背朝上
     </view>
     <view class="flex-col">
-      <image src="/img/print-tips2.png" class="tips-img"></image>
+      <image src="/img/print2.gif" class="tips-img"></image>
       请确保纸推到位
     </view>
   </view>

@@ -4,7 +4,7 @@
       <text class="slide-item-title">{{ item.name }}</text>
       <view class="slide-item-content" data-id="{{ item.id }}" bindtap="onPreview">
         <image src="{{ item.img }}" class="slide-image" />
-        <text class="gray">点击打印</text>
+        <text class="gray">点击上传</text>
       </view>
     </swiper-item>
   </swiper>

@@ -6,7 +6,6 @@
     "pages/print/print",
     "pages/mine/mine",
     "pages/networkList/networkList",
-    "pages/cropper/cropper",
     "pages/orderDetail/orderDetail"
   ],
   "window": {

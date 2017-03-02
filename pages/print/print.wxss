@@ -10,7 +10,7 @@
     align-items: center;
     position: relative;
     color: #fff;
-    background: #0c9;
+    background: #1AAD19;
 }
 .print-code-text{
     position: absolute;
@@ -30,11 +30,11 @@
 }
 .print-tips > .flex-col{
     flex: 1;
-    padding: 50rpx;
+    padding: 30rpx;
 }
 .tips-img {
-    width: 276rpx; 
-    height:120rpx;
+    width: 300rpx; 
+    height:148.55rpx;
     margin-top: -80rpx;
     margin-bottom: 40rpx;
 }
