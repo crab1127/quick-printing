@@ -24,10 +24,15 @@ App({
             success: function(res) {
               console.log(res)
               that.globalData.userInfo = res.userInfo
+              wx.setStorageSync('userInfo', res.userInfo)
               typeof cb == "function" && cb(that.globalData.userInfo)
             },
             fail: function(err) {
-              console.log(123, err)
+              wx.showToast({
+                title: '获取用户信息失败',
+                icon: 'loading',
+                duration: 2000
+              })
             }
           })
         }
@@ -63,7 +68,7 @@ App({
             })
             .catch(err => {
               wx.showToast({
-                title: '获取用户信息失败',
+                title: '获取用户id失败',
                 icon: 'loading',
                 duration: 2000
               })

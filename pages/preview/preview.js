@@ -65,54 +65,51 @@ Page({
     }
 
 
-    app.getUserInfo((userInfo) => {
-
-      let wxScanParams = {}
-      if (currentType.id === 2) {
-        wxScanParams = {
-          icon_url: userInfo.avatarUrl,
-          icon_name: encodeURIComponent(userInfo.nickName)
-        }
+    const userInfo = wx.getStorageSync('userInfo')
+    console.log('userInfo', userInfo)
+    let wxScanParams = {}
+    if (currentType.id === 2) {
+      wxScanParams = {
+        icon_url: userInfo.avatarUrl,
+        icon_name: encodeURIComponent(userInfo.nickName)
       }
-      //更新数据
-      console.log(1, typeId)
-      console.log(1, this.data.imgUrls[0].url)
-      console.log(1, wxScanParams)
-      addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
-        .then(res => {
-          console.log(res)
-          wx.navigateTo({
-            url: '../print/print?' + json2Form(res)
-          })
+    }
+    //更新数据
+    addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
+      .then(res => {
+        console.log(res)
+        wx.hideToast()
+        wx.navigateTo({
+          url: '../print/print?' + json2Form(res)
+        })
 
-          // 向订单中心发送新的订单
-          app.event.emit('newOrder', {
-            create_time: +new Date(),
-            id: res.print_order_id,
-            print_code: res.print_code,
-            print_order_status_id: 101,
-            print_order_status_name: "未打印",
-            print_type_id: currentType.type_id,
-            print_type_name: currentType.name
+        // 向订单中心发送新的订单
+        app.event.emit('newOrder', {
+          create_time: +new Date(),
+          id: res.print_order_id,
+          print_code: res.print_code,
+          print_order_status_id: 101,
+          print_order_status_name: "未打印",
+          print_type_id: currentType.type_id,
+          print_type_name: currentType.name
+        })
+      })
+      .catch(err => {
+        console.log('addoreder-err', err)
+        wx.hideToast()
+        if (err.result_message) {
+          wx.showModal({
+            title: '获取失败',
+            content: err.result_message
           })
-        })
-        .catch(err => {
-          
-          console.log('addoreder-err', err)
-          if (currentType.id === 2 && err.result_message) {
-            wx.showModal({
-              title: '获取失败',
-              content: err.result_message
-            })
-          } else {
-            wx.showToast({
-              title: '获取打印码失败',
-              icon: 'loading',
-              duration: 2000
-            })
-          }
-        })
-    })
+        } else {
+          wx.showToast({
+            title: '获取打印码失败',
+            icon: 'loading',
+            duration: 2000
+          })
+        }
+      })
   },
   // 4r 的
   onSlideChange(e) {
