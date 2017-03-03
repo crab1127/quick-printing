@@ -6,7 +6,7 @@ var app = getApp()
 Page({
   data: {
     userInfo: {},
-    tabNav: ['全部', '待打印', '以打印'],
+    tabNav: ['全部', '待打印', '已打印'],
     orderList: [],
     activeOrderList: [],
     activeTab: 0,
