@@ -5,13 +5,13 @@ App({
   event: new event(),
   onShow: function() {
     console.log('App Show')
+    this.login()
   },
   onHide: function() {
     console.log('App Hide')
   },
   onLaunch: function() {
-    this.login()
-
+    console.log('App Launch')
   },
   getUserInfo: function(cb) {
     var that = this
@@ -45,11 +45,12 @@ App({
       icon: 'loading',
       duration: 10000
     })
-    if (wx.getStorageSync('open_id')) {
+    if (wx.getStorageSync('open_id') && wx.getStorageSync('userInfo')) {
       wx.hideToast()
     } else {
       wx.login({
         success: function(res) {
+          // 获取用户信息
           wx.getUserInfo({
             success: function(res) {
               wx.setStorageSync('userInfo', res.userInfo)
@@ -62,6 +63,8 @@ App({
               })
             }
           })
+
+          // 获取openid
           login(res.code)
             .then(res => {
               wx.hideToast()

@@ -65,10 +65,9 @@ Page({
     }
 
 
-    const userInfo = wx.getStorageSync('userInfo')
-    console.log('userInfo', userInfo)
     let wxScanParams = {}
     if (currentType.id === 2) {
+      const userInfo = wx.getStorageSync('userInfo')
       wxScanParams = {
         icon_url: userInfo.avatarUrl,
         icon_name: encodeURIComponent(userInfo.nickName)
@@ -99,14 +98,13 @@ Page({
         wx.hideToast()
         if (err.result_message) {
           wx.showModal({
-            title: '获取失败',
+            title: '获取打印码失败',
             content: err.result_message
           })
         } else {
-          wx.showToast({
+          wx.showModal({
             title: '获取打印码失败',
-            icon: 'loading',
-            duration: 2000
+            content: '微信报错：' + err.errMsg
           })
         }
       })
