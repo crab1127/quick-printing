@@ -1,0 +1,23 @@
+.cropper-wrapper{
+    margin-top:40px;
+    position: relative;
+}
+
+.cropper{
+    background-color: rgba(0,0,0,.8);
+    z-index: 1;
+    margin: auto;
+}
+
+button{
+    width:80%;
+    color:#fff;
+    background-color:#3CC51F;
+    margin-top: 40px;
+}
+
+.default{
+    color:#3CC51F;
+    background-color: #e5e5e5;
+    border: 1px solid #3CC51F;
+}

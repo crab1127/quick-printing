@@ -1,0 +1,42 @@
+.cropper-wrapper{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+}
+.cropper-main{
+    flex:1;
+    overflow: hidden;
+    position: relative;
+}
+.cropper-img{
+    position: absolute;
+}
+.cropper-tools{
+    height: 40px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: #fff;
+}
+.borderTop,
+.borderBottom,
+.borderRight,
+.borderLeft {
+    position: absolute;
+    background: #1AAD19;
+}
+.borderTop,
+.borderBottom{
+    width: 700rpx;
+    height: 2rpx;
+    left:50%;
+    transform: translate(-50%,0)
+}
+.borderRight,
+.borderLeft{
+    width: 1px;
+    height: 90%;
+    top:50%;
+    transform: translate(0, -50%)
+}

@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/cropper/cropper",
     "pages/index/index",
     "pages/preview/preview",
     "pages/networkMap/networkMap",
