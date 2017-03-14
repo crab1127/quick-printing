@@ -1,7 +1,7 @@
 <view class="print-wrap">
   <view class="print-code">
     <text class="print-code-num">{{ code }}</text>
-    <text class="print-code-text">请在显示屏上输入该码</text>
+    <text class="print-code-text">请在显示屏上输入打印密码</text>
   </view>
   <view class="print-tips">
     <view class="flex-col">

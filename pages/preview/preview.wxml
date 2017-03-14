@@ -1,9 +1,9 @@
 <view class="preview-wrap">
   <view class="preview-content">
     <template is="{{ templateType }}" data="{{ current, imgUrls, width, height }}" />
-    <!--<button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>-->
+    <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+    <view wx:if="{{ templateType === 'a4-template' }}" class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>
   </view>
-  <!--<view class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>-->
   <block wx:if="{{ type.id === 5 }}">
     <view class="id-img-tools">
       <view class="title">
@@ -26,16 +26,16 @@
 
 <!--4R A4-->
 <template name="a4-template">
-  <!--<swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="flex:1;width:100%;">
-      <swiper-item wx:for="{{imgUrls}}" class="slide-item">-->
+  <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="flex:1;width:100%;">
+      <swiper-item wx:for="{{imgUrls}}" class="slide-item">
         <image 
-          mode="scaleToFill" 
-          src="{{ imgUrls[0].url }}" 
+          mode="aspectFit" 
+          src="{{ item.url }}" 
           class="slide-item-img"
           style="width: {{width}}px; height:{{height}}px" 
           />
-      <!--</swiper-item>
-  </swiper>-->
+      </swiper-item>
+  </swiper>
 </template>
 
 <!-- 证件照 小号 -->
@@ -43,7 +43,7 @@
   <view class="mini-id-container">
     <image
       wx:for="{{16}}"
-      mode="scaleToFill" 
+      mode="aspectFit" 
       src="{{ imgUrls[0].url }}" 
       class="mini-id-img" 
     />
@@ -55,7 +55,7 @@
   <view class="big-id-container">
     <image
       wx:for="{{9}}"
-      mode="scaleToFill" 
+      mode="aspectFit" 
       src="{{ imgUrls[0].url }}" 
       class="big-id-img" 
     />

@@ -11,10 +11,11 @@ export const OPEN_ID = wx.getStorageSync('open_id') || ''
 export const PRINT_TYPE = [{
     id: 1,
     type_id: 801,
-    count: 1,
-    width: 102,
-    height: 152,
+    count: 9,
+    width: 750,
+    height: 1116,
     name: '4R照片',
+    sizeInfo: '15.2cm*10.2cm',
     img: '/img/slide-2.png'
   },
   {
@@ -40,10 +41,11 @@ export const PRINT_TYPE = [{
   {
     id: 4,
     type_id: 801,
-    count: 1,
-    width: 210,
-    height: 297,
+    count: 9,
+    width: 750,
+    height: 1060,
     name: 'A4照片',
+    sizeInfo: '29.7cm*21cm',
     img: '/img/slide-5.png'
   }, {
     id: 5,
@@ -54,6 +56,7 @@ export const PRINT_TYPE = [{
     minWidth: 250,
     minHeight: 350,
     name: '证件照',
+    sizeInfo: '大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm',
     img: '/img/slide-6.png'
   },
   // {

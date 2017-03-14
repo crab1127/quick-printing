@@ -8,35 +8,20 @@
     flex:1;
     overflow: hidden;
     position: relative;
-}
-.cropper-img{
-    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cropper-tools{
     height: 40px;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background: #fff;
+    background: #000;
+    color: #fff;
 }
-.borderTop,
-.borderBottom,
-.borderRight,
-.borderLeft {
-    position: absolute;
-    background: #1AAD19;
-}
-.borderTop,
-.borderBottom{
-    width: 700rpx;
-    height: 2rpx;
-    left:50%;
-    transform: translate(-50%,0)
-}
-.borderRight,
-.borderLeft{
-    width: 1px;
-    height: 90%;
-    top:50%;
-    transform: translate(0, -50%)
+.cropper{
+    z-index: 1;
+    margin: auto;
+    background-color: rgb(255,255,255);
 }

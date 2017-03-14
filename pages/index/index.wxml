@@ -1,7 +1,10 @@
 <view>
   <swiper indicator-dots="true" style="width: {{ width }}px; height: {{ height }}px;">
     <swiper-item wx:for="{{slides}}" class="slide-item">
-      <text class="slide-item-title">{{ item.name }}</text>
+      <view class="slide-item-title">
+        <text>{{ item.name }}</text>
+        <text class="info">{{ item.sizeInfo }}</text>
+      </view>
       <view class="slide-item-content" data-id="{{ item.id }}" bindtap="onPreview">
         <image src="{{ item.img }}" class="slide-image" />
         <text class="gray">点击上传</text>

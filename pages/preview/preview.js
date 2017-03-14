@@ -40,19 +40,21 @@ Page({
       })
     })
   },
-  // onEdit() {
-  //   const img = {
-  //     index: this.data.current,
-  //     data: this.data.imgUrls[this.data.current]
-  //   }
-  //   let typeId
-  //   if (currentType.id === 5) {
-  //     typeId = this.data.idSize === 'mini' ? '804' : '803'
-  //   }
-  //   wx.navigateTo({
-  //     url: `../cropper/cropper?img=${JSON.stringify(img)}&id=${currentType.id}&typeId=${typeId}`
-  //   })
-  // },
+  onEdit() {
+    let typeId
+    if (currentType.id === 5) {
+      typeId = this.data.idSize === 'mini' ? '804' : '803'
+    }
+    const params = {
+      index: this.data.current,
+      img: JSON.stringify(this.data.imgUrls[this.data.current]),
+      width: 640,
+      height: 960
+    }
+    wx.navigateTo({
+      url: `../cropper/cropper?${json2Form(params)}`
+    })
+  },
   onPrint() {
     wx.showToast({
       title: '获取打印码',
