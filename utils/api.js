@@ -118,7 +118,7 @@ export const delOrder = (id) => {
   })
 }
 
-// 添加打印订单
+
 export const addOrder1 = (type) => {
   let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
@@ -138,6 +138,7 @@ export const addOrder1 = (type) => {
   })
 }
 
+// 添加打印订单
 export const addOrder = (type, filePath, wxScan = {}) => {
   let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
@@ -175,4 +176,59 @@ export const addOrder = (type, filePath, wxScan = {}) => {
     })
   })
 
+}
+
+// 上传,编辑图片
+export const uploadFile = (filePath, crop) => {
+
+  const isCrop = crop ? true : false
+  const params = Object.assign({
+    method: API_METHOD.upload_image,
+    file_key: 'file',
+    is_crop: isCrop
+  }, baseParams, crop)
+
+  return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      url: API_ROOT, //仅为示例，非真实的接口地址
+      filePath: filePath,
+      name: 'file',
+      formData: {
+        'json_body': JSON.stringify(params)
+      },
+      success: function(res) {
+        let ac = res.data
+        if (typeof res.data === 'string') {
+          ac = JSON.parse(res.data)
+        }
+        if (ac.result_code === 0) {
+          resolve(ac)
+        } else {
+          reject(ac)
+        }
+      },
+      fail(err) {
+        reject(err)
+      }
+    })
+  })
+}
+
+// 多张图片创建订单
+export const addOrderNew = (type, imgs) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
+  const params = Object.assign({
+    method: API_METHOD.add_multiple_print_order,
+    open_id: OPEN_ID,
+    print_type_id: type,
+    image_key_list: imgs
+  }, baseParams)
+
+  return new Promise((resolve, reject) => {
+    post(API_ROOT, params)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => reject(err))
+  })
 }

@@ -1,5 +1,5 @@
 // mine.js
-import { addOrder } from '../../utils/api'
+import { addOrder, addOrderNew, uploadFile } from '../../utils/api'
 import { json2Form } from '../../utils/util'
 import { PRINT_TYPE } from '../../utils/config'
 
@@ -32,9 +32,10 @@ Page({
     this.setImgSize()
 
     // 监听编辑图片页面发送的事件
-    app.event.on('img', (data) => {
+    app.event.on('img', res => {
       const { imgUrls } = this.data
-      imgUrls[data.index] = data.data
+      imgUrls[res.index].status = 'success'
+      imgUrls[res.index].url = res.img
       this.setData({
         imgUrls: imgUrls
       })
@@ -61,12 +62,14 @@ Page({
       icon: 'loading',
       duration: 10000
     })
+    const { idSize, imgUrls } = this.data
+
     let typeId = currentType.type_id
     if (currentType.id === 5) {
-      typeId = this.data.idSize === 'mini' ? '804' : '803'
+      typeId = idSize === 'mini' ? '804' : '803'
     }
 
-
+    // 二维码打印， 获取用户信息
     let wxScanParams = {}
     if (currentType.id === 2) {
       const userInfo = wx.getStorageSync('userInfo')
@@ -75,41 +78,110 @@ Page({
         icon_name: encodeURIComponent(userInfo.nickName)
       }
     }
-    //更新数据
-    addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
-      .then(res => {
-        console.log(res)
-        wx.hideToast()
-        wx.navigateTo({
-          url: '../print/print?' + json2Form(res)
-        })
 
-        // 向订单中心发送新的订单
-        app.event.emit('newOrder', {
-          create_time: +new Date(),
-          id: res.print_order_id,
-          print_code: res.print_code,
-          print_order_status_id: 101,
-          print_order_status_name: "未打印",
-          print_type_id: currentType.type_id,
-          print_type_name: currentType.name
+    // 上传图片
+    let count = 0
+    for (let i = 0; i < imgUrls.length; i++) {
+      if (/^wxfile:\/\/\S*/g.test(imgUrls[i].url)) {
+        uploadFile(imgUrls[i].url)
+          .then(res => {
+            console.log('uploadFile', res)
+            count++
+            imgUrls[i].status = 'success'
+            imgUrls[i].url = res.image_url
+            count === imgUrls.length && pushOrder()
+          })
+          .catch(err => {
+            count++
+            imgUrls[i].status = 'fail'
+            count === imgUrls.length && pushOrder()
+          })
+      } else {
+        count++
+        count === imgUrls.length && pushOrder()
+      }
+    }
+
+
+    function pushOrder() {
+      const imgs = imgUrls
+        .filter(item => item.status === 'success')
+        .map(item => item.url)
+        .join(',')
+
+      console.log(imgs)
+
+      addOrderNew(typeId, imgs)
+        .then(res => {
+          console.log(res)
+          wx.hideToast()
+          wx.navigateTo({
+            url: '../print/print?' + json2Form(res)
+          })
+
+          // 向订单中心发送新的订单
+          app.event.emit('newOrder', {
+            create_time: +new Date(),
+            id: res.print_order_id,
+            print_code: res.print_code,
+            print_order_status_id: 101,
+            print_order_status_name: "未打印",
+            print_type_id: currentType.type_id,
+            print_type_name: currentType.name
+          })
         })
-      })
-      .catch(err => {
-        console.log('addoreder-err', err)
-        wx.hideToast()
-        if (err.result_message) {
-          wx.showModal({
-            title: '获取打印码失败',
-            content: err.result_message
-          })
-        } else {
-          wx.showModal({
-            title: '获取打印码失败',
-            content: '微信报错：' + err.errMsg
-          })
-        }
-      })
+        .catch(err => {
+          console.log('addoreder-err', err)
+          wx.hideToast()
+          if (err.result_message) {
+            wx.showModal({
+              title: '获取打印码失败',
+              content: err.result_message
+            })
+          } else {
+            wx.showModal({
+              title: '获取打印码失败',
+              content: '微信报错：' + err.errMsg
+            })
+          }
+        })
+    }
+
+    // //更新数据
+    // addOrder(typeId, this.data.imgUrls[0].url, wxScanParams)
+    //   .then(res => {
+    //     console.log(res)
+    //     wx.hideToast()
+    //     wx.navigateTo({
+    //       url: '../print/print?' + json2Form(res)
+    //     })
+
+    //     // 向订单中心发送新的订单
+    //     app.event.emit('newOrder', {
+    //       create_time: +new Date(),
+    //       id: res.print_order_id,
+    //       print_code: res.print_code,
+    //       print_order_status_id: 101,
+    //       print_order_status_name: "未打印",
+    //       print_type_id: currentType.type_id,
+    //       print_type_name: currentType.name
+    //     })
+    //   })
+    //   .catch(err => {
+    //     console.log('addoreder-err', err)
+    //     wx.hideToast()
+    //     if (err.result_message) {
+    //       wx.showModal({
+    //         title: '获取打印码失败',
+    //         content: err.result_message
+    //       })
+    //     } else {
+    //       wx.showModal({
+    //         title: '获取打印码失败',
+    //         content: '微信报错：' + err.errMsg
+    //       })
+    //     }
+    //   })
   },
   // 4r 的
   onSlideChange(e) {

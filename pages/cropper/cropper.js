@@ -1,3 +1,5 @@
+import { uploadFile } from '../../utils/api'
+const app = getApp()
 Page({
   data: {
     id: 'cropper',
@@ -67,7 +69,8 @@ Page({
         self.scaleHeight = res.height / minRatio
         self.initScaleWidth = self.scaleWidth
         self.initScaleHeight = self.scaleHeight
-          //canvas绘图起始点（注意原点会被移动到canvas区域的中心）
+
+        //canvas绘图起始点（注意原点会被移动到canvas区域的中心）
         if (self.cropperWidth < self.scaleWidth) {
           self.startX = (self.cropperWidth - self.scaleWidth) / 2 - self.cropperWidth / 2
           self.startY = -self.cropperHeight / 2
@@ -160,17 +163,45 @@ Page({
   },
   getCropperImage() {
     let self = this
-    let { id } = self.data
-
-    wx.canvasToTempFilePath({
-      canvasId: id,
-      success(res) {
-        wx.previewImage({
-          current: '', // 当前显示图片的http链接
-          urls: [res.tempFilePath], // 需要预览的图片http链接列表
-        })
-      }
+    let { id, index, src } = self.data
+    wx.showToast({
+      title: '剪切图片',
+      icon: 'loading',
+      duration: 10000
     })
+
+    uploadFile(src, {
+        rotate: this.rotate,
+        crop_x: this.imgLeft,
+        crop_y: this.imgTop,
+        crop_width: this.scaleWidth,
+        crop_height: this.scaleHeight
+      })
+      .then(res => {
+        wx.hideToast()
+        app.event.emit('img', {
+          index: index,
+          img: res.image_url
+        })
+        wx.navigateBack()
+      })
+      .catch(err => {
+        wx.hideToast()
+        wx.showModal({
+          title: '上传图片失败',
+          content: err.result_message
+        })
+      })
+
+    // wx.canvasToTempFilePath({
+    //   canvasId: id,
+    //   success(res) {
+    //     wx.previewImage({
+    //       current: '', // 当前显示图片的http链接
+    //       urls: [res.tempFilePath], // 需要预览的图片http链接列表
+    //     })
+    //   }
+    // })
   }
 })
 

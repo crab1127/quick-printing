@@ -7,7 +7,6 @@
   <view class="cropper-tools">
     <text bindtap="setRotate" data-direction="1">顺时针</text>
     <text bindtap="setRotate" data-direction="-1">逆时针</text>
-    <text bindtap="chooseImg">选择图片</text>
     <text bindtap="getCropperImage">保存</text>
   </view>
 </view>

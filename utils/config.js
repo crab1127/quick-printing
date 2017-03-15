@@ -84,5 +84,9 @@ export const API_METHOD = {
   // 再次下打印订单
   copy_print_order: 'copy_print_order',
   // 根据Code获取OpenId
-  get_open_id_by_code: 'get_open_id_by_code'
+  get_open_id_by_code: 'get_open_id_by_code',
+  // 上传，编辑图片
+  upload_image: 'upload_image',
+  // 多图订单
+  add_multiple_print_order: 'add_multiple_print_order'
 }
