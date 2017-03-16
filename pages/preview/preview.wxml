@@ -1,7 +1,9 @@
 <view class="preview-wrap">
   <view class="preview-content">
     <template is="{{ templateType }}" data="{{ current, imgUrls, width, height }}" />
-    <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+    <block wx:if="{{ type.id !== 2 }}">
+      <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+    </block>
     <view wx:if="{{ templateType === 'a4-template' }}" class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>
   </view>
   <block wx:if="{{ type.id === 5 }}">

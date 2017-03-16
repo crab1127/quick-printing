@@ -215,14 +215,15 @@ export const uploadFile = (filePath, crop) => {
 }
 
 // 多张图片创建订单
-export const addOrderNew = (type, imgs) => {
+export const addOrderNew = (type, imgs, wxScan = {}) => {
   let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.add_multiple_print_order,
     open_id: OPEN_ID,
     print_type_id: type,
+    // image_key: imgs[0],
     image_key_list: imgs
-  }, baseParams)
+  }, baseParams, wxScan)
 
   return new Promise((resolve, reject) => {
     post(API_ROOT, params)

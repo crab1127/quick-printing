@@ -64,6 +64,9 @@ Page({
         if (minRatio > res.width / self.cropperWidth) {
           minRatio = res.width / self.cropperWidth
         }
+        self.minRatio = minRatio
+
+
         //图片放缩的尺寸
         self.scaleWidth = res.width / minRatio
         self.scaleHeight = res.height / minRatio
@@ -155,6 +158,9 @@ Page({
   setRotate(e) {
     const self = this
     const direction = e.currentTarget.dataset.direction
+
+    self.imgLeft = self.imgLeft || self.startX
+    self.imgTop = self.imgTop || self.startY
     self.rotate = ((self.rotate + direction * 90) % 360 + 360) % 360
     self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
     self.ctx.rotate(self.rotate * Math.PI / 180)
@@ -170,18 +176,15 @@ Page({
       duration: 10000
     })
 
-    uploadFile(src, {
-        rotate: this.rotate,
-        crop_x: this.imgLeft,
-        crop_y: this.imgTop,
-        crop_width: this.scaleWidth,
-        crop_height: this.scaleHeight
-      })
+
+
+    uploadFile(src, this.getCropperSize())
       .then(res => {
         wx.hideToast()
         app.event.emit('img', {
           index: index,
-          img: res.image_url
+          img: res.image_url,
+          key: res.image_key
         })
         wx.navigateBack()
       })
@@ -202,6 +205,16 @@ Page({
     //     })
     //   }
     // })
+  },
+  getCropperSize() {
+    const self = this
+    const crop_x = -Math.floor((self.imgLeft + self.cropperWidth / 2) * self.minRatio) || 0
+    const crop_y = -Math.floor((self.imgTop + self.cropperHeight / 2) * self.minRatio) || 0
+    const crop_width = Math.floor(self.cropperWidth * self.minRatio)
+    const crop_height = Math.floor(self.cropperHeight * self.minRatio)
+    const rotate = self.rotate
+
+    return { crop_x, crop_y, crop_width, crop_height, rotate }
   }
 })
 
