@@ -10,7 +10,9 @@ Page({
     base: null,
     detail: null,
     width: 0,
-    height: 0
+    height: 0,
+    swiperHeight: 0,
+    swiperWidth: 0
   },
   onLoad: function(option) {
     console.log(option)
@@ -105,6 +107,8 @@ Page({
       imgHeith = width * currentType.height / currentType.width
     }
     this.setData({
+      swiperHeight: height,
+      swiperWidth: width,
       width: imgWidth,
       height: imgHeith
     })

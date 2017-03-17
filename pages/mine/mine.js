@@ -18,8 +18,7 @@ Page({
     },
   },
   requestFlag: false,
-  onLoad() {
-
+  onShow: function() {
     app.getUserInfo((userInfo) => {
       console.log(12, userInfo)
 
@@ -29,7 +28,8 @@ Page({
       })
     })
     this.loadOrder()
-
+  },
+  onLoad() {
     // 删除
     app.event.on('delOrder', (id) => {
       const { orderList, activeOrderList } = this.data

@@ -8,19 +8,24 @@ Page({
     minScale: 1,
     maxScale: 2.5,
     minRotateAngle: 45, //判断发生旋转的最小角度
-    src: 'https://mp.weixin.qq.com/debug/wxadoc/dev/image/cat/0.jpg',
+    src: '',
   },
   onLoad(option) {
     let self = this
     let { src } = self.data
     const { img, index, width, height } = option
-    this.setData({
-      width: width,
-      height: height,
-      index: index,
-      src: JSON.parse(img).originUrl
-    })
-    self.initCanvas(self.data.src)
+    try {
+      console.log(1234567, decodeURIComponent(option.img))
+      this.setData({
+        width: width,
+        height: height,
+        index: index,
+        src: decodeURIComponent(option.img)
+      })
+      self.initCanvas(self.data.src)
+    } catch (e) {
+      throw new Error(e)
+    }
 
   },
   getDevice() {
@@ -92,6 +97,9 @@ Page({
         self.ctx.drawImage(src, self.startX, self.startY, self.scaleWidth, self.scaleHeight)
 
         self.ctx.draw()
+      },
+      fail: function(err) {
+        console.log(1234, err)
       }
     })
   },
@@ -134,26 +142,6 @@ Page({
     self.oldScale = self.newScale || self.oldScale
     self.startX = self.imgLeft || self.startX
     self.startY = self.imgTop || self.startY
-      //   //此处操作目的是防止旋转发生两次
-      // self.touchNum = self.touchNum + 1
-      // if (self.touchNum >= 2) {
-      //   console.log('oldSlope:' + self.oldSlope)
-      //   var includedAngle = Math.atan(
-      //       Math.abs(
-      //         (self.newSlope - self.oldSlope) / (1 - self.newSlope * self.oldSlope)
-      //       )
-      //     ) //夹角公式
-      //   if (includedAngle > self.data.minRotateAngle * Math.PI / 180) {
-      //     var direction = self.newSlope > self.oldSlope ? 1 : -1 //旋转方向
-      //       //旋转角度，范围{0,90,180,270}
-      //     self.rotate = ((self.rotate + direction * 90) % 360 + 360) % 360
-      //     console.log('rotate:' + self.rotate)
-      //     self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
-      //     self.ctx.rotate(self.rotate * Math.PI / 180)
-      //     self.ctx.drawImage(self.cropperTarget, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
-      //     self.ctx.draw()
-      //   }
-      // }
   },
   setRotate(e) {
     const self = this
@@ -183,8 +171,8 @@ Page({
         wx.hideToast()
         app.event.emit('img', {
           index: index,
-          img: res.image_url,
-          key: res.image_key
+          img: encodeURIComponent(res.image_url),
+          key: encodeURIComponent(res.image_key)
         })
         wx.navigateBack()
       })
@@ -221,8 +209,8 @@ Page({
       crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1 || 0
       crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1 || 0
     }
-    const crop_width = Math.floor(self.cropperWidth * self.minRatio)
-    const crop_height = Math.floor(self.cropperHeight * self.minRatio)
+    const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.oldScale)
+    const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.oldScale)
 
     return { crop_x, crop_y, crop_width, crop_height, rotate }
   }

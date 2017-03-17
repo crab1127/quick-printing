@@ -9,6 +9,8 @@ Page({
   data: {
     width: 0,
     height: 0,
+    swipeWidth: 0,
+    swipeHeight: 0,
     current: 0,
     templateType: null,
     type: null,
@@ -22,11 +24,20 @@ Page({
       })
     }
 
-    // option.id = 5
-    // option.imageUrls = "wxfile://tmp_937687355o6zAJs22dwC_vej-pk7EQJoTUTPw1488251766880.jpg"
+    wx.getSystemInfo({
+        success: (res) => {
+          this.setData({
+            swipeWidth: res.windowWidth,
+            swipeHeight: res.windowHeight - 66
+          })
+        }
+      })
+      // option.id = 5
+      // option.imageUrls = "wxfile://tmp_937687355o6zAJs22dwC_vej-pk7EQJoTUTPw1488251766880.jpg"
 
     this.typeInit(option.id)
     this.imgInit(option.imageUrls)
+    console.log('option.imageUrls', option.imageUrls)
 
     // 4r，a4 的
     this.setImgSize()
@@ -35,8 +46,8 @@ Page({
     app.event.on('img', res => {
       const { imgUrls } = this.data
       imgUrls[res.index].status = 'success'
-      imgUrls[res.index].url = res.img
-      imgUrls[res.index].key = res.key
+      imgUrls[res.index].url = decodeURIComponent(res.img)
+      imgUrls[res.index].key = decodeURIComponent(res.key)
       this.setData({
         imgUrls: imgUrls
       })
@@ -45,15 +56,14 @@ Page({
   onEdit() {
     let typeId
     let { id, cropWidth, cropHeight } = currentType
+    let { imgUrls, current } = this.data
     if (id === 5 && this.data.idSize === 'mini') {
       cropWidth = currentType.cropMinWidth
       cropHeight = currentType.cropMinHeight
-
-      // typeId = this.data.idSize === 'mini' ? '804' : '803'
     }
     const params = {
-      index: this.data.current,
-      img: JSON.stringify(this.data.imgUrls[this.data.current]),
+      index: current,
+      img: imgUrls[current].originUrl,
       width: cropWidth,
       height: cropHeight
     }
@@ -121,16 +131,16 @@ Page({
             url: '../print/print?' + json2Form(res)
           })
 
-          // 向订单中心发送新的订单
-          app.event.emit('newOrder', {
-            create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
-            id: res.print_order_id,
-            print_code: res.print_code,
-            print_order_status_id: 101,
-            print_order_status_name: "未打印",
-            print_type_id: currentType.type_id,
-            print_type_name: currentType.name
-          })
+          // // 向订单中心发送新的订单
+          // app.event.emit('newOrder', {
+          //   create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
+          //   id: res.print_order_id,
+          //   print_code: res.print_code,
+          //   print_order_status_id: 101,
+          //   print_order_status_name: "未打印",
+          //   print_type_id: currentType.type_id,
+          //   print_type_name: currentType.name
+          // })
         })
         .catch(err => {
           console.log('addoreder-err', err)

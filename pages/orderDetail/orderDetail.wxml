@@ -10,7 +10,7 @@
     <view class="cell-staus green" wx:if="{{ base.print_order_status_id == '102'}}">已打印</view>
   </view>
   <view class="detail-content">
-    <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:100%;width:100%;">
+    <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:{{swiperHeight}}px;width:{{swiperWidth}}px;">
       <block wx:for="{{detail}}">
         <swiper-item class="slide-item">
           <image src="{{item.output_original_url}}" mode="aspectFill" style="width: {{width}}px; height:{{height}}px" />
