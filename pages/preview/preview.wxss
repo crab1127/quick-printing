@@ -24,10 +24,12 @@
 }
 .pages{
     position: absolute;
-    bottom: 0;
-    width: 100%;
+    bottom: 10rpx;
     text-align: center;
-    padding:30rpx;
+    padding:15rpx 25rpx;
+    background:rgba(0,0,0,.5);
+    color:#fff;
+    border-radius: 8rpx;
 }
 .mini-id-container{
     display: flex;

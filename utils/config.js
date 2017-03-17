@@ -14,6 +14,8 @@ export const PRINT_TYPE = [{
     count: 9,
     width: 750,
     height: 1116,
+    cropWidth: 640,
+    cropHeight: 954,
     name: '4R照片',
     sizeInfo: '15.2cm*10.2cm',
     img: '/img/slide-2.png'
@@ -44,6 +46,8 @@ export const PRINT_TYPE = [{
     count: 9,
     width: 750,
     height: 1060,
+    cropWidth: 640,
+    cropHeight: 906,
     name: 'A4照片',
     sizeInfo: '29.7cm*21cm',
     img: '/img/slide-5.png'
@@ -55,6 +59,10 @@ export const PRINT_TYPE = [{
     height: 480,
     minWidth: 250,
     minHeight: 350,
+    cropWidth: 640,
+    cropHeight: 930,
+    cropMinWidth: 500,
+    cropMinHeight: 700,
     name: '证件照',
     sizeInfo: '大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm',
     img: '/img/slide-6.png'

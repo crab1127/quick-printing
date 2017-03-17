@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-import { getOrderDetail, delOrder } from '../../utils/api'
+import { getOrderDetail, delOrder, copyOrder } from '../../utils/api'
 import { PRINT_TYPE } from '../../utils/config'
 const app = getApp()
 let currentType
@@ -34,7 +34,37 @@ Page({
       })
 
   },
-  onDel: function(e) {
+  onCopy() {
+    wx.showToast({
+      title: '重新获取打印码',
+      icon: 'loading',
+      duration: 10000
+    })
+    copyOrder(this.data.base.id)
+      .then(res => {
+        console.log(res)
+        wx.hideToast()
+        wx.navigateTo({
+          url: '../print/print?print_code=' + res.result_message
+        })
+      })
+      .catch(err => {
+        console.log('addoreder-err', err)
+        wx.hideToast()
+        if (err.result_message) {
+          wx.showModal({
+            title: '获取打印码失败',
+            content: err.result_message
+          })
+        } else {
+          wx.showModal({
+            title: '获取打印码失败',
+            content: '微信报错：' + err.errMsg
+          })
+        }
+      })
+  },
+  onDel(e) {
     wx.showModal({
       title: '提示',
       content: '确认要删除订单？',
@@ -59,13 +89,12 @@ Page({
         }
       }
     })
-
   },
   setImgSize() {
     const systemInfo = wx.getSystemInfoSync()
 
     const width = systemInfo.windowWidth - 40
-    const height = systemInfo.windowHeight - 66 - 40
+    const height = systemInfo.windowHeight - 66 - 130
     let imgWidth
     let imgHeith
     if (width / height > currentType.width / currentType.height) {

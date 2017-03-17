@@ -118,6 +118,20 @@ export const delOrder = (id) => {
   })
 }
 
+export const copyOrder = id => {
+  let OPEN_ID = wx.getStorageSync('open_id')
+  const params = Object.assign({
+    method: API_METHOD.copy_print_order,
+    open_id: OPEN_ID,
+    print_order_id: id
+  }, baseParams)
+
+  return new Promise((resolve, reject) => {
+    get(API_ROOT, params)
+      .then(res => resolve())
+      .catch(err => reject(err))
+  })
+}
 
 export const addOrder1 = (type) => {
   let OPEN_ID = wx.getStorageSync('open_id')

@@ -5,8 +5,12 @@
     </canvas>
   </view>
   <view class="cropper-tools">
-    <text bindtap="setRotate" data-direction="1">顺时针</text>
-    <text bindtap="setRotate" data-direction="-1">逆时针</text>
-    <text bindtap="getCropperImage">保存</text>
+    <view class="cropper-tools-img" bindtap="setRotate" data-direction="1">
+      <image src="/img/r.png" style="width:24px;height:24px"></image>
+    </view>
+    <view class="cropper-tools-img" bindtap="setRotate" data-direction="-1">
+      <image src="/img/l.png" style="width:24px;height:24px"></image>
+    </view>
+    <view class="cropper-tools-text green" bindtap="getCropperImage">确定</view>
   </view>
 </view>

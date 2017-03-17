@@ -1,6 +1,6 @@
 // mine.js
 import { addOrder, addOrderNew, uploadFile } from '../../utils/api'
-import { json2Form } from '../../utils/util'
+import { json2Form, dateFormat } from '../../utils/util'
 import { PRINT_TYPE } from '../../utils/config'
 
 var app = getApp()
@@ -44,14 +44,18 @@ Page({
   },
   onEdit() {
     let typeId
-    if (currentType.id === 5) {
-      typeId = this.data.idSize === 'mini' ? '804' : '803'
+    let { id, cropWidth, cropHeight } = currentType
+    if (id === 5 && this.data.idSize === 'mini') {
+      cropWidth = currentType.cropMinWidth
+      cropHeight = currentType.cropMinHeight
+
+      // typeId = this.data.idSize === 'mini' ? '804' : '803'
     }
     const params = {
       index: this.data.current,
       img: JSON.stringify(this.data.imgUrls[this.data.current]),
-      width: 640,
-      height: 960
+      width: cropWidth,
+      height: cropHeight
     }
     wx.navigateTo({
       url: `../cropper/cropper?${json2Form(params)}`
@@ -119,7 +123,7 @@ Page({
 
           // 向订单中心发送新的订单
           app.event.emit('newOrder', {
-            create_time: +new Date(),
+            create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
             id: res.print_order_id,
             print_code: res.print_code,
             print_order_status_id: 101,

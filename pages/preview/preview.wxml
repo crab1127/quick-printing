@@ -31,7 +31,7 @@
   <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="flex:1;width:100%;">
       <swiper-item wx:for="{{imgUrls}}" class="slide-item">
         <image 
-          mode="aspectFit" 
+          mode="aspectFill" 
           src="{{ item.url }}" 
           class="slide-item-img"
           style="width: {{width}}px; height:{{height}}px" 
@@ -45,7 +45,7 @@
   <view class="mini-id-container">
     <image
       wx:for="{{16}}"
-      mode="aspectFit" 
+      mode="aspectFill" 
       src="{{ imgUrls[0].url }}" 
       class="mini-id-img" 
     />
@@ -57,7 +57,7 @@
   <view class="big-id-container">
     <image
       wx:for="{{9}}"
-      mode="aspectFit" 
+      mode="aspectFill" 
       src="{{ imgUrls[0].url }}" 
       class="big-id-img" 
     />

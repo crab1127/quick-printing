@@ -5,7 +5,7 @@
 </view>
 <view class="detail-main">
   <view class="cell">
-    <view class="cell-title">{{ base.print_type_name }}（1张）</view>
+    <view class="cell-title">{{ base.print_type_name }}（{{detail.length}}张）</view>
     <view class="cell-staus red" wx:if="{{ base.print_order_status_id == '101'}}">待打印</view>
     <view class="cell-staus green" wx:if="{{ base.print_order_status_id == '102'}}">已打印</view>
   </view>
@@ -13,14 +13,19 @@
     <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:100%;width:100%;">
       <block wx:for="{{detail}}">
         <swiper-item class="slide-item">
-          <image src="{{item.output_original_url}}" style="width: {{width}}px; height:{{height}}px" />
+          <image src="{{item.output_original_url}}" mode="aspectFill" style="width: {{width}}px; height:{{height}}px" />
         </swiper-item>
       </block>
     </swiper>
   </view>
   <view class="cell">
     <view class="cell-title">打印码</view>
-    <view class="cell-staus green">{{ base.print_code }}</view>
+    <block wx:if="{{base.print_code}}">
+      <view class="cell-staus green">{{ base.print_code }}</view>
+    </block>
+    <!--<block wx:if="{{!base.print_code}}">
+      <view class="cell-staus red" bindtap="onCopy">获取打印订单号</view>
+    </block>-->
   </view>
 </view>
 <view class="button-wrap">

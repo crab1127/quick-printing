@@ -208,11 +208,21 @@ Page({
   },
   getCropperSize() {
     const self = this
-    const crop_x = -Math.floor((self.imgLeft + self.cropperWidth / 2) * self.minRatio) || 0
-    const crop_y = -Math.floor((self.imgTop + self.cropperHeight / 2) * self.minRatio) || 0
+    self.imgLeft = self.imgLeft || self.startX
+    self.imgTop = self.imgTop || self.startY
+    const rotate = self.rotate
+    let crop_y
+    let crop_x
+    crop_x = -Math.floor((self.imgLeft + self.cropperWidth / 2) * self.minRatio) || 0
+    crop_y = -Math.floor((self.imgTop + self.cropperHeight / 2) * self.minRatio) || 0
+    if ([90, 270].indexOf(rotate) > -1) {
+      let crop_y1 = crop_y
+      let crop_x1 = crop_x
+      crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1 || 0
+      crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1 || 0
+    }
     const crop_width = Math.floor(self.cropperWidth * self.minRatio)
     const crop_height = Math.floor(self.cropperHeight * self.minRatio)
-    const rotate = self.rotate
 
     return { crop_x, crop_y, crop_width, crop_height, rotate }
   }
