@@ -95,7 +95,7 @@ Page({
   setImgSize() {
     const systemInfo = wx.getSystemInfoSync()
 
-    const width = systemInfo.windowWidth - 40
+    const width = systemInfo.windowWidth
     const height = systemInfo.windowHeight - 66 - 130
     let imgWidth
     let imgHeith
@@ -108,7 +108,7 @@ Page({
     }
     this.setData({
       swiperHeight: height,
-      swiperWidth: width,
+      swiperWidth: systemInfo.windowWidth,
       width: imgWidth,
       height: imgHeith
     })

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="cell mb20">
   <view class="cell-title">订单号:{{ base.id }}</view>
-  <view class="cell-staus gray" style="font-size:24rpx;">{{ base.create_time }}</view>
+  <view class="cell-staus gray" style="font-size:24rpx;line-height:1.7;">{{ base.create_time }}</view>
 </view>
 <view class="detail-main">
   <view class="cell">
