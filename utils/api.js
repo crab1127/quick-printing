@@ -215,6 +215,7 @@ export const uploadFile = (filePath, crop) => {
         if (typeof res.data === 'string') {
           ac = JSON.parse(res.data)
         }
+        console.log('upload', res)
         if (ac.result_code === 0) {
           resolve(ac)
         } else {

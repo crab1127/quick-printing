@@ -32,6 +32,7 @@
   <swiper current="{{current}}" circular="true" bindchange="onSlideChange" class="swiper-container" style="width:{{swipeWidth}}px;height:{{swipeHeight}}px">
     <swiper-item wx:for="{{imgUrls}}" class="slide-item">
       <image mode="aspectFill" src="{{ item.url }}" class="slide-item-img" style="width: {{width}}px; height:{{height}}px" />
+      <text style="color: #fff">.</text>
     </swiper-item>
   </swiper>
   <view class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>

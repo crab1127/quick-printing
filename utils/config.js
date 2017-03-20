@@ -20,15 +20,15 @@ export const PRINT_TYPE = [{
     sizeInfo: '15.2cm*10.2cm',
     img: '/img/slide-2.png'
   },
-  {
-    id: 2,
-    type_id: 888,
-    count: 1,
-    width: 610,
-    height: 916,
-    name: '微信二维码',
-    img: '/img/slide-8.png'
-  },
+  // {
+  //   id: 2,
+  //   type_id: 888,
+  //   count: 1,
+  //   width: 610,
+  //   height: 916,
+  //   name: '微信二维码',
+  //   img: '/img/slide-8.png'
+  // },
   // {
   //   id: 2,
   //   count: 1,
