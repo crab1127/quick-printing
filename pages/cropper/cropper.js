@@ -207,53 +207,49 @@ Page({
     let crop_x
     let coord_x = self.imgLeft + self.cropperWidth / 2
     let coord_y = self.imgTop + self.cropperHeight / 2
-    crop_x = -Math.floor(coord_x * self.minRatio) || 0
-    crop_y = -Math.floor(coord_y * self.minRatio) || 0
+    crop_x = -Math.floor(coord_x * self.minRatio)
+    crop_y = -Math.floor(coord_y * self.minRatio)
 
     if (180 === rotate) {
       if (self.scaleWidth - self.cropperWidth > 0) {
-        crop_x = Math.floor((self.scaleWidth - self.cropperWidth - coord_x) * self.minRatio) || 0
+        crop_x = Math.floor((self.scaleWidth - self.cropperWidth - coord_x) * self.minRatio)
       } else {
-        crop_x = Math.floor((self.scaleWidth - self.cropperWidth + coord_x) * self.minRatio) || 0
+        crop_x = Math.floor((self.scaleWidth - self.cropperWidth + coord_x) * self.minRatio)
       }
       if (self.scaleHeight - self.cropperHeight > 0) {
-        crop_y = Math.floor((self.scaleHeight - self.cropperHeight - coord_y) * self.minRatio) || 0
+        crop_y = Math.floor((self.scaleHeight - self.cropperHeight - coord_y) * self.minRatio)
       } else {
-        crop_y = Math.floor((self.scaleHeight - self.cropperHeight + coord_y) * self.minRatio) || 0
+        crop_y = Math.floor((self.scaleHeight - self.cropperHeight + coord_y) * self.minRatio)
       }
     }
-    self.minRatio = 1
     if (90 === rotate) {
       let coord_x1 = coord_x
       let coord_y1 = coord_y
       coord_y = (self.cropperHeight - self.cropperWidth) / 2 + coord_x1
-      coord_x = (self.cropperHeight - self.cropperWidth) / 2 + coord_y1
+
+      coord_x = -(self.scaleHeight - (self.cropperHeight / 2 - coord_y1) - self.cropperWidth / 2)
 
       console.log(coord_x1, coord_y1)
       console.log(coord_x, coord_y)
 
-      crop_x = -Math.floor(coord_x * self.minRatio) || 0
-      crop_y = -Math.floor(coord_y * self.minRatio) || 0
+      crop_x = -Math.floor(coord_x * self.minRatio)
+      crop_y = -Math.floor(coord_y * self.minRatio)
     }
     if (270 === rotate) {
       let coord_x1 = coord_x
       let coord_y1 = coord_y
-      coord_y = (self.cropperWidth - self.cropperHeight) / 2 + coord_x1
-      coord_x = (self.cropperHeight - self.cropperWidth) / 2 + coord_y1
+      coord_x = (self.cropperWidth - self.cropperHeight) / 2 + coord_y1
+      coord_y = -(self.scaleWidth - (self.cropperWidth / 2 - coord_x1) - self.cropperHeight / 2)
 
-      crop_x = -Math.floor(coord_y * self.minRatio) || 0
-      if (self.scaleWidth - self.cropperHeight > 0) {
-        crop_x = Math.floor((self.scaleWidth - self.cropperHeight + coord_x) * self.minRatio) || 0
-      } else {
-        crop_x = Math.floor((self.scaleWidth - self.cropperHeight - coord_x) * self.minRatio) || 0
-      }
+      crop_x = -Math.floor(coord_x * self.minRatio)
+      crop_y = -Math.floor(coord_y * self.minRatio)
     }
 
     // if ([90, 270].indexOf(rotate) > -1) {
     //   let crop_y1 = crop_y
     //   let crop_x1 = crop_x
-    //   crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1 || 0
-    //   crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1 || 0
+    //   crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1
+    //   crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1
     // }
     const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.oldScale)
     const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.oldScale)
