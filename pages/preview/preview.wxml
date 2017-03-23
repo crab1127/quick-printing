@@ -31,7 +31,7 @@
 <template name="a4-template">
   <swiper current="{{current}}" circular="true" bindchange="onSlideChange" class="swiper-container" style="width:{{swipeWidth}}px;height:{{swipeHeight}}px">
     <swiper-item wx:for="{{imgUrls}}" class="slide-item">
-      <image mode="aspectFill" src="{{ item.url }}" class="slide-item-img" style="width: {{width}}px; height:{{height}}px" />
+      <image mode="aspectFit" src="{{ item.url }}" class="slide-item-img" style="width: {{width}}px; height:{{height}}px" />
       <text style="color: #fff">.</text>
     </swiper-item>
   </swiper>
@@ -44,7 +44,7 @@
   <view class="mini-id-container">
     <image
       wx:for="{{16}}"
-      mode="aspectFill" 
+      mode="aspectFit" 
       src="{{ imgUrls[0].url }}" 
       class="mini-id-img" 
     />
@@ -58,7 +58,7 @@
   <view class="big-id-container">
     <image
       wx:for="{{9}}"
-      mode="aspectFill" 
+      mode="aspectFit" 
       src="{{ imgUrls[0].url }}" 
       class="big-id-img" 
     />

@@ -18,18 +18,15 @@ Page({
     },
   },
   requestFlag: false,
-  onShow: function() {
+  onLoad() {
     app.getUserInfo((userInfo) => {
-      console.log(12, userInfo)
-
       //更新数据
       this.setData({
         userInfo: userInfo
       })
     })
     this.loadOrder()
-  },
-  onLoad() {
+
     // 删除
     app.event.on('delOrder', (id) => {
       const { orderList, activeOrderList } = this.data

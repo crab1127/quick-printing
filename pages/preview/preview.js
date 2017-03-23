@@ -57,10 +57,12 @@ Page({
     let typeId
     let { id, cropWidth, cropHeight } = currentType
     let { imgUrls, current } = this.data
-    if (id === 5 && this.data.idSize === 'mini') {
-      cropWidth = currentType.cropMinWidth
-      cropHeight = currentType.cropMinHeight
-    }
+
+    // if (id === 5 && this.data.idSize === 'mini') {
+    //   cropWidth = currentType.cropMinWidth
+    //   cropHeight = currentType.cropMinHeight
+    // }
+
     const params = {
       index: current,
       img: imgUrls[current].originUrl,
@@ -131,16 +133,19 @@ Page({
             url: '../print/print?' + json2Form(res)
           })
 
-          // // 向订单中心发送新的订单
-          // app.event.emit('newOrder', {
-          //   create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
-          //   id: res.print_order_id,
-          //   print_code: res.print_code,
-          //   print_order_status_id: 101,
-          //   print_order_status_name: "未打印",
-          //   print_type_id: currentType.type_id,
-          //   print_type_name: currentType.name
-          // })
+          // 向订单中心发送新的订单
+          setTimeout(() => {
+            app.event.emit('newOrder', {
+              create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
+              id: res.print_order_id,
+              print_code: res.print_code,
+              print_order_status_id: 101,
+              print_order_status_name: "未打印",
+              print_type_id: currentType.type_id,
+              print_type_name: currentType.name
+            })
+          }, 0)
+
         })
         .catch(err => {
           console.log('addoreder-err', err)
