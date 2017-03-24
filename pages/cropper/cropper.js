@@ -257,6 +257,8 @@ Page({
     // }
     const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.newScale)
     const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.newScale)
+    crop_y = Math.floor(crop_y / self.newScale)
+    crop_x = Math.floor(crop_x / self.newScale)
 
     return { crop_x, crop_y, crop_width, crop_height, rotate }
   }
@@ -324,7 +326,7 @@ function drawOnTouchMove(self, e) {
     self.imgLeft = self.startX + xMove
     self.imgTop = self.startY + yMove
 
-    // avoidCrossBorder(self)
+    avoidCrossBorder(self)
 
     self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
     self.ctx.rotate(self.rotate * Math.PI / 180)
@@ -352,7 +354,7 @@ function drawOnTouchMove(self, e) {
     self.imgLeft = self.newScale * self.initLeft
     self.imgTop = self.newScale * self.initTop
 
-    // avoidCrossBorder(self)
+    avoidCrossBorder(self)
 
     self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
     self.ctx.rotate(self.rotate * Math.PI / 180)

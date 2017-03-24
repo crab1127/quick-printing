@@ -22,12 +22,14 @@
 }
 .cropper-tools-img {
     flex: 1;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center
 }
 .cropper-tools-text{
-    width: 140rpx;
+    width: 160rpx;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center
