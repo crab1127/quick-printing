@@ -88,7 +88,11 @@ Page({
         }
 
         self.oldScale = 1
+        self.newScale = 1
         self.rotate = 0 //单位：°
+
+        // self.scaleWidth = self.oldScale * self.scaleWidth
+        // self.scaleHeight = self.oldScale * self.scaleHeight
 
         //  画布绘制图片
         self.ctx = wx.createCanvasContext(id)
@@ -251,8 +255,8 @@ Page({
     //   crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1
     //   crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1
     // }
-    const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.oldScale)
-    const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.oldScale)
+    const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.newScale)
+    const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.newScale)
 
     return { crop_x, crop_y, crop_width, crop_height, rotate }
   }
