@@ -68,3 +68,34 @@
 .id-img-tools button{
     margin-left: 20rpx;
 }
+
+.card-container{
+    display: flex;
+    flex-direction: column;
+}
+.card-main{
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-placeholder {
+    width: 550rpx;
+    height: 347rpx;
+    background: #aaa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 10px;
+}
+.card-info{
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fs-40{
+    font-size: 40px;
+}

@@ -2,6 +2,7 @@
   <view class="preview-content">
 
     <template is="{{ templateType }}" data="{{ current, imgUrls, width, height, swipeWidth, swipeHeight }}" />
+
     <block wx:if="{{ type.id !== 2 }}">
       <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
     </block>
@@ -41,27 +42,52 @@
 <!-- 证件照 小号 -->
 <template name="mini-id-template">
   <view class="id-container" style="width:{{swipeWidth}}px;height:{{swipeHeight-40}}px">
-  <view class="mini-id-container">
-    <image
-      wx:for="{{16}}"
-      mode="aspectFit" 
-      src="{{ imgUrls[0].url }}" 
-      class="mini-id-img" 
-    />
-  </view>
+    <view class="mini-id-container">
+      <image
+        wx:for="{{16}}"
+        mode="aspectFit" 
+        src="{{ imgUrls[0].url }}" 
+        class="mini-id-img" 
+      />
+    </view>
   </view>
 </template>
 
 <!-- 证件照 大号 -->
 <template name="big-id-template">
-    <view class="id-container" style="width:{{swipeWidth}}px;height:{{swipeHeight-40}}px">
-  <view class="big-id-container">
-    <image
-      wx:for="{{9}}"
-      mode="aspectFit" 
-      src="{{ imgUrls[0].url }}" 
-      class="big-id-img" 
-    />
-  </view>
+  <view class="id-container" style="width:{{swipeWidth}}px;height:{{swipeHeight-40}}px">
+    <view class="big-id-container">
+      <image
+        wx:for="{{9}}"
+        mode="aspectFit" 
+        src="{{ imgUrls[0].url }}" 
+        class="big-id-img" 
+      />
     </view>
+  </view>
+</template>
+
+<!--身份证-->
+<template name="card-template">
+  <view class="card-container" style="width:{{swipeWidth}}px;height:{{swipeHeight}}px">
+    <view class="card-main">
+      <view class="card-placeholder" bindtap="onChooseImg">
+        <text class="fs-40">+</text>
+        <text>
+        上传身份证正面
+        </text>
+      </view>
+    </view>
+    <view class="card-main">
+      <view class="card-placeholder" bindtap="onChooseImg">
+        <text class="fs-40">+</text>
+        <text>
+        上传身份证背面
+        </text>
+      </view>
+    </view>
+    <view class="card-info">
+      请使用A4纸打印
+    </view>
+  </view>
 </template>

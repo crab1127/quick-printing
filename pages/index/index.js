@@ -20,7 +20,14 @@ Page({
   onPreview(e) {
     const id = e.currentTarget.dataset.id
     const currentType = PRINT_TYPE.find(item => id === item.id)
-      // 4R，A4，证件, 明星片
+
+    // 身份证
+    if (id === 7) {
+      wx.navigateTo({
+        url: `../preview/preview?id=${id}`
+      })
+    }
+    // 4R，A4，证件, 明星片
     if ([1, 2, 3, 4, 5].indexOf(id) !== -1) {
       wx.chooseImage({
         count: currentType.count, // 默认9

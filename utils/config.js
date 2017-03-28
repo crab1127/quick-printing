@@ -72,7 +72,18 @@ export const PRINT_TYPE = [{
   //   count: 1,
   //   name: '打印台历',
   //   img: '/img/slide-7.png'
-  // }
+  // },
+  {
+    id: 7,
+    type_id: 801,
+    count: 1,
+    width: 550,
+    height: 347,
+    cropWidth: 640,
+    cropHeight: 404,
+    name: '身份证打印',
+    img: '/img/slide-7.png'
+  }
 ]
 
 // API 接口

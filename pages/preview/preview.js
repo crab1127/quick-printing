@@ -18,7 +18,7 @@ Page({
     idSize: 'mini'
   },
   onLoad(option) {
-    if (!option.imageUrls || !option.id) {
+    if (!option.id) {
       wx.navigateTo({
         url: '../index/index'
       })
@@ -36,11 +36,14 @@ Page({
       // option.imageUrls = "wxfile://tmp_937687355o6zAJs22dwC_vej-pk7EQJoTUTPw1488251766880.jpg"
 
     this.typeInit(option.id)
-    this.imgInit(option.imageUrls)
-    console.log('option.imageUrls', option.imageUrls)
 
-    // 4r，a4 的
-    this.setImgSize()
+    if (option.imageUrls) {
+      console.log('option.imageUrls', option.imageUrls)
+      this.imgInit(option.imageUrls)
+
+      // 4r，a4 的
+      this.setImgSize()
+    }
 
     // 监听编辑图片页面发送的事件
     app.event.on('img', res => {
@@ -238,6 +241,9 @@ Page({
       case 5:
         templateType = 'mini-id-template'
         break
+      case 7:
+        templateType = 'card-template'
+        break
     }
 
     currentType = PRINT_TYPE.find(item => id == item.id)
@@ -283,6 +289,18 @@ Page({
     this.setData({
       width: imgWidth,
       height: imgHeith
+    })
+  },
+  onChooseImg() {
+    wx.chooseImage({
+      count: 1, // 默认9
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: (res) => {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        console.log(res)
+
+      }
     })
   }
 })
