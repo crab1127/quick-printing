@@ -3,7 +3,7 @@
 
     <template is="{{ templateType }}" data="{{ current, imgUrls, width, height, swipeWidth, swipeHeight }}" />
 
-    <block wx:if="{{ type.id !== 2 }}">
+    <block wx:if="{{ type.id !== 2 || type.id!== 7 }}">
       <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
     </block>
 
@@ -71,20 +71,38 @@
 <template name="card-template">
   <view class="card-container" style="width:{{swipeWidth}}px;height:{{swipeHeight}}px">
     <view class="card-main">
-      <view class="card-placeholder" bindtap="onChooseImg">
-        <text class="fs-40">+</text>
-        <text>
-        上传身份证正面
-        </text>
-      </view>
+      <block wx:if="{{ !imgUrls[0].url }}">
+        <view class="card-placeholder" data-current="0" bindtap="onChooseImg">
+          <text class="fs-40">+</text>
+          <text>
+          上传身份证正面
+          </text>
+        </view>
+      </block>
+      <block wx:if="{{ imgUrls[0].url }}">
+        <image
+          mode="aspectFit" 
+          src="{{ imgUrls[0].url }}" 
+          style="width:550rpx;height:347rpx "
+        />
+      </block>
     </view>
     <view class="card-main">
-      <view class="card-placeholder" bindtap="onChooseImg">
-        <text class="fs-40">+</text>
-        <text>
-        上传身份证背面
-        </text>
-      </view>
+      <block wx:if="{{ !imgUrls[1].url }}">
+        <view class="card-placeholder" data-current="1" bindtap="onChooseImg">
+          <text class="fs-40">+</text>
+          <text>
+          上传身份证背面
+          </text>
+        </view>
+      </block>
+      <block wx:if="{{ imgUrls[1].url }}">
+        <image
+          mode="aspectFit" 
+          src="{{ imgUrls[1].url }}" 
+          style="width:550rpx;height:347rpx "
+        />
+      </block>
     </view>
     <view class="card-info">
       请使用A4纸打印
