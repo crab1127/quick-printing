@@ -5,8 +5,8 @@ Page({
     id: 'cropper',
     width: 600,
     height: 600,
-    minScale: 1,
-    maxScale: 2.5,
+    minScale: 0.1,
+    maxScale: 5,
     minRotateAngle: 45, //判断发生旋转的最小角度
     src: '',
   },
@@ -114,6 +114,8 @@ Page({
     let [touch0, touch1] = e.touches
     self.touchNum = 0 //初始化，用于控制旋转结束时，旋转动作只执行一次
 
+    self.isMove = true
+
     //计算第一个触摸点的位置，并参照该点进行缩放
     self.touchX = touch0.x
     self.touchY = touch0.y
@@ -138,11 +140,14 @@ Page({
   //图片手势动态缩放
   uploadScaleMove: function(e) {
     var self = this
-    fn(self, e)
-      // drawOnTouchMove(self, e)
+    if (self.isMove) {
+      // fn(self, e)
+      drawOnTouchMove(self, e)
+    }
   },
   uploadScaleEnd(e) {
     let self = this
+    self.isMove = false
     self.oldScale = self.newScale || self.oldScale
     self.startX = self.imgLeft || self.startX
     self.startY = self.imgTop || self.startY
@@ -327,7 +332,7 @@ function drawOnTouchMove(self, e) {
     self.imgTop = self.startY + yMove
 
     avoidCrossBorder(self)
-
+    console.log(12, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
     self.ctx.translate(self.cropperWidth / 2, self.cropperHeight / 2)
     self.ctx.rotate(self.rotate * Math.PI / 180)
     self.ctx.drawImage(self.cropperTarget, self.imgLeft, self.imgTop, self.scaleWidth, self.scaleHeight)
@@ -365,16 +370,16 @@ function drawOnTouchMove(self, e) {
 }
 //防止图片超出canvas边界
 function avoidCrossBorder(self) {
-  if (self.imgLeft < -(self.scaleWidth - self.cropperWidth / 2)) {
-    self.imgLeft = -(self.scaleWidth - self.cropperWidth / 2)
-  } else if (self.imgLeft > -self.cropperWidth / 2) {
-    self.imgLeft = -self.cropperWidth / 2
-  }
-  if (self.imgTop < -(self.scaleHeight - self.cropperHeight / 2)) {
-    self.imgTop = -(self.scaleHeight - self.cropperHeight / 2)
-  } else if (self.imgTop > -self.cropperHeight / 2) {
-    self.imgTop = -self.cropperHeight / 2
-  }
+  // if (self.imgLeft < -(self.scaleWidth - self.cropperWidth / 2)) {
+  //   self.imgLeft = -(self.scaleWidth - self.cropperWidth / 2)
+  // } else if (self.imgLeft > -self.cropperWidth / 2) {
+  //   self.imgLeft = -self.cropperWidth / 2
+  // }
+  // if (self.imgTop < -(self.scaleHeight - self.cropperHeight / 2)) {
+  //   self.imgTop = -(self.scaleHeight - self.cropperHeight / 2)
+  // } else if (self.imgTop > -self.cropperHeight / 2) {
+  //   self.imgTop = -self.cropperHeight / 2
+  // }
 }
 //为drawOnTouchMove函数节流
 const fn = throttle(drawOnTouchMove, 100, 100)

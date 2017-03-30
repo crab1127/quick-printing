@@ -314,5 +314,11 @@ Page({
         this.onEdit()
       }
     })
+  },
+  onChangeCurrent(e) {
+    const current = e.currentTarget.dataset.current
+    this.setData({
+      current: parseInt(current)
+    })
   }
 })

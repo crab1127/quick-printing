@@ -3,8 +3,11 @@
 
     <template is="{{ templateType }}" data="{{ current, imgUrls, width, height, swipeWidth, swipeHeight }}" />
 
-    <block wx:if="{{ type.id !== 2 || type.id!== 7 }}">
-      <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+    <block wx:if="{{ type.id !== 2 }}">
+      <view class="btn-tools">
+        <button wx:if="{{ type.id == 7 }}" type="primary" size="mini" data-current="{{ current }}" bindtap="onChooseImg" style="margin-right: 10px;"> 重新上传 </button>
+        <button type="primary" size="mini" bindtap="onEdit"> 编辑 </button>
+      </view>
     </block>
 
   </view>
@@ -82,6 +85,9 @@
       <block wx:if="{{ imgUrls[0].url }}">
         <image
           mode="aspectFit" 
+          data-current="0"
+          bindtap="onChangeCurrent"
+          class="{{ current == 0 ? 'active' : '' }}"
           src="{{ imgUrls[0].url }}" 
           style="width:550rpx;height:347rpx "
         />
@@ -99,6 +105,9 @@
       <block wx:if="{{ imgUrls[1].url }}">
         <image
           mode="aspectFit" 
+          data-current="1"
+          bindtap="onChangeCurrent"
+          class="{{ current == 1 ? 'active' : '' }}"
           src="{{ imgUrls[1].url }}" 
           style="width:550rpx;height:347rpx "
         />

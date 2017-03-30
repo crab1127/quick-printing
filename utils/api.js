@@ -211,11 +211,11 @@ export const uploadFile = (filePath, crop) => {
         'json_body': JSON.stringify(params)
       },
       success: function(res) {
+        console.log('uploadFile', res)
         let ac = res.data
         if (typeof res.data === 'string') {
           ac = JSON.parse(res.data)
         }
-        console.log('upload', res)
         if (ac.result_code === 0) {
           resolve(ac)
         } else {
@@ -223,6 +223,7 @@ export const uploadFile = (filePath, crop) => {
         }
       },
       fail(err) {
+        console.error('uploadFile', err)
         reject(err)
       }
     })

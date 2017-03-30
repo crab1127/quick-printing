@@ -75,7 +75,7 @@ export const PRINT_TYPE = [{
   // },
   {
     id: 7,
-    type_id: 801,
+    type_id: 301,
     count: 1,
     width: 550,
     height: 347,
