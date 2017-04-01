@@ -191,9 +191,11 @@ Page({
       })
       .catch(err => {
         wx.hideToast()
+        console.log(err)
+        const content = err.result_message || '不知名错误'
         wx.showModal({
           title: '上传图片失败',
-          content: err.result_message
+          content: content
         })
       })
 

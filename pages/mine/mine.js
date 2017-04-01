@@ -18,6 +18,10 @@ Page({
     },
   },
   requestFlag: false,
+  // 下拉刷新
+  // onPullDownRefresh: function() {
+  //   this.loadOrder()
+  // },
   onLoad() {
     app.getUserInfo((userInfo) => {
       //更新数据
@@ -81,7 +85,10 @@ Page({
           }
         })
         this.getActiveOrderList()
+        console.log('停止下啦刷新')
+          // wx.stopPullDownRefresh()
       })
+      // .catch(err => wx.stopPullDownRefresh())
   },
   getActiveOrderList() {
     const { activeTab, orderList } = this.data

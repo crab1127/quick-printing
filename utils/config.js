@@ -75,14 +75,14 @@ export const PRINT_TYPE = [{
   // },
   {
     id: 7,
-    type_id: 301,
+    type_id: 303,
     count: 1,
     width: 550,
     height: 347,
     cropWidth: 640,
     cropHeight: 404,
     name: '身份证打印',
-    img: '/img/slide-7.png'
+    img: '/img/slide-9.png'
   }
 ]
 

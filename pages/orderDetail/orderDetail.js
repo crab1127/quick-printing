@@ -26,6 +26,15 @@ Page({
       width: 330,
       height: 480
     }
+
+    // 身份证
+    if (base.print_type_id === 303) {
+      currentType = {
+        width: 750,
+        height: 1060
+      }
+    }
+
     this.setImgSize()
 
     getOrderDetail(base.id)

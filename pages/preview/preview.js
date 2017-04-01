@@ -137,9 +137,11 @@ Page({
           })
 
           // 向订单中心发送新的订单
-          setTimeout(() => {
+          try {
+            let now = new Date().getTime()
+            let time = dateFormat(now, 'yyyy-MM-dd hh:mm:ss')
             app.event.emit('newOrder', {
-              create_time: dateFormat(+new Date(), 'yyyy-MM-dd hh:mm:ss'),
+              create_time: time,
               id: res.print_order_id,
               print_code: res.print_code,
               print_order_status_id: 101,
@@ -147,7 +149,9 @@ Page({
               print_type_id: currentType.type_id,
               print_type_name: currentType.name
             })
-          }, 0)
+          } catch (e) {
+            console.log(e)
+          }
 
         })
         .catch(err => {
