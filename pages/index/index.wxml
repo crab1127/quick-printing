@@ -1,5 +1,5 @@
 <view>
-  <swiper indicator-dots="true" style="width: {{ width }}px; height: {{ height }}px;">
+  <swiper indicator-dots="true" bindchange="onSlideChange" current="{{current}}" style="width: {{ width }}px; height: {{ height }}px;">
     <swiper-item wx:for="{{slides}}" class="slide-item">
       <view class="slide-item-title">
         <text>{{ item.name }}</text>
@@ -11,4 +11,6 @@
       </view>
     </swiper-item>
   </swiper>
+  <image src="/img/left.png" class="slide-left" bindtap="onLeft"></image>
+  <image src="/img/right.png" class="slide-right" bindtap="onRight"></image>
 </view>

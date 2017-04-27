@@ -4,19 +4,19 @@
     height: 100%;
 }
 .print-code{
-    flex: 1;
+    flex: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    color: #fff;
-    background: #1AAD19;
+    color: #1AAD19;
+    background: #fff;
 }
 .print-code-text{
     position: absolute;
     width: 100%;
     text-align: center;
-    color:#eee;
+    color:#999;
     font-size: 28rpx;
     bottom: 30%;
     left:0;
@@ -27,6 +27,9 @@
 .print-tips{
     flex:1;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#eee;
 }
 .print-tips > .flex-col{
     flex: 1;

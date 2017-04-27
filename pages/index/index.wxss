@@ -3,7 +3,7 @@
     display: flex;
     flex-direction:column;
     background: #fff;
-    padding:40rpx;
+    padding:70rpx;
 }
 .slide-item-title{
     height: 150rpx;
@@ -52,4 +52,20 @@
 .icon-scan-bg{
     width: 670rpx;
     height: 187rpx;
+}
+.slide-left {
+    width: 50rpx;
+    height: 50rpx;
+    position: fixed;
+    top:50%;
+    margin-top: -25rpx;
+    left: 10rpx;
+}
+.slide-right {
+    width: 50rpx;
+    height: 50rpx;
+    position: fixed;
+    top:50%;
+    margin-top: -25rpx;
+    right: 10rpx;
 }

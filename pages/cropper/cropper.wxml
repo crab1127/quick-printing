@@ -3,6 +3,7 @@
   <view class="cropper-main">
     <canvas class="cropper" disable-scroll="true" bindtouchstart="uploadScaleStart" bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" style="width:{{width}}rpx;height:{{height}}rpx;" canvas-id="cropper">
     </canvas>
+    <view wx:if="{{ typeId == 7 }}" class="caid-tips">请将照片尽可能铺满白色区域</view>
   </view>
   <view class="cropper-tools">
     <view class="cropper-tools-img" bindtap="setRotate" data-direction="1">

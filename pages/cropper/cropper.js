@@ -9,17 +9,19 @@ Page({
     maxScale: 5,
     minRotateAngle: 45, //判断发生旋转的最小角度
     src: '',
+    typeId: '',
   },
   onLoad(option) {
     let self = this
     let { src } = self.data
-    const { img, index, width, height } = option
+    const { img, index, width, height, id = '' } = option
     try {
       console.log(1234567, decodeURIComponent(option.img))
       this.setData({
         width: width,
         height: height,
         index: index,
+        typeId: id,
         src: decodeURIComponent(option.img)
       })
       self.initCanvas(self.data.src)

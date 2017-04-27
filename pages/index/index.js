@@ -5,6 +5,7 @@ Page({
   data: {
     width: 0,
     height: 0,
+    current: 0,
     slides: PRINT_TYPE
   },
   onLoad() {
@@ -16,6 +17,27 @@ Page({
         })
       }
     })
+  },
+  onSlideChange(e) {
+    this.setData({
+      current: e.detail.current
+    })
+  },
+  onLeft() {
+    const current = this.data.current
+    if (current > 0) {
+      this.setData({
+        current: current - 1
+      })
+    }
+  },
+  onRight() {
+    const current = this.data.current
+    if (current < PRINT_TYPE.length - 1) {
+      this.setData({
+        current: current + 1
+      })
+    }
   },
   onPreview(e) {
     const id = e.currentTarget.dataset.id

@@ -68,6 +68,7 @@ Page({
 
     const params = {
       index: current,
+      id: id,
       img: imgUrls[current].originUrl,
       width: cropWidth,
       height: cropHeight

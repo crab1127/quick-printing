@@ -9,4 +9,9 @@ Page({
       code: option.print_code
     })
   },
+  findMap() {
+    wx.navigateTo({
+      url: '../networkMap/networkMap'
+    })
+  }
 })

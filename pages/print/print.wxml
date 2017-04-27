@@ -3,14 +3,16 @@
     <text class="print-code-num">{{ code }}</text>
     <text class="print-code-text">请在显示屏上输入打印密码</text>
   </view>
+
   <view class="print-tips">
-    <view class="flex-col">
+    <button type="primary" bindtap="findMap"> 寻找附近设备 </button>
+    <!--<view class="flex-col">
       <image src="/img/print1.gif" class="tips-img"></image>
       请确保纸背朝上
     </view>
     <view class="flex-col">
       <image src="/img/print2.gif" class="tips-img"></image>
       请确保纸推到位
-    </view>
+    </view>-->
   </view>
 </view>
