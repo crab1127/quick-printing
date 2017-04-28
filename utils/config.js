@@ -107,5 +107,7 @@ export const API_METHOD = {
   // 上传，编辑图片
   upload_image: 'upload_image',
   // 多图订单
-  add_multiple_print_order: 'add_multiple_print_order'
+  add_multiple_print_order: 'add_multiple_print_order',
+  // 支付
+  create_pay: 'create_wechat_mina_pay'
 }

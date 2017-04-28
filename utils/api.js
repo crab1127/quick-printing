@@ -249,3 +249,41 @@ export const addOrderNew = (type, imgs, wxScan = {}) => {
       .catch(err => reject(err))
   })
 }
+
+export const createPay = (type) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
+  const params = Object.assign({
+    method: API_METHOD.create_pay,
+    open_id: OPEN_ID,
+    print_order_id: type,
+  }, baseParams)
+
+  return new Promise((resolve, reject) => {
+    get(API_ROOT, params)
+      .then(res => resolve(res))
+      .catch(err => reject(err))
+  })
+}
+
+export const sendPay = (data = {}) => {
+  return new Promise((resolve, reject) => {
+    console.log('timeStamp', data.time_stamp)
+    console.log('nonceStr', data.nonce_str)
+    console.log('package', data.package)
+    console.log('paySign', data.pay_sign)
+    wx.requestPayment({
+      'timeStamp': data.time_stamp,
+      'nonceStr': data.nonce_str,
+      'package': data.package,
+      'signType': 'MD5',
+      'paySign': data.pay_sign,
+      'success': function(res) {
+        resolve(res)
+      },
+      'fail': function(err) {
+        reject(err)
+      }
+    })
+  })
+
+}

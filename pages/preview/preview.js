@@ -120,7 +120,7 @@ Page({
       }
     }
 
-
+    // 
     function pushOrder() {
       const imgs = imgUrls
         .filter(item => item.status === 'success')
@@ -134,7 +134,7 @@ Page({
           console.log(res)
           wx.hideToast()
           wx.navigateTo({
-            url: '../print/print?' + json2Form(res)
+            url: '../orderSure/orderSure?' + json2Form(res)
           })
 
           // 向订单中心发送新的订单
@@ -172,6 +172,7 @@ Page({
         })
     }
 
+    // 二维码打印
     function pushScanOrder() {
       // 二维码打印， 获取用户信息
       let wxScanParams = {}

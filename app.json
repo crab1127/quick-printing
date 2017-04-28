@@ -7,6 +7,8 @@
     "pages/print/print",
     "pages/mine/mine",
     "pages/networkList/networkList",
+    "pages/orderSure/orderSure",
+    "pages/pay/pay",
     "pages/orderDetail/orderDetail"
   ],
   "window": {

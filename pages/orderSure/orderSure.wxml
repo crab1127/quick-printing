@@ -1,0 +1,32 @@
+<!--index.wxml-->
+
+<view class="detail-main">
+  <view class="cell">
+    <view class="cell-title">订单编号：</view>
+    <view class="cell-staus">12413圣诞树3</view>
+  </view>
+  <view class="cell">
+    <view class="cell-title">订单日期：</view>
+    <view class="cell-staus">2017-04-07</view>
+  </view>
+  <view class="cell">
+    <view class="cell-title">订单类型：</view>
+    <view class="cell-staus">4R照片</view>
+  </view>
+  <view class="cell">
+    <view class="cell-title">相纸类型：</view>
+    <view class="cell-staus">4R纸张</view>
+  </view>
+  <view class="cell">
+    <view class="cell-title">照片数量：</view>
+    <view class="cell-staus">1</view>
+  </view>
+  <view class="cell">
+    <view class="cell-title">需付金额：</view>
+    <view class="cell-staus red">¥1.00</view>
+  </view>
+</view>
+<view class="button-wrap">
+  <button type="primary" bindtap="onPay"> 提交并支付 </button>
+  <view>提交订单 －－ 支付 －－ 获取打印码</view>
+</view>
