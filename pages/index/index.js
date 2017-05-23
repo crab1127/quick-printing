@@ -8,7 +8,8 @@ Page({
     current: 0,
     slides: PRINT_TYPE
   },
-  onLoad() {
+  onLoad(option) {
+    console.error(option)
     wx.getSystemInfo({
       success: (res) => {
         this.setData({

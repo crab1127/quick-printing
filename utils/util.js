@@ -55,5 +55,6 @@ function dateFormat(date, fmt) {
 
 module.exports = {
   formatTime,
-  json2Form
+  json2Form,
+  dateFormat
 }

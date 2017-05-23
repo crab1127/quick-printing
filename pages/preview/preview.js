@@ -77,7 +77,10 @@ Page({
       url: `../cropper/cropper?${json2Form(params)}`
     })
   },
-  onPrint() {
+  onPrint(e) {
+    // 步骤
+    const step = e.currentTarget.dataset.step
+
     wx.showToast({
       title: '获取打印码',
       icon: 'loading',
@@ -133,25 +136,36 @@ Page({
         .then(res => {
           console.log(res)
           wx.hideToast()
-          wx.navigateTo({
-            url: '../orderSure/orderSure?' + json2Form(res)
-          })
 
           // 向订单中心发送新的订单
-          try {
-            let now = new Date().getTime()
-            let time = dateFormat(now, 'yyyy-MM-dd hh:mm:ss')
-            app.event.emit('newOrder', {
-              create_time: time,
-              id: res.print_order_id,
-              print_code: res.print_code,
-              print_order_status_id: 101,
-              print_order_status_name: "未打印",
-              print_type_id: currentType.type_id,
-              print_type_name: currentType.name
+          let now = new Date().getTime()
+          const orderInfo = {
+            create_time: dateFormat(now, 'yyyy-MM-dd hh:mm:ss'),
+            id: res.print_order_id,
+            print_code: res.print_code,
+            print_order_status_id: 101,
+            print_order_status_name: "未打印",
+            print_type_id: currentType.type_id,
+            print_type_name: currentType.name
+          }
+
+          app.event.emit('newOrder', orderInfo)
+
+          if (step === 'stop') {
+            wx.navigateTo({
+              url: '../orderDetail/orderDetail?ac=' + encodeURIComponent(JSON.stringify(orderInfo))
             })
-          } catch (e) {
-            console.log(e)
+          } else {
+            // 只允许从相机扫码
+            wx.scanCode({
+              onlyFromCamera: true,
+              success: (res) => {
+                // 根据返回的 机器码 提交订单。付款
+                wx.navigateTo({
+                  url: '../orderSure/orderSure?' + json2Form(res)
+                })
+              }
+            })
           }
 
         })

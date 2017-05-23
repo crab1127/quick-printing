@@ -104,3 +104,13 @@
     border: 1px solid #0c6;
     border-radius: 20rpx;
 }
+.flex {
+    display: flex;
+}
+.flex-item.frist{
+    margin-left: 0rpx;
+}
+.flex-item {
+    flex: 1;
+    margin-left: 20rpx;
+}

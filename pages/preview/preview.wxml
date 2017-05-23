@@ -26,8 +26,9 @@
       </view>
     </view>
   </block>
-  <view class="button-wrap">
-    <button type="primary" bindtap="onPrint"> 获取打印码 </button>
+  <view class="button-wrap flex">
+    <button type="default" class="flex-item frist" data-step="stop" bindtap="onPrint"> 保存 </button>
+    <button type="primary" class="flex-item" data-step="keep" bindtap="onPrint"> 扫码打印 </button>
   </view>
 </view>
 
