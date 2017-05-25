@@ -104,3 +104,20 @@ text, view, slide-item{
 .master-follow{
 	align-self: flex-start;
 }
+button.btn-outline {
+	border:1rpx solid  #1AAD19;
+	color: #1AAD19;
+	background: #fff;
+	padding-left: 50rpx;
+	padding-right: 50rpx;
+}
+.flex {
+    display: flex;
+}
+.flex-item.frist{
+    margin-left: 0rpx;
+}
+.flex-item {
+    flex: 1;
+    margin-left: 20rpx;
+}

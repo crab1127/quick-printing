@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 import { getOrderDetail, delOrder, copyOrder } from '../../utils/api'
+import { json2Form, dateFormat } from '../../utils/util'
 import { PRINT_TYPE } from '../../utils/config'
 const app = getApp()
 let currentType
@@ -120,6 +121,23 @@ Page({
       swiperWidth: systemInfo.windowWidth,
       width: imgWidth,
       height: imgHeith
+    })
+  },
+  onPrint() {
+    // 根据返回的 机器码 提交订单。付款
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+
+        const orderInfo = {
+          print_order_id: this.data.base.id,
+          qr_msg: res.result
+        }
+
+        wx.navigateTo({
+          url: '../orderSure/orderSure?' + json2Form(orderInfo)
+        })
+      }
     })
   }
 })

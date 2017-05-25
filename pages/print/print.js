@@ -11,7 +11,7 @@ Page({
   },
   findMap() {
     wx.navigateTo({
-      url: '../networkMap/networkMap'
+      url: '../index/index'
     })
   }
 })

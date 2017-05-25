@@ -3,12 +3,12 @@
     "pages/index/index",
     "pages/preview/preview",
     "pages/networkMap/networkMap",
-    "pages/cropper/cropper",
     "pages/print/print",
-    "pages/mine/mine",
-    "pages/networkList/networkList",
     "pages/orderSure/orderSure",
+    "pages/cropper/cropper",
+    "pages/mine/mine",
     "pages/pay/pay",
+    "pages/networkList/networkList",
     "pages/orderDetail/orderDetail"
   ],
   "window": {

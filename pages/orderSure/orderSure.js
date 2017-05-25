@@ -6,16 +6,19 @@ const app = getApp()
 
 Page({
   data: {
-    id: ''
+    id: '',
+    sn: ''
   },
   onLoad: function(option) {
+    console.log(option)
     this.option = option
     this.setData({
-      id: option.print_order_id
+      id: option.id,
+      sn: decodeURIComponent(option.qr_msg)
     })
   },
   onPay() {
-    createPay(this.data.id)
+    createPay(this.data.id, this.data.sn)
       .then(res => {
         console.log(123, res)
         return sendPay(res)

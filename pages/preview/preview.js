@@ -160,9 +160,12 @@ Page({
             wx.scanCode({
               onlyFromCamera: true,
               success: (res) => {
-                // 根据返回的 机器码 提交订单。付款
+                console.log(res)
+
+                orderInfo.qr_msg = res.result
+                  // 根据返回的 机器码 提交订单。付款
                 wx.navigateTo({
-                  url: '../orderSure/orderSure?' + json2Form(res)
+                  url: '../orderSure/orderSure?' + json2Form(orderInfo)
                 })
               }
             })

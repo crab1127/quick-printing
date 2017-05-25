@@ -250,12 +250,13 @@ export const addOrderNew = (type, imgs, wxScan = {}) => {
   })
 }
 
-export const createPay = (type) => {
+export const createPay = (id, sn) => {
   let OPEN_ID = wx.getStorageSync('open_id')
   const params = Object.assign({
     method: API_METHOD.create_pay,
     open_id: OPEN_ID,
-    print_order_id: type,
+    print_order_id: id,
+    qr_msg: sn
   }, baseParams)
 
   return new Promise((resolve, reject) => {

@@ -1,11 +1,12 @@
 <view class="print-wrap">
   <view class="print-code">
-    <text class="print-code-num">{{ code }}</text>
-    <text class="print-code-text">请在显示屏上输入打印密码</text>
+    <image src="/img/print.png" class="tips-img"> </image>
+    <text class="print-code-num">打印机正在玩命打印</text>
+    <text class="print-code-text">请注意取走文件</text>
   </view>
 
   <view class="print-tips">
-    <button type="primary" bindtap="findMap"> 寻找附近设备 </button>
+    <button type="default" class="btn-outline" bindtap="findMap"> 我知道了 </button>
     <!--<view class="flex-col">
       <image src="/img/print1.gif" class="tips-img"></image>
       请确保纸背朝上
