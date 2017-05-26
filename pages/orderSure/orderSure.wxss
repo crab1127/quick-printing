@@ -14,3 +14,8 @@ page{
 	justify-content: center;
 	align-items: center;
 }
+.btn-submit {
+	margin-bottom: 50rpx;
+	padding-left: 80rpx;
+	padding-right: 80rpx;
+}

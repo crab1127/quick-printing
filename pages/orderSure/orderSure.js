@@ -7,29 +7,49 @@ const app = getApp()
 Page({
   data: {
     id: '',
-    sn: ''
+    sn: '',
+    name: '',
+    type: '',
+    count: '',
+    createDate: '',
+    pay_amount: '',
+    isShow: false
   },
   onLoad: function(option) {
     console.log(option)
     this.option = option
     this.setData({
       id: option.id,
-      sn: decodeURIComponent(option.qr_msg)
+      sn: decodeURIComponent(option.qr_msg),
+      name: decodeURIComponent(option.print_type_name),
+      count: decodeURIComponent(option.print_count),
+      type: decodeURIComponent(option.type),
+      createDate: decodeURIComponent(option.create_time)
     })
+    this.createPayOrder()
   },
-  onPay() {
+  createPayOrder() {
     createPay(this.data.id, this.data.sn)
       .then(res => {
-        console.log(123, res)
-        return sendPay(res)
+        this.setData({
+          pay_amount: res.pay_amount,
+          isShow: true
+        })
+        this.payInfo = res
       })
+      .catch(err => {
+        wx.showModal({
+          title: '提示',
+          content: err.result_message
+        })
+      })
+  },
+  onPay() {
+    sendPay(this.payInfo)
       .then(res => {
         wx.navigateTo({
           url: '../print/print?' + json2Form(this.option)
         })
-      })
-      .catch(err => {
-        console.error(23, err)
       })
   }
 })

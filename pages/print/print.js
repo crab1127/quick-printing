@@ -4,13 +4,11 @@ Page({
   data: {
     code: null
   },
-  onLoad(option) {
-    this.setData({
-      code: option.print_code
-    })
+  onLoad() {
+
   },
   findMap() {
-    wx.navigateTo({
+    wx.switchTab({
       url: '../index/index'
     })
   }

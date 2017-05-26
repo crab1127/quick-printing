@@ -17,6 +17,7 @@ export const PRINT_TYPE = [{
     cropWidth: 640,
     cropHeight: 954,
     name: '4R照片',
+    type: '4R纸张',
     sizeInfo: '15.2cm*10.2cm',
     img: '/img/slide-2.png'
   },
@@ -42,18 +43,19 @@ export const PRINT_TYPE = [{
   // }, 
   {
     id: 4,
-    type_id: 801,
+    type_id: 301,
     count: 9,
     width: 750,
     height: 1060,
     cropWidth: 640,
     cropHeight: 906,
     name: 'A4照片',
+    type: 'A4纸张',
     sizeInfo: '29.7cm*21cm',
     img: '/img/slide-5.png'
   }, {
     id: 5,
-    type_id: 802,
+    type_id: 803,
     count: 1,
     width: 330,
     height: 480,
@@ -64,6 +66,7 @@ export const PRINT_TYPE = [{
     cropMinWidth: 500,
     cropMinHeight: 700,
     name: '证件照',
+    type: '4R纸张',
     sizeInfo: '大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm',
     img: '/img/slide-6.png'
   },
@@ -82,6 +85,7 @@ export const PRINT_TYPE = [{
     cropWidth: 640,
     cropHeight: 404,
     name: '身份证打印',
+    type: 'A4张纸',
     img: '/img/slide-9.png'
   }
 ]

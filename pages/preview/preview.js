@@ -82,11 +82,12 @@ Page({
     const step = e.currentTarget.dataset.step
 
     wx.showToast({
-      title: '获取打印码',
+      title: '正在提交订单',
       icon: 'loading',
       duration: 10000
     })
     const { idSize, imgUrls } = this.data
+    const count = imgUrls.length
 
     let typeId = currentType.type_id
     if (currentType.id === 5) {
@@ -94,7 +95,7 @@ Page({
     }
 
 
-    if (currentType.id === 2) {
+    if (currentType.id === 2 || currentType.id === 5) {
       // 微信二维码打印
       pushScanOrder()
     } else {
@@ -146,7 +147,10 @@ Page({
             print_order_status_id: 101,
             print_order_status_name: "未打印",
             print_type_id: currentType.type_id,
-            print_type_name: currentType.name
+            print_type_name: currentType.name,
+            // 支付订单索要
+            print_count: count,
+            type: currentType.type
           }
 
           app.event.emit('newOrder', orderInfo)
@@ -177,12 +181,12 @@ Page({
           wx.hideToast()
           if (err.result_message) {
             wx.showModal({
-              title: '获取打印码失败',
+              title: '提交订单失败',
               content: err.result_message
             })
           } else {
             wx.showModal({
-              title: '获取打印码失败',
+              title: '提交订单失败',
               content: '微信报错：' + err.errMsg
             })
           }
@@ -204,20 +208,47 @@ Page({
         .then(res => {
           console.log(res)
           wx.hideToast()
-          wx.navigateTo({
-            url: '../print/print?' + json2Form(res)
-          })
+            // wx.navigateTo({
+            //   url: '../print/print?' + json2Form(res)
+            // })
 
           // 向订单中心发送新的订单
-          app.event.emit('newOrder', {
-            create_time: +new Date(),
+          let now = new Date().getTime()
+          const orderInfo = {
+            create_time: dateFormat(now, 'yyyy-MM-dd hh:mm:ss'),
             id: res.print_order_id,
             print_code: res.print_code,
             print_order_status_id: 101,
             print_order_status_name: "未打印",
             print_type_id: currentType.type_id,
-            print_type_name: currentType.name
-          })
+            print_type_name: currentType.name,
+            // 支付订单索要
+            print_count: count,
+            type: currentType.type
+          }
+
+          app.event.emit('newOrder', orderInfo)
+
+
+          if (step === 'stop') {
+            wx.navigateTo({
+              url: '../orderDetail/orderDetail?ac=' + encodeURIComponent(JSON.stringify(orderInfo))
+            })
+          } else {
+            // 只允许从相机扫码
+            wx.scanCode({
+              onlyFromCamera: true,
+              success: (res) => {
+                console.log(res)
+
+                orderInfo.qr_msg = res.result
+                  // 根据返回的 机器码 提交订单。付款
+                wx.navigateTo({
+                  url: '../orderSure/orderSure?' + json2Form(orderInfo)
+                })
+              }
+            })
+          }
         })
         .catch(err => {
           console.log('addoreder-err', err)

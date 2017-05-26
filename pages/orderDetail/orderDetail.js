@@ -23,10 +23,13 @@ Page({
       base: base
     })
 
-    currentType = PRINT_TYPE.find(item => base.print_type_id == item.type_id) || {
+    var tempTypeId = base.print_type_id == '803' || base.print_type_id == '804' ? '803' : base.print_type_id
+
+    currentType = PRINT_TYPE.find(item => tempTypeId == item.type_id) || {
       width: 330,
       height: 480
     }
+    this.currentType = currentType
 
     // 身份证
     if (base.print_type_id === 303) {
@@ -45,6 +48,30 @@ Page({
         })
       })
 
+  },
+  onPrint() {
+    const count = this.data.detail.length
+      // 根据返回的 机器码 提交订单。付款
+    wx.scanCode({
+      onlyFromCamera: true,
+      success: (res) => {
+
+        const orderInfo = {
+          create_time: this.data.base.create_time,
+          id: this.data.base.id,
+          qr_msg: res.result,
+          print_type_id: this.currentType.type_id,
+          print_type_name: this.currentType.name,
+          // 支付订单索要
+          print_count: count,
+          type: this.currentType.type
+        }
+
+        wx.navigateTo({
+          url: '../orderSure/orderSure?' + json2Form(orderInfo)
+        })
+      }
+    })
   },
   onCopy() {
     wx.showToast({
@@ -123,21 +150,5 @@ Page({
       height: imgHeith
     })
   },
-  onPrint() {
-    // 根据返回的 机器码 提交订单。付款
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
 
-        const orderInfo = {
-          print_order_id: this.data.base.id,
-          qr_msg: res.result
-        }
-
-        wx.navigateTo({
-          url: '../orderSure/orderSure?' + json2Form(orderInfo)
-        })
-      }
-    })
-  }
 })
