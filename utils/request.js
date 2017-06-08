@@ -19,13 +19,13 @@ export const request = (method = 'GET') => (url, data) => {
         if (res.data.result_code === 0) {
           resolve(res.data)
         } else {
-          fundebug.notifyError('API:' + url + '; ' + JSON.stringify(data))
           reject(res.data)
+          fundebug.notifyError('API:' + url + '; ' + JSON.stringify(data) + '; ' + JSON.stringify(res.data))
         }
       },
       fail: function(err) {
-        fundebug.notifyError('API-weixin:' + url + '; ' + JSON.stringify(data))
         reject(err)
+        fundebug.notifyError('API-weixin:' + url + '; ' + JSON.stringify(data) + '; ' + JSON.stringify(err))
       }
     });
   })
