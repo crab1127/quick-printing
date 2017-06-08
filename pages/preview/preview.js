@@ -78,6 +78,15 @@ Page({
     })
   },
   onPrint(e) {
+
+    const { idSize, imgUrls } = this.data
+    const count = imgUrls.length
+
+    // 身份证必须要有图片
+    if (currentType.id === 7 && count < 2) {
+      return null
+    }
+
     // 步骤
     const step = e.currentTarget.dataset.step
 
@@ -86,8 +95,7 @@ Page({
       icon: 'loading',
       duration: 10000
     })
-    const { idSize, imgUrls } = this.data
-    const count = imgUrls.length
+
 
     let typeId = currentType.type_id
     if (currentType.id === 5) {
@@ -105,7 +113,6 @@ Page({
         if (/^wxfile:\/\/\S*/g.test(imgUrls[i].url)) {
           uploadFile(imgUrls[i].url)
             .then(res => {
-              console.log('uploadFile', res)
               count++
               imgUrls[i].status = 'success'
               imgUrls[i].url = res.image_url
@@ -113,9 +120,11 @@ Page({
               count === imgUrls.length && pushOrder()
             })
             .catch(err => {
+              console.log('ac', err)
               count++
               imgUrls[i].status = 'fail'
               count === imgUrls.length && pushOrder()
+              throw new Error("UPLOAD:normal");
             })
         } else {
           count++

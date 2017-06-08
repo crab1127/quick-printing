@@ -1,5 +1,9 @@
 import Promise from './promise.min.js'
 
+const fundebug = require('./fundebug.min.js');
+fundebug.apikey = '453174116df10a95f428f5277493d3626d72ec5e814303743b8d69cd21699d53';
+
+
 export const request = (method = 'GET') => (url, data) => {
   return new Promise((resolve, reject) => {
     wx.request({
@@ -15,10 +19,12 @@ export const request = (method = 'GET') => (url, data) => {
         if (res.data.result_code === 0) {
           resolve(res.data)
         } else {
+          fundebug.notifyError('API:' + url + '; ' + JSON.stringify(data))
           reject(res.data)
         }
       },
       fail: function(err) {
+        fundebug.notifyError('API-weixin:' + url + '; ' + JSON.stringify(data))
         reject(err)
       }
     });

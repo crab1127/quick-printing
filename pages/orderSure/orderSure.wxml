@@ -23,7 +23,7 @@
   </view>
   <view class="cell">
     <view class="cell-title">需付金额：</view>
-    <view class="cell-staus red">¥{{ pay_amount }}</view>
+    <view class="cell-staus red">¥{{ pay_amount / 100 }}</view>
   </view>
 </view>
 <view class="button-wrap" wx:if="{{ isShow }}">

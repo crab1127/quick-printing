@@ -199,6 +199,7 @@ Page({
           title: '上传图片失败',
           content: content
         })
+        throw new Error("UPLOAD:cropper");
       })
 
     // wx.canvasToTempFilePath({

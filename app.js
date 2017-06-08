@@ -1,4 +1,7 @@
 //app.js
+var fundebug = require('./utils/fundebug.min.js');
+fundebug.apikey = '453174116df10a95f428f5277493d3626d72ec5e814303743b8d69cd21699d53';
+
 const event = require('./utils/event.js')
 import { login } from './utils/api'
 App({
@@ -83,5 +86,6 @@ App({
   globalData: {
     userInfo: null,
     appInfo: null
-  }
+  },
+  fundebug: fundebug
 })
