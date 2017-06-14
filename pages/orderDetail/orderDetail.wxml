@@ -11,7 +11,7 @@
   </view>
   <view class="detail-content">
     <swiper current="{{current}}" circular="true" bindchange="onSlideChange" style="height:{{swiperHeight}}px;width:{{swiperWidth}}px;">
-      <block wx:for="{{detail}}">
+      <block wx:for="{{detail}}" wx:key="{{index}}">
         <swiper-item class="slide-item">
           <image src="{{item.output_original_url}}" mode="aspectFit" style="width: {{width}}px; height:{{height}}px" />
         </swiper-item>

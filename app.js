@@ -43,14 +43,15 @@ App({
     }
   },
   login(cb) {
-    wx.showToast({
-      title: '获取用户信息',
-      icon: 'loading',
-      duration: 10000
-    })
-    if (wx.getStorageSync('open_id') && wx.getStorageSync('userInfo')) {
-      wx.hideToast()
-    } else {
+
+    if (!wx.getStorageSync('open_id') || !wx.getStorageSync('userInfo')) {
+
+      wx.showToast({
+        title: '获取用户信息',
+        icon: 'loading',
+        duration: 10000
+      })
+
       wx.login({
         success: function(res) {
           // 获取用户信息

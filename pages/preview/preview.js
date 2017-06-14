@@ -12,7 +12,7 @@ Page({
     swipeWidth: 0,
     swipeHeight: 0,
     current: 0,
-    templateType: null,
+    templateType: 'a4-template',
     type: null,
     imgUrls: [],
     idSize: 'mini'
@@ -80,7 +80,7 @@ Page({
   onPrint(e) {
 
     const { idSize, imgUrls } = this.data
-    const count = imgUrls.length
+    let count = imgUrls.length
 
     // 身份证必须要有图片
     if (currentType.id === 7 && count < 2) {
@@ -90,12 +90,6 @@ Page({
     // 步骤
     const step = e.currentTarget.dataset.step
 
-    wx.showToast({
-      title: '正在提交订单',
-      icon: 'loading',
-      duration: 10000
-    })
-
 
     let typeId = currentType.type_id
     if (currentType.id === 5) {
@@ -103,10 +97,22 @@ Page({
     }
 
 
+    let failCount = 0
+
     if (currentType.id === 2 || currentType.id === 5) {
       // 微信二维码打印
       pushScanOrder()
     } else {
+      uploadAllFile()
+    }
+
+    function uploadAllFile() {
+      wx.showToast({
+        title: '正在上传图片',
+        icon: 'loading',
+        duration: 10000
+      })
+
       // 多张图片
       let count = 0
       for (let i = 0; i < imgUrls.length; i++) {
@@ -117,30 +123,54 @@ Page({
               imgUrls[i].status = 'success'
               imgUrls[i].url = res.image_url
               imgUrls[i].key = res.image_key
-              count === imgUrls.length && pushOrder()
+              count === imgUrls.length && vaildUpload()
             })
             .catch(err => {
               console.log('ac', err)
               count++
+              failCount++
               imgUrls[i].status = 'fail'
-              count === imgUrls.length && pushOrder()
-              throw new Error("UPLOAD:normal");
+              count === imgUrls.length && vaildUpload()
             })
         } else {
           count++
-          count === imgUrls.length && pushOrder()
+          count === imgUrls.length && vaildUpload()
         }
       }
     }
 
-    // 
-    function pushOrder() {
-      const imgs = imgUrls
-        .filter(item => item.status === 'success')
-        .map(item => item.key)
-        // .join(',')
+    function vaildUpload() {
+      if (failCount > 0) {
+        wx.hideToast()
+        wx.showModal({
+          title: '提示',
+          content: `有${failCount}张图片上传失败,是否继续`,
+          confirmText: '确定',
+          cancelText: '重新上传',
+          success: function(res) {
+            if (res.confirm) {
+              commitOrder()
+            } else if (res.cancel) {
+              failCount = 0
+              uploadAllFile()
+            }
+          }
+        })
+      } else {
+        commitOrder()
+      }
+    }
 
-      console.log(imgs)
+    function commitOrder() {
+
+      wx.showToast({
+        title: '正在提交订单',
+        icon: 'loading',
+        duration: 10000
+      })
+
+      const imgs = imgUrls.filter(item => item.status === 'success').map(item => item.key)
+      count = imgs.length
 
       addOrderNew(typeId, imgs)
         .then(res => {

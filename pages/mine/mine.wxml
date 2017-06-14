@@ -18,12 +18,12 @@
     <text class="userinfo-nickname">{{userInfo.nickName}}</text>
   </view>
   <view class="tab-nav">
-    <view wx:for="{{ tabNav }}" bindtap="onTabNav" data-index="{{ index }}" class="tab-nav-item {{index === activeTab ? 'active': ''}}">
+    <view wx:for="{{ tabNav }}" wx:key="{{index}}" bindtap="onTabNav" data-index="{{ index }}" class="tab-nav-item {{index === activeTab ? 'active': ''}}">
       <text>{{ item }}</text>
     </view>
   </view>
   <scroll-view scroll-y="true" class="column-wrapper" bindscroll="lower">
-    <block wx:for="{{ activeOrderList }}">
+    <block wx:for="{{ activeOrderList }}" wx:key="{{index}}">
       <template is="master-column" data="{{ ...item }}" />
     </block>
     <view wx:if="{{ activeOrderList.length===0 }}">没有数据 </view>
