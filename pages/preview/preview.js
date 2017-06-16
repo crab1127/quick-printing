@@ -48,9 +48,17 @@ Page({
     // 监听编辑图片页面发送的事件
     app.event.on('img', res => {
       const { imgUrls } = this.data
-      imgUrls[res.index].status = 'success'
-      imgUrls[res.index].url = decodeURIComponent(res.img)
-      imgUrls[res.index].key = decodeURIComponent(res.key)
+      if (Object.prototype.toString.call(imgUrls[res.index]) === '[object Object]') {
+        imgUrls[res.index].status = 'success'
+        imgUrls[res.index].url = decodeURIComponent(res.img)
+        imgUrls[res.index].key = decodeURIComponent(res.key)
+      } else {
+        imgUrls[res.index] = {
+          status: 'success',
+          url: decodeURIComponent(res.img),
+          key: decodeURIComponent(res.key)
+        }
+      }
       this.setData({
         imgUrls: imgUrls
       })
@@ -97,44 +105,54 @@ Page({
     }
 
 
-    let failCount = 0
+    let failCount = 2
+    let imgLength = imgUrls.length
 
     if (currentType.id === 2 || currentType.id === 5) {
       // 微信二维码打印
       pushScanOrder()
     } else {
-      uploadAllFile()
+      uploadAllFile(0)
     }
 
-    function uploadAllFile() {
+    function uploadAllFile(i) {
+
       wx.showToast({
-        title: '正在上传图片',
+        title: `正在上传第${i + 1}张图片`,
         icon: 'loading',
         duration: 10000
       })
 
-      // 多张图片
-      let count = 0
-      for (let i = 0; i < imgUrls.length; i++) {
-        if (/^wxfile:\/\/\S*/g.test(imgUrls[i].url)) {
-          uploadFile(imgUrls[i].url)
-            .then(res => {
-              count++
-              imgUrls[i].status = 'success'
-              imgUrls[i].url = res.image_url
-              imgUrls[i].key = res.image_key
-              count === imgUrls.length && vaildUpload()
-            })
-            .catch(err => {
-              console.log('ac', err)
-              count++
-              failCount++
-              imgUrls[i].status = 'fail'
-              count === imgUrls.length && vaildUpload()
-            })
+      if (/^wxfile:\/\/\S*/g.test(imgUrls[i].url)) {
+        uploadFile(imgUrls[i].url)
+          .then(res => {
+            imgUrls[i].status = 'success'
+            imgUrls[i].url = res.image_url
+            imgUrls[i].key = res.image_key
+            i++
+            if (i === imgLength) {
+              vaildUpload()
+            } else {
+              uploadAllFile(i)
+            }
+          })
+          .catch(err => {
+            console.log('ac', err)
+            failCount++;
+            imgUrls[i].status = 'fail';
+            i++;
+            if (i === imgLength) {
+              vaildUpload()
+            } else {
+              uploadAllFile(i)
+            }
+          })
+      } else {
+        i++;
+        if (i === imgLength) {
+          vaildUpload()
         } else {
-          count++
-          count === imgUrls.length && vaildUpload()
+          uploadAllFile(i)
         }
       }
     }
@@ -152,7 +170,7 @@ Page({
               commitOrder()
             } else if (res.cancel) {
               failCount = 0
-              uploadAllFile()
+              uploadAllFile(0)
             }
           }
         })

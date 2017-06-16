@@ -37,6 +37,8 @@
 .cropper{
     z-index: 1;
     margin: auto;
+    vertical-align: bottom;
+    display: block;
     background-color: rgb(255,255,255);
 }
 .caid-tips{

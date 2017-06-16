@@ -30,5 +30,5 @@
 </view>
 <view class="button-wrap flex">
   <button type="default" class="btn-outline flex-item frist" bindtap="onDel"> 删除订单 </button>
-  <button type="primary" class="flex-item" data-step="keep" bindtap="onPrint"> 扫码打印 </button>
+  <button type="primary" class="flex-item" data-step="keep" bindtap="onPrint"> 扫码取件 </button>
 </view>
