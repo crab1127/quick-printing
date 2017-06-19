@@ -5,6 +5,8 @@ Page({
     id: 'cropper',
     width: 600,
     height: 600,
+    width1: 604,
+    height1: 604,
     minScale: 0.1,
     maxScale: 5,
     minRotateAngle: 45, //判断发生旋转的最小角度
@@ -20,6 +22,8 @@ Page({
       this.setData({
         width: width,
         height: height,
+        width1: 4 + parseInt(width),
+        height1: 4 + parseInt(height),
         index: index,
         typeId: id,
         src: decodeURIComponent(option.img)

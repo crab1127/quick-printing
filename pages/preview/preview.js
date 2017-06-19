@@ -105,7 +105,7 @@ Page({
     }
 
 
-    let failCount = 2
+    let failCount = 0
     let imgLength = imgUrls.length
 
     if (currentType.id === 2 || currentType.id === 5) {
