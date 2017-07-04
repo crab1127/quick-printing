@@ -40,8 +40,9 @@ Page({
     }
   },
   onPreview(e) {
-    const id = e.currentTarget.dataset.id
-    const currentType = PRINT_TYPE.find(item => id === item.id)
+    console.log(24235352342423)
+    const id = parseInt(e.currentTarget.dataset.id)
+    const currentType = PRINT_TYPE.find(item => id == item.id)
 
     // 身份证
     if (id === 7) {

@@ -1,13 +1,45 @@
 <view>
-  <view style="color: #fff; position: absolute">.</view>
   <swiper indicator-dots="true" bindchange="onSlideChange" current="{{current}}" style="width: {{ width }}px; height: {{ height }}px;">
-    <swiper-item wx:for="{{slides}}" wx:key="{{index}}" class="slide-item">
+    <swiper-item class="slide-item">
       <view class="slide-item-title">
-        <text>{{ item.name }}</text>
-        <text class="info">{{ item.sizeInfo }}</text>
+        <text>4R照片</text>
+        <text class="info">15.2cm*10.2cm</text>
       </view>
-      <view class="slide-item-content" data-id="{{ item.id }}" bindtap="onPreview">
-        <image src="{{ item.img }}" class="slide-image" />
+      <view class="slide-item-content" data-id="1" bindtap="onPreview">
+        <image src="/img/slide-2.png" class="slide-image" />
+        <text class="gray">点击上传</text>
+      </view>
+    </swiper-item>
+
+    <swiper-item class="slide-item">
+      <view class="slide-item-title">
+        <text>A4照片</text>
+        <text class="info">29.7cm*21cm</text>
+      </view>
+      <view class="slide-item-content" data-id="4" bindtap="onPreview">
+        <image src="/img/slide-5.png" class="slide-image" />
+        <text class="gray">点击上传</text>
+      </view>
+    </swiper-item>
+
+    <swiper-item class="slide-item">
+      <view class="slide-item-title">
+        <text>证件照</text>
+        <text class="info">大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm</text>
+      </view>
+      <view class="slide-item-content" data-id="5" bindtap="onPreview">
+        <image src="/img/slide-6.png" class="slide-image" />
+        <text class="gray">点击上传</text>
+      </view>
+    </swiper-item>
+
+    <swiper-item class="slide-item">
+      <view class="slide-item-title">
+        <text>身份证打印</text>
+        <text class="info"></text>
+      </view>
+      <view class="slide-item-content" data-id="7" bindtap="onPreview">
+        <image src="/img/slide-9.png" class="slide-image" />
         <text class="gray">点击上传</text>
       </view>
     </swiper-item>
