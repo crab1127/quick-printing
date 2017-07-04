@@ -14,6 +14,17 @@ Page({
         height: 25
       },
       clickable: true
+    }, {
+      id: 2,
+      iconPath: '/img/location1.png',
+      position: {
+        left: 10,
+        // bottom: 10,
+        top: wx.getSystemInfoSync().windowHeight - 100,
+        width: 30,
+        height: 30
+      },
+      clickable: true
     }]
   },
   regionchange(e) {
@@ -31,11 +42,18 @@ Page({
     })
   },
   controltap(e) {
-    wx.navigateTo({
-      url: '../networkList/networkList'
-    })
+    console.log(e)
+    if (e.controlId == 1) {
+      wx.navigateTo({
+        url: '../networkList/networkList'
+      })
+    }
+    if (e.controlId == 2) {
+      this.mapCtx.moveToLocation()
+    }
   },
   onLoad() {
+    this.mapCtx = wx.createMapContext('map')
     wx.showNavigationBarLoading()
     wx.getSystemInfo({
       success: (res) => {

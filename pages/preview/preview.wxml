@@ -18,10 +18,10 @@
       </view>
       <view>
         <button bindtap="onIdChange" size="mini" data-type="mini" type="{{idSize === 'mini' ? 'primary' : 'default' }}">
-          小寸
+          小一寸
          </button>
         <button bindtap="onIdChange" size="mini" data-type="big" type="{{idSize === 'big' ? 'primary' : 'default' }}">
-          大寸
+          大一寸
          </button>
       </view>
     </view>

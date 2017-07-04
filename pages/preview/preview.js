@@ -108,7 +108,7 @@ Page({
     let failCount = 0
     let imgLength = imgUrls.length
 
-    if (currentType.id === 2 || currentType.id === 5) {
+    if (currentType.id === 2) {
       // 微信二维码打印
       pushScanOrder()
     } else {
@@ -261,7 +261,7 @@ Page({
       }
 
       //更新数据
-      addOrder(typeId, imgUrls[0].url, wxScanParams)
+      addOrder(typeId, imgUrls[0].originUrl, wxScanParams)
         .then(res => {
           console.log(res)
           wx.hideToast()
@@ -408,7 +408,7 @@ Page({
 
     wx.chooseImage({
       count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片

@@ -1,4 +1,5 @@
 <view>
+  <view style="color: #fff; position: absolute">.</view>
   <swiper indicator-dots="true" bindchange="onSlideChange" current="{{current}}" style="width: {{ width }}px; height: {{ height }}px;">
     <swiper-item wx:for="{{slides}}" wx:key="{{index}}" class="slide-item">
       <view class="slide-item-title">
