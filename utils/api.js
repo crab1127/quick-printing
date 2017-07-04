@@ -286,5 +286,20 @@ export const sendPay = (data = {}) => {
       }
     })
   })
+}
 
+// 退款
+export const exitPay = (id) => {
+  let OPEN_ID = wx.getStorageSync('open_id')
+  const params = Object.assign({
+    method: API_METHOD.exit_pay,
+    open_id: OPEN_ID,
+    print_order_id: id
+  }, baseParams)
+
+  return new Promise((resolve, reject) => {
+    get(API_ROOT, params)
+      .then(res => resolve(res))
+      .catch(err => reject(err))
+  })
 }

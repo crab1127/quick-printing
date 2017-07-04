@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-import { getOrderDetail, delOrder, copyOrder } from '../../utils/api'
+import { getOrderDetail, delOrder, copyOrder, exitPay } from '../../utils/api'
 import { json2Form, dateFormat } from '../../utils/util'
 import { PRINT_TYPE } from '../../utils/config'
 const app = getApp()
@@ -38,6 +38,8 @@ Page({
         height: 1060
       }
     }
+
+    console.log(base)
 
     this.setImgSize()
 
@@ -150,5 +152,21 @@ Page({
       height: imgHeith
     })
   },
+  onExitPay() {
+    let id = this.data.base.id;
 
+    exitPay(id)
+      .then(res => {
+        wx.showToast({
+          title: '退款成功',
+          duration: 2000
+        })
+      })
+      .catch(err => {
+        wx.showToast({
+          title: '退款失败',
+          duration: 2000
+        })
+      })
+  }
 })

@@ -1,4 +1,4 @@
-export const API_ROOT = 'https://wechat.redseawetoo.com/api'
+export const API_ROOT = 'https://sandbox.wechat.redseawetoo.com/api'
 
 export const APP_ID = 'wx09e3a5d21e215dd5'
 export const APP_ACOUNT = 'gh_43f2f461d7ac'
@@ -113,5 +113,8 @@ export const API_METHOD = {
   // 多图订单
   add_multiple_print_order: 'add_multiple_print_order',
   // 支付
-  create_pay: 'create_wechat_mina_pay'
+  create_pay: 'create_wechat_mina_pay',
+
+  // 退款
+  exit_pay: 'apply_for_refund'
 }
