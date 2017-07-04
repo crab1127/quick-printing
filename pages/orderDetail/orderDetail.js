@@ -163,10 +163,17 @@ Page({
         })
       })
       .catch(err => {
-        wx.showToast({
-          title: '退款失败',
-          duration: 2000
-        })
+        try {
+          wx.showModal({
+            title: '提示',
+            content: err.result_message
+          })
+        } catch(err) {
+          wx.showModal({
+            title: '提示',
+            content: '退款失败'
+          })
+        }
       })
   }
 })

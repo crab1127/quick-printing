@@ -28,5 +28,4 @@
 </view>
 <view class="button-wrap" wx:if="{{ isShow }}">
   <button type="primary" class="btn-submit" bindtap="onPay"> 提交并支付 </button>
-  <view>提交订单 －－ 支付 －－ 获取打印码</view>
 </view>

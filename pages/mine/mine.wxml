@@ -26,7 +26,7 @@
     <block wx:for="{{ activeOrderList }}" wx:key="{{index}}">
       <template is="master-column" data="{{ ...item }}" />
     </block>
-    <view wx:if="{{ activeOrderList.length===0 }}">没有数据 </view>
+    <view wx:if="{{ !hidden && activeOrderList.length===0 }}">没有数据 </view>
     <view wx:if="{{hidden}}" class="loading">
       加载中...
     </view>
