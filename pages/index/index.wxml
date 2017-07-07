@@ -1,49 +1,35 @@
-<view>
-  <swiper indicator-dots="true" bindchange="onSlideChange" current="{{current}}" style="width: {{ width }}px; height: {{ height }}px;">
-    <swiper-item class="slide-item">
-      <view class="slide-item-title">
-        <text>4R照片</text>
-        <text class="info">15.2cm*10.2cm</text>
-      </view>
-      <view class="slide-item-content" data-id="1" bindtap="onPreview">
-        <image src="/img/slide-2.png" class="slide-image" />
-        <text class="gray">点击上传</text>
-      </view>
-    </swiper-item>
+<view class="index-container">
+  <view class="slide-item" data-id="1" bindtap="onPreview">
+    <image src="/img/4R.png" class="slide-image" />
+    <view class="slide-item-title">
+      <text class="h4">4R照片打印</text>
+      <text class="info">15.2cm*10.2cm</text>
+    </view>
 
-    <swiper-item class="slide-item">
-      <view class="slide-item-title">
-        <text>A4照片</text>
-        <text class="info">29.7cm*21cm</text>
-      </view>
-      <view class="slide-item-content" data-id="4" bindtap="onPreview">
-        <image src="/img/slide-5.png" class="slide-image" />
-        <text class="gray">点击上传</text>
-      </view>
-    </swiper-item>
+  </view>
 
-    <swiper-item class="slide-item">
-      <view class="slide-item-title">
-        <text>证件照</text>
-        <text class="info">大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm</text>
-      </view>
-      <view class="slide-item-content" data-id="5" bindtap="onPreview">
-        <image src="/img/slide-6.png" class="slide-image" />
-        <text class="gray">点击上传</text>
-      </view>
-    </swiper-item>
+  <view class="slide-item" data-id="4" bindtap="onPreview">
+    <image src="/img/A4.png" class="slide-image" />
+    <view class="slide-item-title">
+      <text class="h4">A4照片打印</text>
+      <text class="info">29.7cm*21cm</text>
+    </view>
+  </view>
 
-    <swiper-item class="slide-item">
-      <view class="slide-item-title">
-        <text>身份证打印</text>
-        <text class="info"></text>
-      </view>
-      <view class="slide-item-content" data-id="7" bindtap="onPreview">
-        <image src="/img/slide-9.png" class="slide-image" />
-        <text class="gray">点击上传</text>
-      </view>
-    </swiper-item>
-  </swiper>
-  <image src="/img/left.png" class="slide-left" bindtap="onLeft"></image>
-  <image src="/img/right.png" class="slide-right" bindtap="onRight"></image>
+  <view class="slide-item" data-id="5" bindtap="onPreview">
+    <image src="/img/ZJZ.png" class="slide-image" />
+    <view class="slide-item-title">
+      <text class="h4">证件照打印</text>
+      <text class="info">大一寸：4.8cm*3.3cm</text>
+      <text class="info">小一寸：3.5cm*2.5m</text>
+    </view>
+  </view>
+
+  <view class="slide-item" data-id="7" bindtap="onPreview">
+    <image src="/img/SFZ.png" class="slide-image" />
+    <view class="slide-item-title">
+      <text class="h4">身份证打印</text>
+      <text class="info">15.2cm*10.2cm</text>
+    </view>
+  </view>
 </view>

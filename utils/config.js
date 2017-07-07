@@ -1,4 +1,5 @@
 export const API_ROOT = 'https://wechat.redseawetoo.com/api'
+  // export const API_ROOT = 'https://sandbox.wechat.redseawetoo.com/api'
 
 export const APP_ID = 'wx09e3a5d21e215dd5'
 export const APP_ACOUNT = 'gh_43f2f461d7ac'
@@ -11,7 +12,7 @@ export const OPEN_ID = wx.getStorageSync('open_id') || ''
 export const PRINT_TYPE = [{
     id: 1,
     type_id: 801,
-    count: 9,
+    count: 1,
     width: 750,
     height: 1116,
     cropWidth: 640,
@@ -21,30 +22,10 @@ export const PRINT_TYPE = [{
     sizeInfo: '15.2cm*10.2cm',
     img: '/img/slide-2.png'
   },
-  // {
-  //   id: 2,
-  //   type_id: 888,
-  //   count: 1,
-  //   width: 610,
-  //   height: 916,
-  //   name: '微信二维码',
-  //   img: '/img/slide-8.png'
-  // },
-  // {
-  //   id: 2,
-  //   count: 1,
-  //   name: '打印文档',
-  //   img: '/img/slide-3.png'
-  // }, {
-  //   id: 3,
-  //   count: 1,
-  //   name: '打印明信片',
-  //   img: '/img/slide-4.png'
-  // }, 
   {
     id: 4,
     type_id: 301,
-    count: 9,
+    count: 1,
     width: 750,
     height: 1060,
     cropWidth: 640,
@@ -70,12 +51,6 @@ export const PRINT_TYPE = [{
     sizeInfo: '大寸：4.8cm*3.3cm／小寸：4.8cm*3.3cm',
     img: '/img/slide-6.png'
   },
-  // {
-  //   id: 6,
-  //   count: 1,
-  //   name: '打印台历',
-  //   img: '/img/slide-7.png'
-  // },
   {
     id: 7,
     type_id: 303,

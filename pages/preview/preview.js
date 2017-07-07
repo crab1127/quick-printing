@@ -160,20 +160,27 @@ Page({
     function vaildUpload() {
       if (failCount > 0) {
         wx.hideToast()
-        wx.showModal({
-          title: '提示',
-          content: `有${failCount}张图片上传失败,是否继续`,
-          confirmText: '确定',
-          cancelText: '重新上传',
-          success: function(res) {
-            if (res.confirm) {
-              commitOrder()
-            } else if (res.cancel) {
-              failCount = 0
-              uploadAllFile(0)
+        if (failCount == imgLength) {
+          wx.showModal({
+            title: '提示',
+            content: `图片上传失败,请重试`
+          })
+        } else {
+          wx.showModal({
+            title: '提示',
+            content: `有${failCount}张图片上传失败,是否继续`,
+            confirmText: '确定',
+            cancelText: '重新上传',
+            success: function(res) {
+              if (res.confirm) {
+                commitOrder()
+              } else if (res.cancel) {
+                failCount = 0
+                uploadAllFile(0)
+              }
             }
-          }
-        })
+          })
+        }
       } else {
         commitOrder()
       }

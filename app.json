@@ -7,7 +7,6 @@
     "pages/orderSure/orderSure",
     "pages/cropper/cropper",
     "pages/mine/mine",
-    "pages/pay/pay",
     "pages/networkList/networkList",
     "pages/orderDetail/orderDetail"
   ],
