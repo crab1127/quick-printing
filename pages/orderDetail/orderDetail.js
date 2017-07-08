@@ -13,7 +13,8 @@ Page({
     width: 0,
     height: 0,
     swiperHeight: 0,
-    swiperWidth: 0
+    swiperWidth: 0,
+    isLoad: false
   },
   onLoad: function(option) {
     console.log(option)
@@ -46,34 +47,37 @@ Page({
     getOrderDetail(base.id)
       .then(res => {
         this.setData({
-          detail: res
+          detail: res,
+          isLoad: true
         })
       })
 
   },
   onPrint() {
-    const count = this.data.detail.length
-      // 根据返回的 机器码 提交订单。付款
-    wx.scanCode({
-      onlyFromCamera: true,
-      success: (res) => {
+    if (this.data.detail && this.data.detail.length) {
+      const count = this.data.detail.length
+        // 根据返回的 机器码 提交订单。付款
+      wx.scanCode({
+        onlyFromCamera: true,
+        success: (res) => {
 
-        const orderInfo = {
-          create_time: this.data.base.create_time,
-          id: this.data.base.id,
-          qr_msg: res.result,
-          print_type_id: this.currentType.type_id,
-          print_type_name: this.currentType.name,
-          // 支付订单索要
-          print_count: count,
-          type: this.currentType.type
+          const orderInfo = {
+            create_time: this.data.base.create_time,
+            id: this.data.base.id,
+            qr_msg: res.result,
+            print_type_id: this.currentType.type_id,
+            print_type_name: this.currentType.name,
+            // 支付订单索要
+            print_count: count,
+            type: this.currentType.type
+          }
+
+          wx.navigateTo({
+            url: '../orderSure/orderSure?' + json2Form(orderInfo)
+          })
         }
-
-        wx.navigateTo({
-          url: '../orderSure/orderSure?' + json2Form(orderInfo)
-        })
-      }
-    })
+      })
+    }
   },
   onCopy() {
     wx.showToast({
@@ -168,7 +172,7 @@ Page({
             title: '提示',
             content: err.result_message
           })
-        } catch(err) {
+        } catch (err) {
           wx.showModal({
             title: '提示',
             content: '退款失败'

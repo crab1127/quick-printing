@@ -28,7 +28,7 @@
     </block>
   </view>-->
 </view>
-<view class="button-wrap flex">
+<view class="button-wrap flex" wx:if="isLoad">
   <button type="default" class="btn-outline flex-item frist" bindtap="onDel"> 删除订单 </button>
   <button type="primary" class="flex-item" data-step="keep" bindtap="onPrint"> 扫码取件 </button>
   <button type="warn" wx:if="{{ base.print_order_status_id == '101'}}" class="flex-item" data-step="keep" bindtap="onExitPay"> 退款  </button>

@@ -20,7 +20,7 @@ export const request = (method = 'GET') => (url, data) => {
           resolve(res.data)
         } else {
           reject(res.data)
-          fundebug.notifyError('API:' + url + '; ' + JSON.stringify(data) + '; ' + JSON.stringify(res.data))
+            // fundebug.notifyError('API:' + url + '; ' + JSON.stringify(data) + '; ' + JSON.stringify(res.data))
         }
       },
       fail: function(err) {
