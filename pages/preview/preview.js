@@ -375,7 +375,12 @@ Page({
   },
   imgInit(imgUrl) {
     const imgUrls = imgUrl.split(',')
-      // imgUrls.concat(imgUrls)
+    if (!imgUrls.length) {
+      wx.navigateTo({
+        url: `../index/index`
+      })
+    }
+    // imgUrls.concat(imgUrls)
     const ac = imgUrls.map(item => {
       return {
         'url': item,
