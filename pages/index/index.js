@@ -1,5 +1,6 @@
 // mine.js
 import { PRINT_TYPE } from '../../utils/config'
+import { uploadFile } from '../../utils/api'
 var app = getApp()
 Page({
   data: {
@@ -24,10 +25,27 @@ Page({
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: (res) => {
-          console.log(res)
-          wx.navigateTo({
-            url: `../preview/preview?id=${id}&imageUrls=${res.tempFilePaths.join(',')}`
+
+          wx.showToast({
+            title: `正在上传图片`,
+            icon: 'loading',
+            duration: 10000
           })
+
+          uploadFile(res.tempFilePaths[0])
+            .then(res => {
+              console.log(res)
+              wx.navigateTo({
+                url: `../preview/preview?id=${id}&key=${res.image_key}&url=${res.thumbnail_url}`
+              })
+            })
+            .catch(err => {
+              wx.showModal({
+                title: '提示',
+                content: `图片上传失败,请重试`
+              })
+            })
+
         }
       })
     }

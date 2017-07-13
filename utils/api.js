@@ -230,6 +230,20 @@ export const uploadFile = (filePath, crop) => {
   })
 }
 
+// 剪切图片
+export const cropperImage = (fileKey, crop) => {
+  const params = Object.assign({
+    method: API_METHOD.crop_image,
+    image_key: decodeURIComponent(fileKey),
+  }, baseParams, crop)
+
+  return new Promise((resolve, reject) => {
+    get(API_ROOT, params)
+      .then(res => resolve(res))
+      .catch(err => reject(err))
+  })
+}
+
 // 多张图片创建订单
 export const addOrderNew = (type, imgs, wxScan = {}) => {
   let OPEN_ID = wx.getStorageSync('open_id')

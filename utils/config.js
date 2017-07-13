@@ -1,5 +1,5 @@
-export const API_ROOT = 'https://wechat.redseawetoo.com/api'
-  // export const API_ROOT = 'https://sandbox.wechat.redseawetoo.com/api'
+// export const API_ROOT = 'https://wechat.redseawetoo.com/api'
+export const API_ROOT = 'https://sandbox.wechat.redseawetoo.com/api'
 
 export const APP_ID = 'wx09e3a5d21e215dd5'
 export const APP_ACOUNT = 'gh_43f2f461d7ac'
@@ -83,8 +83,10 @@ export const API_METHOD = {
   copy_print_order: 'copy_print_order',
   // 根据Code获取OpenId
   get_open_id_by_code: 'get_open_id_by_code',
-  // 上传，编辑图片
+  // 上传图片
   upload_image: 'upload_image',
+  // 编辑图片
+  crop_image: 'crop_image',
   // 多图订单
   add_multiple_print_order: 'add_multiple_print_order',
   // 支付

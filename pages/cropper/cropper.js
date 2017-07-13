@@ -1,4 +1,4 @@
-import { uploadFile } from '../../utils/api'
+import { cropperImage } from '../../utils/api'
 const app = getApp()
 Page({
   data: {
@@ -16,7 +16,7 @@ Page({
   onLoad(option) {
     let self = this
     let { src } = self.data
-    const { img, index, width, height, id = '' } = option
+    const { img, key, index, width, height, id = '' } = option
     try {
       console.log(1234567, decodeURIComponent(option.img))
       this.setData({
@@ -26,6 +26,7 @@ Page({
         height1: 4 + parseInt(height),
         index: index,
         typeId: id,
+        key: key,
         src: decodeURIComponent(option.img)
       })
       self.initCanvas(self.data.src)
@@ -176,7 +177,7 @@ Page({
   },
   getCropperImage() {
     let self = this
-    let { id, index, src } = self.data
+    let { id, index, src, key } = self.data
     wx.showToast({
       title: '剪切图片',
       icon: 'loading',
@@ -185,8 +186,9 @@ Page({
 
 
 
-    uploadFile(src, this.getCropperSize())
+    cropperImage(key, this.getCropperSize())
       .then(res => {
+        console.log(res)
         wx.hideToast()
         app.event.emit('img', {
           index: index,

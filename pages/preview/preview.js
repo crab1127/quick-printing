@@ -18,32 +18,28 @@ Page({
     idSize: 'mini'
   },
   onLoad(option) {
-    if (!option.id) {
+    if (!option.id || !option.key || !option.url) {
       wx.navigateTo({
         url: '../index/index'
       })
     }
 
     wx.getSystemInfo({
-        success: (res) => {
-          this.setData({
-            swipeWidth: res.windowWidth,
-            swipeHeight: res.windowHeight - 66
-          })
-        }
-      })
-      // option.id = 5
-      // option.imageUrls = "wxfile://tmp_937687355o6zAJs22dwC_vej-pk7EQJoTUTPw1488251766880.jpg"
+      success: (res) => {
+        this.setData({
+          swipeWidth: res.windowWidth,
+          swipeHeight: res.windowHeight - 66
+        })
+      }
+    })
 
     this.typeInit(option.id)
 
-    if (option.imageUrls) {
-      console.log('option.imageUrls', option.imageUrls)
-      this.imgInit(option.imageUrls)
 
-      // 4r，a4 的
-      this.setImgSize()
-    }
+    this.imgInit(option.key, option.url)
+
+    // 4r，a4
+    this.setImgSize()
 
     // 监听编辑图片页面发送的事件
     app.event.on('img', res => {
@@ -79,7 +75,8 @@ Page({
       id: id,
       img: imgUrls[current].originUrl,
       width: cropWidth,
-      height: cropHeight
+      height: cropHeight,
+      key: imgUrls[current].originKey
     }
     wx.navigateTo({
       url: `../cropper/cropper?${json2Form(params)}`
@@ -105,85 +102,11 @@ Page({
     }
 
 
-    let failCount = 0
-    let imgLength = imgUrls.length
-
     if (currentType.id === 2) {
       // 微信二维码打印
       pushScanOrder()
     } else {
-      uploadAllFile(0)
-    }
-
-    function uploadAllFile(i) {
-
-      wx.showToast({
-        title: `正在上传第${i + 1}张图片`,
-        icon: 'loading',
-        duration: 10000
-      })
-
-      if (/^wxfile:\/\/\S*/g.test(imgUrls[i].url)) {
-        uploadFile(imgUrls[i].url)
-          .then(res => {
-            imgUrls[i].status = 'success'
-            imgUrls[i].url = res.image_url
-            imgUrls[i].key = res.image_key
-            i++
-            if (i === imgLength) {
-              vaildUpload()
-            } else {
-              uploadAllFile(i)
-            }
-          })
-          .catch(err => {
-            console.log('ac', err)
-            failCount++;
-            imgUrls[i].status = 'fail';
-            i++;
-            if (i === imgLength) {
-              vaildUpload()
-            } else {
-              uploadAllFile(i)
-            }
-          })
-      } else {
-        i++;
-        if (i === imgLength) {
-          vaildUpload()
-        } else {
-          uploadAllFile(i)
-        }
-      }
-    }
-
-    function vaildUpload() {
-      if (failCount > 0) {
-        wx.hideToast()
-        if (failCount == imgLength) {
-          wx.showModal({
-            title: '提示',
-            content: `图片上传失败,请重试`
-          })
-        } else {
-          wx.showModal({
-            title: '提示',
-            content: `有${failCount}张图片上传失败,是否继续`,
-            confirmText: '确定',
-            cancelText: '重新上传',
-            success: function(res) {
-              if (res.confirm) {
-                commitOrder()
-              } else if (res.cancel) {
-                failCount = 0
-                uploadAllFile(0)
-              }
-            }
-          })
-        }
-      } else {
-        commitOrder()
-      }
+      commitOrder()
     }
 
     function commitOrder() {
@@ -194,7 +117,7 @@ Page({
         duration: 10000
       })
 
-      const imgs = imgUrls.filter(item => item.status === 'success').map(item => item.key)
+      const imgs = imgUrls.map(item => item.key)
       count = imgs.length
 
       addOrderNew(typeId, imgs)
@@ -216,7 +139,6 @@ Page({
             print_count: count,
             type: currentType.type
           }
-
           app.event.emit('newOrder', orderInfo)
 
           if (step === 'stop') {
@@ -373,22 +295,14 @@ Page({
       templateType: templateType
     })
   },
-  imgInit(imgUrl) {
-    const imgUrls = imgUrl.split(',')
-    if (!imgUrls.length) {
-      wx.navigateTo({
-        url: `../index/index`
-      })
-    }
-    // imgUrls.concat(imgUrls)
-    const ac = imgUrls.map(item => {
-      return {
-        'url': item,
-        'originUrl': item
-      }
-    })
+  imgInit(key, url) {
     this.setData({
-      imgUrls: ac
+      imgUrls: [{
+        key,
+        url,
+        originKey: key,
+        originUrl: url
+      }]
     })
   },
   // 证件照
