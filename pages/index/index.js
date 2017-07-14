@@ -34,12 +34,13 @@ Page({
 
           uploadFile(res.tempFilePaths[0])
             .then(res => {
-              console.log(res)
+              wx.hideToast()
               wx.navigateTo({
-                url: `../preview/preview?id=${id}&key=${res.image_key}&url=${res.thumbnail_url}`
+                url: `../preview/preview?id=${id}&key=${encodeURIComponent(res.image_key)}&url=${encodeURIComponent(res.thumbnail_url)}`
               })
             })
             .catch(err => {
+              wx.hideToast()
               wx.showModal({
                 title: '提示',
                 content: `图片上传失败,请重试`

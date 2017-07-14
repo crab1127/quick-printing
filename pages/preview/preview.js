@@ -18,7 +18,7 @@ Page({
     idSize: 'mini'
   },
   onLoad(option) {
-    if (!option.id || !option.key || !option.url) {
+    if (!option.id) {
       wx.navigateTo({
         url: '../index/index'
       })
@@ -36,7 +36,7 @@ Page({
     this.typeInit(option.id)
 
 
-    this.imgInit(option.key, option.url)
+    this.imgInit(decodeURIComponent(option.key), decodeURIComponent(option.url))
 
     // 4r，a4
     this.setImgSize()
@@ -296,13 +296,20 @@ Page({
     })
   },
   imgInit(key, url) {
-    this.setData({
-      imgUrls: [{
-        key,
-        url,
-        originKey: key,
-        originUrl: url
-      }]
+    if (!key || !url) return;
+    const self = this
+    wx.downloadFile({
+      url: url,
+      success: function(res) {
+        self.setData({
+          imgUrls: [{
+            key,
+            url,
+            originKey: key,
+            originUrl: res.tempFilePath
+          }]
+        })
+      }
     })
   },
   // 证件照
@@ -331,24 +338,47 @@ Page({
   onChooseImg(e) {
     const current = e.currentTarget.dataset.current
     const imgUrls = this.data.imgUrls
-
+    const self = this
     wx.chooseImage({
       count: 1, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
-        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        // console.log(res)
-        const imgUrl = res.tempFilePaths.join(',')
-        imgUrls[current] = {
-          url: imgUrl,
-          originUrl: imgUrl
-        }
-        this.setData({
-          current: current,
-          imgUrls: imgUrls
+
+        wx.showToast({
+          title: `正在上传图片`,
+          icon: 'loading',
+          duration: 10000
         })
-        this.onEdit()
+
+        uploadFile(res.tempFilePaths[0])
+          .then(res => {
+            console.log(res)
+
+            wx.downloadFile({
+              url: res.thumbnail_url,
+              success: function(res1) {
+                imgUrls[current] = {
+                  url: res.thumbnail_url,
+                  originUrl: res1.tempFilePath,
+                  key: res.image_key,
+                  originKey: res.image_key,
+                }
+                self.setData({
+                  current: current,
+                  imgUrls: imgUrls
+                })
+                self.onEdit()
+              }
+            })
+
+          })
+          .catch(err => {
+            wx.showModal({
+              title: '提示',
+              content: `图片上传失败,请重试`
+            })
+          })
       }
     })
   },
