@@ -36,7 +36,7 @@ Page({
     this.typeInit(option.id)
 
 
-    this.imgInit(decodeURIComponent(option.key), decodeURIComponent(option.url))
+    this.imgInit(decodeURIComponent(option.key), decodeURIComponent(option.url), option.width, option.height)
 
     // 4r，a4
     this.setImgSize()
@@ -65,10 +65,6 @@ Page({
     let { id, cropWidth, cropHeight } = currentType
     let { imgUrls, current } = this.data
 
-    // if (id === 5 && this.data.idSize === 'mini') {
-    //   cropWidth = currentType.cropMinWidth
-    //   cropHeight = currentType.cropMinHeight
-    // }
 
     const params = {
       index: current,
@@ -76,7 +72,9 @@ Page({
       img: imgUrls[current].originUrl,
       width: cropWidth,
       height: cropHeight,
-      key: imgUrls[current].originKey
+      key: imgUrls[current].originKey,
+      imgWidth: imgUrls[current].width,
+      imgHeith: imgUrls[current].height
     }
     wx.navigateTo({
       url: `../cropper/cropper?${json2Form(params)}`
@@ -295,7 +293,7 @@ Page({
       templateType: templateType
     })
   },
-  imgInit(key, url) {
+  imgInit(key, url, width, height) {
     if (!key || !url) return;
     const self = this
     wx.downloadFile({
@@ -303,6 +301,8 @@ Page({
       success: function(res) {
         self.setData({
           imgUrls: [{
+            width,
+            height,
             key,
             url,
             originKey: key,
@@ -350,35 +350,43 @@ Page({
           icon: 'loading',
           duration: 10000
         })
+        wx.getImageInfo({
+          src: res.tempFilePaths[0],
+          success: function(imgInfo) {
 
-        uploadFile(res.tempFilePaths[0])
-          .then(res => {
-            console.log(res)
+            uploadFile(res.tempFilePaths[0])
+              .then(res => {
+                console.log(res)
 
-            wx.downloadFile({
-              url: res.thumbnail_url,
-              success: function(res1) {
-                imgUrls[current] = {
+                wx.downloadFile({
                   url: res.thumbnail_url,
-                  originUrl: res1.tempFilePath,
-                  key: res.image_key,
-                  originKey: res.image_key,
-                }
-                self.setData({
-                  current: current,
-                  imgUrls: imgUrls
+                  success: function(res1) {
+                    imgUrls[current] = {
+                      url: res.thumbnail_url,
+                      originUrl: res1.tempFilePath,
+                      key: res.image_key,
+                      width: imgInfo.width,
+                      height: imgInfo.height,
+                      originKey: res.image_key
+                    }
+                    self.setData({
+                      current: current,
+                      imgUrls: imgUrls
+                    })
+                    self.onEdit()
+                  }
                 })
-                self.onEdit()
-              }
-            })
 
-          })
-          .catch(err => {
-            wx.showModal({
-              title: '提示',
-              content: `图片上传失败,请重试`
-            })
-          })
+
+              })
+              .catch(err => {
+                wx.showModal({
+                  title: '提示',
+                  content: `图片上传失败,请重试`
+                })
+              })
+          }
+        })
       }
     })
   },

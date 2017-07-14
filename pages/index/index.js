@@ -32,20 +32,27 @@ Page({
             duration: 10000
           })
 
-          uploadFile(res.tempFilePaths[0])
-            .then(res => {
-              wx.hideToast()
-              wx.navigateTo({
-                url: `../preview/preview?id=${id}&key=${encodeURIComponent(res.image_key)}&url=${encodeURIComponent(res.thumbnail_url)}`
-              })
-            })
-            .catch(err => {
-              wx.hideToast()
-              wx.showModal({
-                title: '提示',
-                content: `图片上传失败,请重试`
-              })
-            })
+          wx.getImageInfo({
+            src: res.tempFilePaths[0],
+            success: function(imgInfo) {
+              uploadFile(res.tempFilePaths[0])
+                .then(res => {
+                  wx.hideToast()
+                  wx.navigateTo({
+                    url: `../preview/preview?id=${id}&key=${encodeURIComponent(res.image_key)}&url=${encodeURIComponent(res.thumbnail_url)}&width=${imgInfo.width}&height=${imgInfo.height}`
+                  })
+                })
+                .catch(err => {
+                  wx.hideToast()
+                  wx.showModal({
+                    title: '提示',
+                    content: `图片上传失败,请重试`
+                  })
+                })
+            }
+          })
+
+
 
         }
       })

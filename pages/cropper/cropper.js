@@ -16,10 +16,12 @@ Page({
   onLoad(option) {
     let self = this
     let { src } = self.data
-    const { img, key, index, width, height, id = '' } = option
+    const { img, key, index, width, height, id = '', imgWidth, imgHeight } = option
     try {
       console.log(1234567, decodeURIComponent(option.img))
       this.setData({
+        imgWidth,
+        imgHeight,
         width: width,
         height: height,
         width1: 4 + parseInt(width),
@@ -62,9 +64,12 @@ Page({
     wx.getImageInfo({
       src,
       success(res) {
-        let { id, width, height } = self.data
+        let { id, width, height, imgWidth, imgHeight } = self.data
         let device = self.getDevice()
         let aspectRatio = res.height / res.width
+
+        // 原图和缩略图 比率
+        self.originAspectRatio = imgWidth / res.width
 
         self.aspectRatio = aspectRatio
         self.cropperTarget = src
@@ -271,10 +276,10 @@ Page({
     //   crop_x = Math.floor((self.cropperHeight - self.cropperWidth) / 2 * self.minRatio) + crop_y1
     //   crop_y = Math.floor((self.cropperWidth - self.cropperHeight) / 2 * self.minRatio) + crop_x1
     // }
-    const crop_width = Math.floor(self.cropperWidth * self.minRatio / self.newScale)
-    const crop_height = Math.floor(self.cropperHeight * self.minRatio / self.newScale)
-    crop_y = Math.floor(crop_y / self.newScale)
-    crop_x = Math.floor(crop_x / self.newScale)
+    const crop_width = Math.floor(self.originAspectRatio * self.cropperWidth * self.minRatio / self.newScale)
+    const crop_height = Math.floor(self.originAspectRatio * self.cropperHeight * self.minRatio / self.newScale)
+    crop_y = Math.floor(self.originAspectRatio * crop_y / self.newScale)
+    crop_x = Math.floor(self.originAspectRatio * crop_x / self.newScale)
 
     return { crop_x, crop_y, crop_width, crop_height, rotate }
   }
