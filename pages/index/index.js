@@ -43,6 +43,7 @@ Page({
                   })
                 })
                 .catch(err => {
+                  console.log(err)
                   wx.hideToast()
                   wx.showModal({
                     title: '提示',

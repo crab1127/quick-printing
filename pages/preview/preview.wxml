@@ -40,7 +40,7 @@
       <view style="color: #fff; position: absolute">.</view>
     </swiper-item>
   </swiper>
-  <view class="pages">{{ current+1 }}/{{ imgUrls.length }}</view>
+  <!-- <view class="pages">{{ current+1 }}/{{ imgUrls.length }}</view> -->
 </template>
 
 <!-- 证件照 小号 -->

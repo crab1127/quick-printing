@@ -24,22 +24,12 @@ Page({
       })
     }
 
-    wx.getSystemInfo({
-      success: (res) => {
-        this.setData({
-          swipeWidth: res.windowWidth,
-          swipeHeight: res.windowHeight - 66
-        })
-      }
-    })
+    this.imgType = this.typeInit(option.id)
+    this.imgSize = this.setImgSize()
 
-    this.typeInit(option.id)
-
-
-    this.imgInit(decodeURIComponent(option.key), decodeURIComponent(option.url), option.width, option.height)
+    this.imgInit(option.key, option.url, option.width, option.height)
 
     // 4r，a4
-    this.setImgSize()
 
     // 监听编辑图片页面发送的事件
     app.event.on('img', res => {
@@ -59,6 +49,19 @@ Page({
         imgUrls: imgUrls
       })
     })
+  },
+  initData(imgurls) {
+    const systemInfo = wx.getSystemInfoSync()
+    const swipeWidth = systemInfo.windowWidth
+    const swipeHeight = systemInfo.windowHeight - 66
+
+    const data = Object.assign({
+        swipeWidth,
+        swipeHeight,
+        imgUrls: imgurls
+      },
+      this.imgType, this.imgSize)
+    this.setData(data)
   },
   onEdit() {
     let typeId
@@ -288,27 +291,31 @@ Page({
     wx.setNavigationBarTitle({
       title: '打印' + currentType.name
     })
-    this.setData({
+
+
+    return {
       type: currentType,
       templateType: templateType
-    })
+    }
+    // this.setData()
   },
   imgInit(key, url, width, height) {
-    if (!key || !url) return;
+    if (!key || !url) return this.initData([]);
+    key = decodeURIComponent(key)
+    url = decodeURIComponent(url)
     const self = this
     wx.downloadFile({
       url: url,
       success: function(res) {
-        self.setData({
-          imgUrls: [{
-            width,
-            height,
-            key,
-            url,
-            originKey: key,
-            originUrl: res.tempFilePath
-          }]
-        })
+        const imgUrls = [{
+          width,
+          height,
+          key,
+          url,
+          originKey: key,
+          originUrl: res.tempFilePath
+        }]
+        self.initData(imgUrls)
       }
     })
   },
@@ -330,10 +337,14 @@ Page({
       imgWidth = width
       imgHeith = width * currentType.height / currentType.width
     }
-    this.setData({
+
+    return {
       width: imgWidth,
       height: imgHeith
-    })
+    }
+    // this.setData({
+
+    // })
   },
   onChooseImg(e) {
     const current = e.currentTarget.dataset.current
@@ -356,11 +367,13 @@ Page({
 
             uploadFile(res.tempFilePaths[0])
               .then(res => {
-                console.log(res)
 
                 wx.downloadFile({
                   url: res.thumbnail_url,
                   success: function(res1) {
+
+                    wx.hideToast()
+
                     imgUrls[current] = {
                       url: res.thumbnail_url,
                       originUrl: res1.tempFilePath,
@@ -380,6 +393,7 @@ Page({
 
               })
               .catch(err => {
+                wx.hideToast()
                 wx.showModal({
                   title: '提示',
                   content: `图片上传失败,请重试`
