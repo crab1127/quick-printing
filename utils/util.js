@@ -53,8 +53,31 @@ function dateFormat(date, fmt) {
   return fmt
 }
 
+
+function showLoading(str) {
+  console.log(2324234234243)
+  if (wx.showLoading) {
+    wx.showLoading(Object.assign(str, { mask: true }))
+  } else {
+    wx.showToast(Object.assign(str, {
+      icon: 'loading',
+      duration: 10000
+    }))
+  }
+}
+
+function hideLoading() {
+  if (wx.hideLoading) {
+    wx.hideLoading()
+  } else {
+    wx.hideToast()
+  }
+}
+
 module.exports = {
   formatTime,
   json2Form,
-  dateFormat
+  dateFormat,
+  showLoading,
+  hideLoading
 }

@@ -2,6 +2,7 @@
 import { addOrder, addOrderNew, uploadFile } from '../../utils/api'
 import { json2Form, dateFormat } from '../../utils/util'
 import { PRINT_TYPE } from '../../utils/config'
+import { showLoading, hideLoading } from '../../utils/util'
 
 var app = getApp()
 let currentType
@@ -68,19 +69,29 @@ Page({
     let { id, cropWidth, cropHeight } = currentType
     let { imgUrls, current } = this.data
 
-
-    const params = {
-      index: current,
-      id: id,
-      img: imgUrls[current].originUrl,
-      width: cropWidth,
-      height: cropHeight,
-      key: imgUrls[current].originKey,
-      imgWidth: imgUrls[current].width,
-      imgHeith: imgUrls[current].height
-    }
-    wx.navigateTo({
-      url: `../cropper/cropper?${json2Form(params)}`
+    wx.downloadFile({
+      url: imgUrls[current].originUrl,
+      success: function(res) {
+        const params = {
+          index: current,
+          id: id,
+          img: res.tempFilePath,
+          width: cropWidth,
+          height: cropHeight,
+          key: imgUrls[current].originKey,
+          imgWidth: imgUrls[current].width,
+          imgHeith: imgUrls[current].height
+        }
+        wx.navigateTo({
+          url: `../cropper/cropper?${json2Form(params)}`
+        })
+      },
+      fail: function(res) {
+        wx.showModal({
+          title: '提示',
+          content: '下载图片失败，无法使用编辑功能'
+        })
+      }
     })
   },
   onPrint(e) {
@@ -112,7 +123,7 @@ Page({
 
     function commitOrder() {
 
-      wx.showToast({
+      showLoading({
         title: '正在提交订单',
         icon: 'loading',
         duration: 10000
@@ -124,7 +135,7 @@ Page({
       addOrderNew(typeId, imgs)
         .then(res => {
           console.log(res)
-          wx.hideToast()
+          hideLoading()
 
           // 向订单中心发送新的订单
           let now = new Date().getTime()
@@ -165,7 +176,7 @@ Page({
         })
         .catch(err => {
           console.log('addoreder-err', err)
-          wx.hideToast()
+          hideLoading()
           if (err.result_message) {
             wx.showModal({
               title: '提交订单失败',
@@ -194,7 +205,7 @@ Page({
       addOrder(typeId, imgUrls[0].originUrl, wxScanParams)
         .then(res => {
           console.log(res)
-          wx.hideToast()
+          hideLoading()
             // wx.navigateTo({
             //   url: '../print/print?' + json2Form(res)
             // })
@@ -239,7 +250,7 @@ Page({
         })
         .catch(err => {
           console.log('addoreder-err', err)
-          wx.hideToast()
+          hideLoading()
           if (err.result_message) {
             wx.showModal({
               title: '获取打印码失败',
@@ -303,21 +314,39 @@ Page({
     if (!key || !url) return this.initData([]);
     key = decodeURIComponent(key)
     url = decodeURIComponent(url)
-    const self = this
-    wx.downloadFile({
-      url: url,
-      success: function(res) {
-        const imgUrls = [{
-          width,
-          height,
-          key,
-          url,
-          originKey: key,
-          originUrl: res.tempFilePath
-        }]
-        self.initData(imgUrls)
-      }
-    })
+    const imgUrls = [{
+      width,
+      height,
+      key,
+      url,
+      originKey: key,
+      originUrl: url
+    }]
+    this.initData(imgUrls)
+    console.log(url)
+      // wx.downloadFile({
+      //   url: url,
+      //   success: function(res) {
+      //     const imgUrls = [{
+      //       width,
+      //       height,
+      //       key,
+      //       url,
+      //       originKey: key,
+      //       originUrl: res.tempFilePath
+      //     }]
+      //     self.initData(imgUrls)
+      //   },
+      //   fail: function(res) {
+      //     let str = res && res.errMsg ? res.errMsg : '显示图片失败'
+      //     const imgUrls = 
+      //     self.initData(imgUrls)
+      //     wx.showModal({
+      //       title: '提示',
+      //       content: '下载图片失败，不能使用编辑功能'
+      //     })
+      //   }
+      // })
   },
   // 证件照
 
@@ -356,7 +385,7 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
 
-        wx.showToast({
+        showLoading({
           title: `正在上传图片`,
           icon: 'loading',
           duration: 10000
@@ -368,32 +397,26 @@ Page({
             uploadFile(res.tempFilePaths[0])
               .then(res => {
 
-                wx.downloadFile({
+                hideLoading()
+
+                imgUrls[current] = {
                   url: res.thumbnail_url,
-                  success: function(res1) {
-
-                    wx.hideToast()
-
-                    imgUrls[current] = {
-                      url: res.thumbnail_url,
-                      originUrl: res1.tempFilePath,
-                      key: res.image_key,
-                      width: imgInfo.width,
-                      height: imgInfo.height,
-                      originKey: res.image_key
-                    }
-                    self.setData({
-                      current: current,
-                      imgUrls: imgUrls
-                    })
-                    self.onEdit()
-                  }
+                  originUrl: res.thumbnail_url,
+                  key: res.image_key,
+                  width: imgInfo.width,
+                  height: imgInfo.height,
+                  originKey: res.image_key
+                }
+                self.setData({
+                  current: current,
+                  imgUrls: imgUrls
                 })
+                self.onEdit()
 
 
               })
               .catch(err => {
-                wx.hideToast()
+                hideLoading()
                 wx.showModal({
                   title: '提示',
                   content: `图片上传失败,请重试`

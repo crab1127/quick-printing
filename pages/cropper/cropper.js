@@ -1,4 +1,5 @@
 import { cropperImage } from '../../utils/api'
+import { showLoading, hideLoading } from '../../utils/util'
 const app = getApp()
 Page({
   data: {
@@ -183,7 +184,7 @@ Page({
   getCropperImage() {
     let self = this
     let { id, index, src, key } = self.data
-    wx.showToast({
+    showLoading({
       title: '剪切图片',
       icon: 'loading',
       duration: 10000
@@ -194,7 +195,7 @@ Page({
     cropperImage(key, this.getCropperSize())
       .then(res => {
         console.log(res)
-        wx.hideToast()
+        hideLoading()
         app.event.emit('img', {
           index: index,
           img: encodeURIComponent(res.image_url),
@@ -203,7 +204,7 @@ Page({
         wx.navigateBack()
       })
       .catch(err => {
-        wx.hideToast()
+        hideLoading()
         console.log(err)
         const content = err.result_message || '不知名错误'
         wx.showModal({
