@@ -52,10 +52,10 @@ Page({
     })
   },
   uploadImg(url, index, cb){
-    if (!/^wxfile:\/\/\S*/g.test(url)) {
-      return cb && cb()
-    } 
     const { imgUrls } = this.data
+    if (!/^wxfile:\/\/\S*/g.test(url)) {
+      return cb && cb(index, imgUrls)
+    } 
     showLoading({title: '正在上传图片中...'})
     uploadFile(url)
       .then(res => {
@@ -66,11 +66,11 @@ Page({
           key: res.image_key,
           originKey: res.image_key
         })
-        this.setData({
-          current: index,
-          imgUrls: imgUrls
-        })
-        cb && cb()
+        // this.setData({
+        //   current: index,
+        //   imgUrls: imgUrls
+        // })
+        cb && cb(index, imgUrls)
       })
       .catch(err => {
         console.log(err)
@@ -143,7 +143,7 @@ Page({
 
     
 
-    function commitOrder() {
+    function commitOrder(index, imgUrls) {
 
       showLoading({
         title: '正在提交订单',
@@ -410,8 +410,7 @@ Page({
               current: current,
               imgUrls: imgUrls
             })
-
-            this.uploadImg(res.tempFilePaths[0], current, self.onEdit)
+            self.onEdit()
           }
         })
       }
