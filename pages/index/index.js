@@ -21,39 +21,22 @@ Page({
     }
     // 4R，A4，证件, 明星片
     if ([1, 2, 3, 4, 5].indexOf(id) !== -1) {
-      wx.chooseImage({
+       wx.chooseImage({
         count: currentType.count, // 默认9
         sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
         success: (res) => {
 
-          showLoading({
-            title: `正在上传图片`
-          })
-
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           wx.getImageInfo({
             src: res.tempFilePaths[0],
             success: function(imgInfo) {
-              uploadFile(res.tempFilePaths[0])
-                .then(res => {
-                  hideLoading()
-                  wx.navigateTo({
-                    url: `../preview/preview?id=${id}&key=${encodeURIComponent(res.image_key)}&url=${encodeURIComponent(res.thumbnail_url)}&width=${imgInfo.width}&height=${imgInfo.height}`
-                  })
-                })
-                .catch(err => {
-                  console.log(err)
-                  hideLoading()
-                  wx.showModal({
-                    title: '提示',
-                    content: `图片上传失败,请重试`
-                  })
-                })
+              wx.navigateTo({
+                url: `../preview/preview?id=${id}&imageUrl=${encodeURIComponent(res.tempFilePaths[0])}&}&width=${imgInfo.width}&height=${imgInfo.height}`
+              })
             }
           })
-
-
-
+          
         }
       })
     }

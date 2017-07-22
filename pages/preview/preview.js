@@ -28,7 +28,7 @@ Page({
     this.imgType = this.typeInit(option.id)
     this.imgSize = this.setImgSize()
 
-    this.imgInit(option.key, option.url, option.width, option.height)
+    this.imgInit(option.imageUrl, option.width, option.height)
 
     // 4r，a4
 
@@ -51,48 +51,69 @@ Page({
       })
     })
   },
-  initData(imgurls) {
-    const systemInfo = wx.getSystemInfoSync()
-    const swipeWidth = systemInfo.windowWidth
-    const swipeHeight = systemInfo.windowHeight - 66
-
-    const data = Object.assign({
-        swipeWidth,
-        swipeHeight,
-        imgUrls: imgurls
-      },
-      this.imgType, this.imgSize)
-    this.setData(data)
+  uploadImg(url, index, cb){
+    if (!/^wxfile:\/\/\S*/g.test(url)) {
+      return cb && cb()
+    } 
+    const { imgUrls } = this.data
+    showLoading({title: '正在上传图片中...'})
+    uploadFile(url)
+      .then(res => {
+        hideLoading()
+        imgUrls[index] = Object.assign(imgUrls[index], {
+          url: res.thumbnail_url,
+          originUrl: res.thumbnail_url,
+          key: res.image_key,
+          originKey: res.image_key
+        })
+        this.setData({
+          current: index,
+          imgUrls: imgUrls
+        })
+        cb && cb()
+      })
+      .catch(err => {
+        console.log(err)
+        hideLoading()
+        wx.showModal({
+          title: '提示',
+          content: `图片上传失败,请重试`
+        })
+      })
   },
   onEdit() {
     let typeId
+    let self = this
     let { id, cropWidth, cropHeight } = currentType
     let { imgUrls, current } = this.data
-
-    wx.downloadFile({
-      url: imgUrls[current].originUrl,
-      success: function(res) {
-        const params = {
-          index: current,
-          id: id,
-          img: res.tempFilePath,
-          width: cropWidth,
-          height: cropHeight,
-          key: imgUrls[current].originKey,
-          imgWidth: imgUrls[current].width,
-          imgHeith: imgUrls[current].height
+    this.uploadImg(imgUrls[current].originUrl, current, function(){
+      let { imgUrls, current } = self.data
+       wx.downloadFile({
+        url: imgUrls[current].originUrl,
+        success: function(res) {
+          const params = {
+            index: current,
+            id: id,
+            img: res.tempFilePath,
+            width: cropWidth,
+            height: cropHeight,
+            key: imgUrls[current].originKey,
+            imgWidth: imgUrls[current].width,
+            imgHeith: imgUrls[current].height
+          }
+          wx.navigateTo({
+            url: `../cropper/cropper?${json2Form(params)}`
+          })
+        },
+        fail: function(res) {
+          wx.showModal({
+            title: '提示',
+            content: '下载图片失败，无法使用编辑功能'
+          })
         }
-        wx.navigateTo({
-          url: `../cropper/cropper?${json2Form(params)}`
-        })
-      },
-      fail: function(res) {
-        wx.showModal({
-          title: '提示',
-          content: '下载图片失败，无法使用编辑功能'
-        })
-      }
+      })
     })
+   
   },
   onPrint(e) {
 
@@ -107,7 +128,6 @@ Page({
     // 步骤
     const step = e.currentTarget.dataset.step
 
-
     let typeId = currentType.type_id
     if (currentType.id === 5) {
       typeId = idSize === 'mini' ? '804' : '803'
@@ -118,8 +138,10 @@ Page({
       // 微信二维码打印
       pushScanOrder()
     } else {
-      commitOrder()
+      this.uploadImg(imgUrls[0].url, 0, commitOrder)
     }
+
+    
 
     function commitOrder() {
 
@@ -279,6 +301,22 @@ Page({
       templateType: type + '-id-template'
     })
   },
+
+  // 初始数据
+  initData(imgurls) {
+    const systemInfo = wx.getSystemInfoSync()
+    const swipeWidth = systemInfo.windowWidth
+    const swipeHeight = systemInfo.windowHeight - 66
+
+    const data = Object.assign({
+        swipeWidth,
+        swipeHeight,
+        imgUrls: imgurls
+      },
+      this.imgType, this.imgSize)
+    this.setData(data)
+  },
+  // 设置模板
   typeInit(id) {
     let templateType
     if (typeof id !== 'number') {
@@ -297,60 +335,16 @@ Page({
         templateType = 'card-template'
         break
     }
-
     currentType = PRINT_TYPE.find(item => id == item.id)
     wx.setNavigationBarTitle({
       title: '打印' + currentType.name
     })
-
-
     return {
       type: currentType,
       templateType: templateType
     }
-    // this.setData()
   },
-  imgInit(key, url, width, height) {
-    if (!key || !url) return this.initData([]);
-    key = decodeURIComponent(key)
-    url = decodeURIComponent(url)
-    const imgUrls = [{
-      width,
-      height,
-      key,
-      url,
-      originKey: key,
-      originUrl: url
-    }]
-    this.initData(imgUrls)
-    console.log(url)
-      // wx.downloadFile({
-      //   url: url,
-      //   success: function(res) {
-      //     const imgUrls = [{
-      //       width,
-      //       height,
-      //       key,
-      //       url,
-      //       originKey: key,
-      //       originUrl: res.tempFilePath
-      //     }]
-      //     self.initData(imgUrls)
-      //   },
-      //   fail: function(res) {
-      //     let str = res && res.errMsg ? res.errMsg : '显示图片失败'
-      //     const imgUrls = 
-      //     self.initData(imgUrls)
-      //     wx.showModal({
-      //       title: '提示',
-      //       content: '下载图片失败，不能使用编辑功能'
-      //     })
-      //   }
-      // })
-  },
-  // 证件照
-
-  // 4R A4 明星片
+  // 设置图片尺寸
   setImgSize() {
     const systemInfo = wx.getSystemInfoSync()
     console.log(systemInfo);
@@ -371,10 +365,26 @@ Page({
       width: imgWidth,
       height: imgHeith
     }
-    // this.setData({
-
-    // })
   },
+  // 
+  imgInit(url, width, height) {
+    if (!url) {
+      this.initData([])
+    } else {
+      url = decodeURIComponent(url)
+      const imgUrls = [{
+        width,
+        height,
+        url,
+        originUrl: url
+      }]
+      this.initData(imgUrls)
+    }
+  },
+
+  
+
+  // 身份证打印选择图片
   onChooseImg(e) {
     const current = e.currentTarget.dataset.current
     const imgUrls = this.data.imgUrls
@@ -385,43 +395,23 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
 
-        showLoading({
-          title: `正在上传图片`,
-          icon: 'loading',
-          duration: 10000
-        })
+       
         wx.getImageInfo({
           src: res.tempFilePaths[0],
-          success: function(imgInfo) {
+          success: imgInfo => {
 
-            uploadFile(res.tempFilePaths[0])
-              .then(res => {
+            imgUrls[current] = {
+              width: imgInfo.width,
+              height: imgInfo.height,
+              url: res.tempFilePaths[0],
+              originUrl:res.tempFilePaths[0]
+            }
+            self.setData({
+              current: current,
+              imgUrls: imgUrls
+            })
 
-                hideLoading()
-
-                imgUrls[current] = {
-                  url: res.thumbnail_url,
-                  originUrl: res.thumbnail_url,
-                  key: res.image_key,
-                  width: imgInfo.width,
-                  height: imgInfo.height,
-                  originKey: res.image_key
-                }
-                self.setData({
-                  current: current,
-                  imgUrls: imgUrls
-                })
-                self.onEdit()
-
-
-              })
-              .catch(err => {
-                hideLoading()
-                wx.showModal({
-                  title: '提示',
-                  content: `图片上传失败,请重试`
-                })
-              })
+            this.uploadImg(res.tempFilePaths[0], current, self.onEdit)
           }
         })
       }
