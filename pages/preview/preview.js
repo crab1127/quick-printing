@@ -51,25 +51,25 @@ Page({
       })
     })
   },
-  uploadImg(url, index, cb){
+  uploadImg(url, index, cb) {
     const { imgUrls } = this.data
     if (!/^wxfile:\/\/\S*/g.test(url)) {
       return cb && cb(index, imgUrls)
-    } 
-    showLoading({title: '正在上传图片中...'})
+    }
+    showLoading({ title: '正在上传图片中...' })
     uploadFile(url)
       .then(res => {
         hideLoading()
         imgUrls[index] = Object.assign(imgUrls[index], {
-          url: res.thumbnail_url,
-          originUrl: res.thumbnail_url,
-          key: res.image_key,
-          originKey: res.image_key
-        })
-        // this.setData({
-        //   current: index,
-        //   imgUrls: imgUrls
-        // })
+            url: res.thumbnail_url,
+            originUrl: res.thumbnail_url,
+            key: res.image_key,
+            originKey: res.image_key
+          })
+          // this.setData({
+          //   current: index,
+          //   imgUrls: imgUrls
+          // })
         cb && cb(index, imgUrls)
       })
       .catch(err => {
@@ -86,9 +86,10 @@ Page({
     let self = this
     let { id, cropWidth, cropHeight } = currentType
     let { imgUrls, current } = this.data
-    this.uploadImg(imgUrls[current].originUrl, current, function(){
+    this.uploadImg(imgUrls[current].originUrl, current, function() {
       let { imgUrls, current } = self.data
-       wx.downloadFile({
+      showLoading({ title: '正在上传图片中...' })
+      wx.downloadFile({
         url: imgUrls[current].originUrl,
         success: function(res) {
           const params = {
@@ -101,11 +102,14 @@ Page({
             imgWidth: imgUrls[current].width,
             imgHeith: imgUrls[current].height
           }
+          hideLoading()
           wx.navigateTo({
             url: `../cropper/cropper?${json2Form(params)}`
           })
         },
         fail: function(res) {
+          console.error(res)
+          hideLoading()
           wx.showModal({
             title: '提示',
             content: '下载图片失败，无法使用编辑功能'
@@ -113,7 +117,7 @@ Page({
         }
       })
     })
-   
+
   },
   onPrint(e) {
 
@@ -141,7 +145,7 @@ Page({
       this.uploadImg(imgUrls[0].url, 0, commitOrder)
     }
 
-    
+
 
     function commitOrder(index, imgUrls) {
 
@@ -382,7 +386,7 @@ Page({
     }
   },
 
-  
+
 
   // 身份证打印选择图片
   onChooseImg(e) {
@@ -395,7 +399,7 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
 
-       
+
         wx.getImageInfo({
           src: res.tempFilePaths[0],
           success: imgInfo => {
@@ -404,7 +408,7 @@ Page({
               width: imgInfo.width,
               height: imgInfo.height,
               url: res.tempFilePaths[0],
-              originUrl:res.tempFilePaths[0]
+              originUrl: res.tempFilePaths[0]
             }
             self.setData({
               current: current,
